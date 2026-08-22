@@ -1,10 +1,96 @@
 document.addEventListener("DOMContentLoaded", () => {
+    const root = document.documentElement;
+    const siteNav = document.querySelector(".site-nav");
     const track = document.querySelector(".track");
     const cards = Array.from(document.querySelectorAll(".card"));
     const nextBtn = document.querySelector(".next");
     const prevBtn = document.querySelector(".prev");
     const menuToggle = document.querySelector(".menu-toggle");
     const navMenu = document.querySelector(".nav-menu");
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    /* =========================
+       ACCESSIBLE MOTION STYLES
+       Uses the existing design tokens from style.css.
+    ========================= */
+    const motionStyle = document.createElement("style");
+    motionStyle.textContent = `
+        .js-reveal {
+            opacity: 0;
+            transform: translateY(var(--space-6));
+            transition: opacity var(--duration-slow) var(--ease-premium), transform var(--duration-slow) var(--ease-premium);
+        }
+
+        .js-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .js-image-reveal {
+            overflow: hidden;
+            clip-path: inset(0 0 100% 0);
+            transition: clip-path var(--duration-major) var(--ease-premium);
+        }
+
+        .js-image-reveal.is-visible {
+            clip-path: inset(0 0 0 0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .js-reveal,
+            .js-reveal.is-visible {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            .js-image-reveal,
+            .js-image-reveal.is-visible {
+                clip-path: none;
+                transition: none;
+            }
+        }
+    `;
+    document.head.appendChild(motionStyle);
+
+    /* =========================
+       NAVIGATION ON SCROLL
+    ========================= */
+    if (siteNav) {
+        const updateNavigation = () => {
+            siteNav.classList.toggle("is-scrolled", window.scrollY > 24);
+        };
+
+        updateNavigation();
+        window.addEventListener("scroll", updateNavigation, { passive: true });
+    }
+
+    /* =========================
+       SCROLL REVEALS
+    ========================= */
+    const revealElements = document.querySelectorAll(
+        ".editorial-section, .services-section, .portfolio-section, .store-preview, .contact-section, .service-card, .project-meta"
+    );
+    const revealImages = document.querySelectorAll(".card img");
+
+    revealElements.forEach((element) => element.classList.add("js-reveal"));
+    revealImages.forEach((image) => image.classList.add("js-image-reveal"));
+
+    if (reducedMotion.matches || !("IntersectionObserver" in window)) {
+        revealElements.forEach((element) => element.classList.add("is-visible"));
+        revealImages.forEach((image) => image.classList.add("is-visible"));
+    } else {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+            });
+        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+
+        revealElements.forEach((element) => revealObserver.observe(element));
+        revealImages.forEach((image) => revealObserver.observe(image));
+    }
 
     /* =========================
        MOBILE NAVIGATION
@@ -40,7 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let autoPlay = null;
     let startX = 0;
     let startY = 0;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     function updateSlider(animate = true) {
         const width = track.clientWidth;
