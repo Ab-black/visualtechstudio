@@ -1,0 +1,15 @@
+.hero {
+    background:
+        linear-gradient(rgba(7, 16, 24, 0.46), rgba(7, 16, 24, 0.46)),
+        url('../images/hero-background-test.png') center center / cover no-repeat;
+}
+
+.hero::before {
+    border-color: rgba(60, 200, 243, 0.08);
+}
+
+@media (max-width: 820px) {
+    .hero {
+        background-position: center center;
+    }
+}
