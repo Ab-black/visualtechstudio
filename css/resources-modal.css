@@ -1,0 +1,113 @@
+.resource-modal[hidden] {
+    display: none;
+}
+
+.resource-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: rgba(10, 10, 10, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.resource-modal-panel {
+    position: relative;
+    width: min(760px, 100%);
+    max-height: min(720px, 90vh);
+    overflow: auto;
+    background: var(--color-surface, #111111);
+    border: 1px solid var(--color-border, #292929);
+    padding: clamp(28px, 5vw, 56px);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+.resource-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--color-border, #292929);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--color-text-primary, #f5f5f2);
+    font: inherit;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 200ms ease, border-color 200ms ease, transform 200ms ease;
+}
+
+.resource-modal-close:hover {
+    background: var(--color-surface-elevated, #171717);
+    border-color: var(--color-accent, #d6b36a);
+    transform: rotate(4deg);
+}
+
+.resource-modal-close:focus-visible {
+    outline: 2px solid var(--color-accent, #d6b36a);
+    outline-offset: 3px;
+}
+
+.resource-modal-type {
+    display: inline-block;
+    margin-bottom: 18px;
+    color: var(--color-accent, #d6b36a);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+}
+
+.resource-modal-panel h2 {
+    max-width: 650px;
+    margin: 0 48px 22px 0;
+    font-family: var(--font-display, "Cormorant Garamond", serif);
+    font-size: clamp(2.4rem, 5vw, 4.5rem);
+    font-weight: 500;
+    line-height: 0.98;
+}
+
+.resource-modal-panel p {
+    max-width: 640px;
+    color: var(--color-text-secondary, #a3a3a0);
+    line-height: 1.8;
+}
+
+.resource-modal-body {
+    margin-top: 26px;
+    padding-top: 26px;
+    border-top: 1px solid var(--color-border, #292929);
+}
+
+.resource-modal-body p + p {
+    margin-top: 18px;
+}
+
+.resource-modal-body strong {
+    color: var(--color-text-primary, #f5f5f2);
+}
+
+@media (max-width: 640px) {
+    .resource-modal {
+        padding: 14px;
+    }
+
+    .resource-modal-panel {
+        max-height: 92vh;
+        padding: 30px 22px 28px;
+    }
+
+    .resource-modal-panel h2 {
+        margin-right: 42px;
+        font-size: clamp(2.25rem, 12vw, 3.5rem);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .resource-modal,
+    .resource-modal-close {
+        transition: none;
+    }
+}
