@@ -8,9 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const navMenu = document.querySelector(".nav-menu");
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    /* =========================
-       ACCESSIBLE MOTION STYLES
-    ========================= */
     const motionStyle = document.createElement("style");
 
     motionStyle.textContent = `
@@ -37,9 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.head.appendChild(motionStyle);
 
-    /* =========================
-       NAVIGATION ON SCROLL
-    ========================= */
     if (siteNav) {
         const updateNavigation = () => {
             siteNav.classList.toggle("is-scrolled", window.scrollY > 24);
@@ -49,11 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener("scroll", updateNavigation, { passive: true });
     }
 
-    /* =========================
-       SCROLL REVEALS
-       Images are intentionally excluded from the reveal system so the
-       project artwork is never hidden by a clip-path before/after load.
-    ========================= */
     const revealElements = document.querySelectorAll(
         ".editorial-section, .services-section, .portfolio-section, .store-preview, .contact-section, .service-card, .project-meta"
     );
@@ -89,9 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    /* =========================
-       MOBILE NAVIGATION
-    ========================= */
     if (menuToggle && navMenu) {
         const closeMenu = () => {
             navMenu.classList.remove("is-open");
@@ -121,8 +107,100 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     /* =========================
-       PROJECT SLIDER
+       RESOURCE DETAIL MODALS
     ========================= */
+    const resourceModal = document.querySelector("#resource-modal");
+    const resourceModalTitle = document.querySelector("#resource-modal-title");
+    const resourceModalType = document.querySelector("#resource-modal-type");
+    const resourceModalSummary = document.querySelector("#resource-modal-summary");
+    const resourceModalBody = document.querySelector("#resource-modal-body");
+    const resourceModalClose = document.querySelector(".resource-modal-close");
+    const resourceTriggers = document.querySelectorAll(".resource-trigger");
+
+    const resources = {
+        "premium-website": {
+            type: "INSIGHT",
+            title: "What makes a premium website feel premium?",
+            summary: "Premium design is less about decoration and more about deliberate decisions.",
+            body: "Typography establishes character, spacing creates rhythm, hierarchy tells visitors where to look, and interaction adds confidence. The strongest premium websites also know when to stop. Restraint gives important details room to breathe."
+        },
+        "homepage-checklist": {
+            type: "GUIDE",
+            title: "A practical homepage content checklist.",
+            summary: "Before visual design begins, make sure the homepage answers the questions that matter most.",
+            body: "Clarify who the site is for, what the business offers, why it is different, what action visitors should take, and what proof supports the promise. Then organize the content into a clear sequence: positioning, value, evidence, services or work, and a strong next step."
+        },
+        "creative-brief": {
+            type: "TOOL",
+            title: "Creative brief starter.",
+            summary: "Use this framework to turn an early idea into a focused project brief.",
+            body: "Start with the objective, audience, problem, desired outcome, key message, deliverables, references, constraints, timeline, and success criteria. Keep the brief short enough to use, but specific enough that every major design decision has context."
+        },
+        "less-decoration": {
+            type: "INSIGHT",
+            title: "Why good interfaces need less decoration.",
+            summary: "Clarity is a design feature. Decoration should support the experience, not compete with it.",
+            body: "When hierarchy, spacing, typography, and contrast are doing their jobs, an interface needs fewer visual effects to feel finished. Removing unnecessary elements can make important actions easier to find and the overall experience easier to understand."
+        },
+        "design-systems": {
+            type: "GUIDE · 12 MIN READ",
+            title: "Design systems that stay useful as a business grows.",
+            summary: "A practical look at structure, consistency, and the decisions that make a design system easier to use.",
+            body: "A useful design system starts with foundations such as typography, color, spacing, components, states, and accessibility. The system should make common decisions easier without preventing thoughtful exceptions when the content genuinely requires them."
+        }
+    };
+
+    let lastFocusedElement = null;
+
+    function openResource(resourceKey) {
+        const resource = resources[resourceKey];
+
+        if (!resourceModal || !resource || !resourceModalTitle || !resourceModalType || !resourceModalSummary || !resourceModalBody) {
+            return;
+        }
+
+        lastFocusedElement = document.activeElement;
+        resourceModalType.textContent = resource.type;
+        resourceModalTitle.textContent = resource.title;
+        resourceModalSummary.textContent = resource.summary;
+        resourceModalBody.innerHTML = `<p>${resource.body}</p>`;
+        resourceModal.hidden = false;
+        document.body.style.overflow = "hidden";
+        resourceModalClose?.focus();
+    }
+
+    function closeResource() {
+        if (!resourceModal) {
+            return;
+        }
+
+        resourceModal.hidden = true;
+        document.body.style.overflow = "";
+        lastFocusedElement?.focus();
+        lastFocusedElement = null;
+    }
+
+    resourceTriggers.forEach((trigger) => {
+        trigger.addEventListener("click", (event) => {
+            event.preventDefault();
+            openResource(trigger.dataset.resource);
+        });
+    });
+
+    resourceModalClose?.addEventListener("click", closeResource);
+
+    resourceModal?.addEventListener("click", (event) => {
+        if (event.target === resourceModal) {
+            closeResource();
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && resourceModal && !resourceModal.hidden) {
+            closeResource();
+        }
+    });
+
     if (!track || !cards.length || !nextBtn || !prevBtn) {
         return;
     }
