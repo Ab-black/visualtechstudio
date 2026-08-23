@@ -1,0 +1,100 @@
+/* Visual Tech Studio public-site desktop layout overrides. Mobile/tablet rules remain unchanged. */
+@media (min-width: 1101px) {
+  :root { --public-desktop-max: 1800px; --public-desktop-gutter: clamp(32px, 3vw, 52px); }
+
+  .hero,
+  .editorial-section,
+  .services-section,
+  .portfolio-section,
+  .store-preview,
+  .contact-section,
+  .public-page .page-hero,
+  .public-page .service-list,
+  .public-page .process-section,
+  .public-page .studio-split,
+  .public-page .principles,
+  .public-page .featured-resource,
+  .public-page .resource-grid,
+  .public-page .store-toolbar,
+  .public-page .product-grid,
+  .public-page .brief-layout,
+  .public-page .consultation-strip,
+  .public-page .work-archive {
+    max-width: var(--public-desktop-max);
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .hero,
+  .editorial-section,
+  .services-section,
+  .portfolio-section,
+  .store-preview,
+  .contact-section,
+  .public-page .page-hero,
+  .public-page .service-list,
+  .public-page .process-section,
+  .public-page .studio-split,
+  .public-page .principles,
+  .public-page .featured-resource,
+  .public-page .resource-grid,
+  .public-page .store-toolbar,
+  .public-page .product-grid,
+  .public-page .brief-layout,
+  .public-page .consultation-strip,
+  .public-page .work-archive { padding-inline: var(--public-desktop-gutter); }
+
+  .hero { min-height: calc(100svh - 76px); padding-top: clamp(96px, 7vw, 132px); padding-bottom: clamp(96px, 7vw, 132px); }
+  .hero-content { width: min(100%, 1240px); }
+  .hero h1 { max-width: 1240px; }
+  .hero-copy { max-width: 780px; }
+
+  .editorial-section { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: 48px; }
+  .section-heading { grid-column: 1 / span 7; }
+  .section-copy { grid-column: 8 / -1; max-width: 700px; justify-self: end; }
+
+  .service-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); width: 100%; }
+  .service-card { grid-column: span 3; min-height: 350px; padding: 40px; }
+
+  .portfolio-section, .slider-elite { width: 100%; }
+  .card img { height: min(52vw, 760px); }
+
+  .store-preview { grid-template-columns: 1.15fr .85fr; gap: clamp(48px, 5vw, 88px); }
+  .contact-section h2 { max-width: 1180px; }
+
+  .public-page .page-hero { padding-top: clamp(120px, 9vw, 180px); }
+  .public-page .page-hero h1 { max-width: 1250px; }
+  .public-page .service-list article { grid-template-columns: 90px minmax(0, 1fr) 190px; gap: 48px; padding-block: 72px; }
+  .public-page .process-section,
+  .public-page .studio-split,
+  .public-page .brief-layout { grid-template-columns: minmax(280px, .7fr) minmax(0, 1.3fr); gap: clamp(64px, 7vw, 128px); }
+  .public-page .principles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .public-page .featured-resource { grid-template-columns: minmax(0, 1.15fr) minmax(360px, .85fr); min-height: 680px; }
+  .public-page .resource-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .public-page .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  .public-page .work-grid { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: clamp(56px, 5vw, 96px) 32px; }
+  .public-page .work-item { grid-column: span 6; }
+  .public-page .work-item-featured { grid-column: span 12; }
+}
+
+@media (min-width: 1600px) {
+  .site-nav { padding-inline: 48px; }
+  .hero,
+  .editorial-section,
+  .services-section,
+  .portfolio-section,
+  .store-preview,
+  .contact-section,
+  .public-page .page-hero,
+  .public-page .service-list,
+  .public-page .process-section,
+  .public-page .studio-split,
+  .public-page .principles,
+  .public-page .featured-resource,
+  .public-page .resource-grid,
+  .public-page .store-toolbar,
+  .public-page .product-grid,
+  .public-page .brief-layout,
+  .public-page .consultation-strip,
+  .public-page .work-archive { padding-inline: 48px; }
+}
