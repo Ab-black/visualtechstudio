@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
        ACCESSIBLE MOTION STYLES
     ========================= */
     const motionStyle = document.createElement("style");
+
     motionStyle.textContent = `
         .js-reveal {
             opacity: 0;
@@ -33,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     `;
+
     document.head.appendChild(motionStyle);
 
     /* =========================
@@ -56,20 +58,35 @@ document.addEventListener("DOMContentLoaded", () => {
         ".editorial-section, .services-section, .portfolio-section, .store-preview, .contact-section, .service-card, .project-meta"
     );
 
-    revealElements.forEach((element) => element.classList.add("js-reveal"));
+    revealElements.forEach((element) => {
+        element.classList.add("js-reveal");
+    });
 
     if (reducedMotion.matches || !("IntersectionObserver" in window)) {
-        revealElements.forEach((element) => element.classList.add("is-visible"));
+        revealElements.forEach((element) => {
+            element.classList.add("is-visible");
+        });
     } else {
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach((entry) => {
-                if (!entry.isIntersecting) return;
-                entry.target.classList.add("is-visible");
-                observer.unobserve(entry.target);
-            });
-        }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+        const revealObserver = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    }
 
-        revealElements.forEach((element) => revealObserver.observe(element));
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                });
+            },
+            {
+                threshold: 0.12,
+                rootMargin: "0px 0px -8% 0px"
+            }
+        );
+
+        revealElements.forEach((element) => {
+            revealObserver.observe(element);
+        });
     }
 
     /* =========================
@@ -84,8 +101,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         menuToggle.addEventListener("click", () => {
             const isOpen = navMenu.classList.toggle("is-open");
+
             menuToggle.setAttribute("aria-expanded", String(isOpen));
-            menuToggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Close navigation menu" : "Open navigation menu"
+            );
         });
 
         navMenu.querySelectorAll("a").forEach((link) => {
@@ -93,14 +114,18 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         document.addEventListener("keydown", (event) => {
-            if (event.key === "Escape") closeMenu();
+            if (event.key === "Escape") {
+                closeMenu();
+            }
         });
     }
 
     /* =========================
        PROJECT SLIDER
     ========================= */
-    if (!track || !cards.length || !nextBtn || !prevBtn) return;
+    if (!track || !cards.length || !nextBtn || !prevBtn) {
+        return;
+    }
 
     let index = 0;
     let autoPlay = null;
@@ -109,7 +134,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function updateSlider(animate = true) {
         const width = track.parentElement.clientWidth;
-        track.style.transitionDuration = animate && !reducedMotion.matches ? "" : "0ms";
+
+        track.style.transitionDuration =
+            animate && !reducedMotion.matches ? "" : "0ms";
         track.style.transform = `translate3d(-${index * width}px, 0, 0)`;
 
         cards.forEach((card, cardIndex) => {
@@ -128,12 +155,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function startAuto() {
-        if (reducedMotion.matches || cards.length < 2) return;
+        if (reducedMotion.matches || cards.length < 2) {
+            return;
+        }
+
         autoPlay = window.setInterval(nextSlide, 6000);
     }
 
     function restartAuto() {
-        if (autoPlay) window.clearInterval(autoPlay);
+        if (autoPlay) {
+            window.clearInterval(autoPlay);
+        }
+
         startAuto();
     }
 
@@ -147,26 +180,41 @@ document.addEventListener("DOMContentLoaded", () => {
         restartAuto();
     });
 
-    track.addEventListener("touchstart", (event) => {
-        startX = event.touches[0].clientX;
-        startY = event.touches[0].clientY;
-    }, { passive: true });
+    track.addEventListener(
+        "touchstart",
+        (event) => {
+            startX = event.touches[0].clientX;
+            startY = event.touches[0].clientY;
+        },
+        { passive: true }
+    );
 
-    track.addEventListener("touchend", (event) => {
-        const endX = event.changedTouches[0].clientX;
-        const endY = event.changedTouches[0].clientY;
-        const deltaX = endX - startX;
-        const deltaY = endY - startY;
+    track.addEventListener(
+        "touchend",
+        (event) => {
+            const endX = event.changedTouches[0].clientX;
+            const endY = event.changedTouches[0].clientY;
+            const deltaX = endX - startX;
+            const deltaY = endY - startY;
 
-        if (Math.abs(deltaX) < 50 || Math.abs(deltaX) < Math.abs(deltaY)) return;
+            if (Math.abs(deltaX) < 50 || Math.abs(deltaX) < Math.abs(deltaY)) {
+                return;
+            }
 
-        if (deltaX < 0) nextSlide();
-        else prevSlide();
+            if (deltaX < 0) {
+                nextSlide();
+            } else {
+                prevSlide();
+            }
 
-        restartAuto();
-    }, { passive: true });
+            restartAuto();
+        },
+        { passive: true }
+    );
 
-    window.addEventListener("resize", () => updateSlider(false));
+    window.addEventListener("resize", () => {
+        updateSlider(false);
+    });
 
     reducedMotion.addEventListener?.("change", () => {
         restartAuto();
