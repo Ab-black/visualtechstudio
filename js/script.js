@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const root = document.documentElement;
     const siteNav = document.querySelector(".site-nav");
     const track = document.querySelector(".track");
     const cards = Array.from(document.querySelectorAll(".card"));
@@ -11,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
        ACCESSIBLE MOTION STYLES
-       Uses the existing design tokens from style.css.
     ========================= */
     const motionStyle = document.createElement("style");
     motionStyle.textContent = `
@@ -26,27 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
             transform: translateY(0);
         }
 
-        .js-image-reveal {
-            overflow: hidden;
-            clip-path: inset(0 0 100% 0);
-            transition: clip-path var(--duration-major) var(--ease-premium);
-        }
-
-        .js-image-reveal.is-visible {
-            clip-path: inset(0 0 0 0);
-        }
-
         @media (prefers-reduced-motion: reduce) {
             .js-reveal,
             .js-reveal.is-visible {
                 opacity: 1;
                 transform: none;
-                transition: none;
-            }
-
-            .js-image-reveal,
-            .js-image-reveal.is-visible {
-                clip-path: none;
                 transition: none;
             }
         }
@@ -67,18 +49,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* =========================
        SCROLL REVEALS
+       Images are intentionally excluded from the reveal system so the
+       project artwork is never hidden by a clip-path before/after load.
     ========================= */
     const revealElements = document.querySelectorAll(
         ".editorial-section, .services-section, .portfolio-section, .store-preview, .contact-section, .service-card, .project-meta"
     );
-    const revealImages = document.querySelectorAll(".card img");
 
     revealElements.forEach((element) => element.classList.add("js-reveal"));
-    revealImages.forEach((image) => image.classList.add("js-image-reveal"));
 
     if (reducedMotion.matches || !("IntersectionObserver" in window)) {
         revealElements.forEach((element) => element.classList.add("is-visible"));
-        revealImages.forEach((image) => image.classList.add("is-visible"));
     } else {
         const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach((entry) => {
@@ -89,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
 
         revealElements.forEach((element) => revealObserver.observe(element));
-        revealImages.forEach((image) => revealObserver.observe(image));
     }
 
     /* =========================
@@ -128,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let startY = 0;
 
     function updateSlider(animate = true) {
-        const width = track.clientWidth;
+        const width = track.parentElement.clientWidth;
         track.style.transitionDuration = animate && !reducedMotion.matches ? "" : "0ms";
         track.style.transform = `translate3d(-${index * width}px, 0, 0)`;
 
