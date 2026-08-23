@@ -98,3 +98,87 @@
   .public-page .consultation-strip,
   .public-page .work-archive { padding-inline: 48px; }
 }
+
+/* Mobile viewport containment: keep every public-site section inside the device width. */
+@media (max-width: 820px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .site-nav,
+  .hero,
+  .editorial-section,
+  .services-section,
+  .portfolio-section,
+  .store-preview,
+  .contact-section,
+  .public-page,
+  .public-page .page-hero,
+  .public-page .service-list,
+  .public-page .process-section,
+  .public-page .studio-split,
+  .public-page .principles,
+  .public-page .featured-resource,
+  .public-page .resource-grid,
+  .public-page .store-toolbar,
+  .public-page .product-grid,
+  .public-page .brief-layout,
+  .public-page .consultation-strip,
+  .public-page .work-archive {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .hero,
+  .editorial-section,
+  .services-section,
+  .portfolio-section,
+  .store-preview,
+  .contact-section,
+  .public-page .page-hero,
+  .public-page .service-list,
+  .public-page .process-section,
+  .public-page .studio-split,
+  .public-page .principles,
+  .public-page .featured-resource,
+  .public-page .resource-grid,
+  .public-page .store-toolbar,
+  .public-page .product-grid,
+  .public-page .brief-layout,
+  .public-page .consultation-strip,
+  .public-page .work-archive {
+    box-sizing: border-box;
+  }
+
+  .nav-menu {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .hero-content,
+  .hero-copy,
+  .section-heading,
+  .section-copy,
+  .portfolio-heading,
+  .track,
+  .card,
+  .store-preview > *,
+  .contact-section > *,
+  .public-page .page-hero > *,
+  .public-page .featured-resource > *,
+  .public-page .product-card,
+  .public-page .project-form,
+  .public-page .work-item {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .page-hero:after {
+    right: -12%;
+  }
+}
