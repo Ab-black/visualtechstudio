@@ -45,6 +45,7 @@
     align-items: center;
     align-self: flex-start;
     margin-top: 24px;
+    color: #3b82f6 !important;
 }
 
 .resource-modal[hidden] {
