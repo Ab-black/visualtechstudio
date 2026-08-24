@@ -74,12 +74,12 @@
 }
 
 .featured-resource-content .resource-featured-trigger {
-    display: inline-flex;
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     align-items: center;
     align-self: flex-start;
     margin-top: 24px;
-    opacity: 1;
-    visibility: visible;
 }
 
 .resource-modal[hidden] {
@@ -99,8 +99,8 @@
 }
 
 .resource-modal-panel {
-    width: min(820px, 100%);
-    max-height: min(760px, 90vh);
+    width: min(900px, 100%);
+    max-height: min(820px, 90vh);
     overflow-y: auto;
     background: #111111;
     border: 1px solid #292929;
@@ -110,7 +110,7 @@
 }
 
 .resource-modal-panel h2 {
-    max-width: 700px;
+    max-width: 760px;
     margin: 18px 54px 22px 0;
     font-family: var(--font-display);
     font-size: clamp(2.8rem, 6vw, 5.4rem);
@@ -150,7 +150,7 @@
 }
 
 .resource-modal-summary {
-    max-width: 680px;
+    max-width: 720px;
     color: #a3a3a0;
     font-size: 1.08rem;
     line-height: 1.8;
@@ -165,7 +165,63 @@
 }
 
 .resource-modal-body p {
-    margin: 0;
+    max-width: 760px;
+    margin: 0 0 22px;
+}
+
+.resource-modal-body h3 {
+    max-width: 760px;
+    margin: 38px 0 14px;
+    color: #f5f5f2;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 500;
+    line-height: 1.05;
+}
+
+.resource-modal-body ul,
+.resource-modal-body ol {
+    max-width: 760px;
+    margin: 0 0 24px;
+    padding-left: 24px;
+}
+
+.resource-modal-body li {
+    margin-bottom: 10px;
+}
+
+.resource-modal-body strong {
+    color: #f5f5f2;
+}
+
+.resource-modal-body blockquote {
+    max-width: 760px;
+    margin: 30px 0;
+    padding: 22px 24px;
+    border-left: 2px solid #d6b36a;
+    background: #171717;
+    color: #f5f5f2;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.4vw, 2rem);
+    line-height: 1.25;
+}
+
+.resource-modal-body .article-note {
+    max-width: 760px;
+    margin: 32px 0;
+    padding: 20px 22px;
+    border: 1px solid #292929;
+    background: #151515;
+}
+
+.resource-modal-body .article-note strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #d6b36a;
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }
 
 @media (max-width: 760px) {
