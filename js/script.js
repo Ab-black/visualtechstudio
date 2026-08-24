@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
             body: "<p>When hierarchy, spacing, typography, and contrast are doing their jobs, an interface needs fewer visual effects to feel finished. Removing unnecessary elements can make important actions easier to find and the overall experience easier to understand.</p>"
         },
         "design-systems": {
-            type: "GUIDE · 12 MIN READ",
+            type: "GUIDE ·",
             title: "Design systems that stay useful as a business grows.",
             summary: "A practical guide to building a design system that scales with products, teams, content, and business decisions without becoming a rigid visual rulebook.",
             body: `
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 <h3>4. Design for content change, not just the perfect screenshot</h3>
                 <p>Businesses grow by changing. Product names get longer. Pricing changes. New languages are introduced. A short headline becomes a two-line headline. A card that once held three items now needs ten. A useful system is tested against these changes deliberately.</p>
-                <p>Stress-test components with long text, missing images, large numbers, short labels, multiple statuses, and mobile widths. If a component only works with the original content, it is a mockup—not a system component.</p>
+                <p>Stress-test components with long text, missing images, large numbers, short labels, multiple statuses, and mobile widths. If a component only works with the original content, it is a mockup, not a system component.</p>
 
                 <h3>5. Establish contribution rules before the system gets crowded</h3>
                 <p>Growth creates a governance problem. Without clear contribution rules, every new project adds another “almost the same” component. The system then becomes harder to understand precisely because it is trying to support everything.</p>
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <li><strong>Core patterns:</strong> build the small set of components used across the majority of experiences.</li>
                     <li><strong>Real-world testing:</strong> apply the system to active products and record where it breaks.</li>
                     <li><strong>Governance:</strong> establish contribution, review, deprecation, and ownership rules.</li>
-                    <li><strong>Measurement:</strong> track delivery friction, quality issues, reuse, and accessibility—not just component count.</li>
+                    <li><strong>Measurement:</strong> track delivery friction, quality issues, reuse, and accessibility, not just component count.</li>
                     <li><strong>Evolution:</strong> remove obsolete patterns and improve the foundations as the business changes.</li>
                 </ol>
 
