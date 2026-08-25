@@ -62,17 +62,52 @@
     const init = async () => {
         if (!config || !config.url || !config.publishableKey || config.publishableKey.includes("PASTE_YOUR")) return;
         const supabase = await loadSupabase();
-        const fileInput = document.querySelector("#asset-file");
-        const dropzone = document.querySelector("#asset-dropzone");
-        const preview = document.querySelector("#asset-preview");
-        const status = document.querySelector("#asset-upload-status");
-        const uploadButton = document.querySelector("#asset-upload-button");
-        const altText = document.querySelector("#asset-alt-text");
-        const assetList = document.querySelector("#asset-list");
-        const bucket = "media";
-        let selectedFile = null;
+        const bucket = "public-assets";
+        let fileInput = document.querySelector("#asset-file");
+        let dropzone = document.querySelector("#asset-dropzone");
+        let preview = document.querySelector("#asset-preview");
+        let status = document.querySelector("#asset-upload-status");
+        let uploadButton = document.querySelector("#asset-upload-button");
+        let altText = document.querySelector("#asset-alt-text");
+        let assetList = document.querySelector("#asset-list");
 
-        if (!fileInput || !dropzone || !preview || !status || !uploadButton || !assetList) return;
+        if (!fileInput || !dropzone || !preview || !status || !uploadButton || !assetList) {
+            const mediaSection = document.querySelector("#media");
+            if (!mediaSection) return;
+            const intro = mediaSection.querySelector(".section-intro");
+            const toolbar = mediaSection.querySelector(".media-toolbar");
+            if (!intro || !toolbar) return;
+
+            const uploadPanel = document.createElement("div");
+            uploadPanel.className = "media-upload-panel";
+            uploadPanel.innerHTML = `
+                <div class="media-dropzone" id="asset-dropzone" tabindex="0" role="button" aria-label="Choose or drop a media file">
+                    <strong>Drop an asset here</strong>
+                    <span>Images, PDF, ZIP, and video · up to 250 MB</span>
+                    <input id="asset-file" type="file" hidden accept="image/*,application/pdf,.zip,video/mp4,video/webm,video/quicktime">
+                </div>
+                <div class="media-upload-preview" id="asset-preview"><span>No file selected</span></div>
+                <label class="media-alt-label">Alt text (for images)
+                    <input id="asset-alt-text" type="text" placeholder="Describe the image for accessibility">
+                </label>
+                <div class="media-upload-actions">
+                    <span id="asset-upload-status" role="status">Choose a file to begin.</span>
+                    <button class="button primary" id="asset-upload-button" type="button" disabled>Upload asset</button>
+                </div>
+            `;
+            toolbar.after(uploadPanel);
+
+            fileInput = uploadPanel.querySelector("#asset-file");
+            dropzone = uploadPanel.querySelector("#asset-dropzone");
+            preview = uploadPanel.querySelector("#asset-preview");
+            status = uploadPanel.querySelector("#asset-upload-status");
+            uploadButton = uploadPanel.querySelector("#asset-upload-button");
+            altText = uploadPanel.querySelector("#asset-alt-text");
+            assetList = mediaSection.querySelector(".media-grid");
+            assetList.id = "asset-list";
+        }
+
+        let selectedFile = null;
 
         const choose = (file) => {
             if (!file) return;
@@ -100,6 +135,9 @@
         }));
         dropzone.addEventListener("drop", (event) => choose(event.dataTransfer.files[0]));
         dropzone.addEventListener("click", () => fileInput.click());
+        dropzone.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") fileInput.click();
+        });
         fileInput.addEventListener("change", () => choose(fileInput.files[0]));
 
         uploadButton.addEventListener("click", async () => {
@@ -150,11 +188,17 @@
             uploadButton.disabled = true;
             if (altText) altText.value = "";
             preview.innerHTML = "<span>No file selected</span>";
+            await loadAssets(supabase, assetList);
         });
 
+        await loadAssets(supabase, assetList);
+    };
+
+    const loadAssets = async (supabase, assetList) => {
         const { data: assets, error } = await supabase
             .from("media_assets")
             .select("id,filename,mime_type,size_bytes,alt_text,created_at")
+            .eq("bucket", "public-assets")
             .order("created_at", { ascending: false })
             .limit(24);
 
