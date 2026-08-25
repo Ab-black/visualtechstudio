@@ -18,14 +18,11 @@
         document.head.appendChild(script);
     });
 
-    const statusLabel = (status) => {
-        const labels = {
-            draft: "Draft",
-            published: "Published",
-            archived: "Archived"
-        };
-        return labels[status] || status;
-    };
+    const statusLabel = (status) => ({
+        draft: "Draft",
+        published: "Published",
+        archived: "Archived"
+    }[status] || status);
 
     const escapeHtml = (value = "") => String(value)
         .replaceAll("&", "&amp;")
@@ -33,6 +30,27 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+
+    const setCoverPreview = (path = "") => {
+        const preview = document.querySelector("#cover-preview");
+        if (!preview) return;
+
+        const value = path.trim();
+        if (!value) {
+            preview.innerHTML = "<span>No cover selected</span>";
+            return;
+        }
+
+        const src = value.startsWith("http")
+            ? value
+            : value.startsWith("/")
+                ? value
+                : value.startsWith("images/")
+                    ? `../${value}`
+                    : value;
+
+        preview.innerHTML = `<img src="${escapeHtml(src)}" alt="Project cover preview">`;
+    };
 
     const renderProjects = (projects) => {
         const container = document.querySelector("#projects-list");
@@ -67,6 +85,7 @@
         const form = document.querySelector("#project-form");
         const message = document.querySelector("#project-form-message");
         const projectIdInput = document.querySelector("#project-id");
+        const editorTitle = document.querySelector("#project-editor-title");
 
         if (!projectList || !form) return;
 
@@ -125,6 +144,8 @@
             message.textContent = project.status === "published" ? "Project published." : "Project saved as draft.";
             form.reset();
             projectIdInput.value = "";
+            editorTitle.textContent = "Add Project";
+            setCoverPreview("");
             await loadProjects();
         });
 
@@ -151,7 +172,9 @@
                 form.querySelector('[name="description"]').value = data.description || "";
                 form.querySelector('[name="cover_path"]').value = data.cover_path || "";
                 form.querySelector('[name="status"]').value = data.status || "draft";
-                form.scrollIntoView({ behavior: "smooth", block: "start" });
+                editorTitle.textContent = "Edit Project";
+                setCoverPreview(data.cover_path || "");
+                document.querySelector("#project-editor").scrollIntoView({ behavior: "smooth", block: "start" });
                 return;
             }
 
@@ -172,6 +195,24 @@
                 await loadProjects();
             }
         });
+
+        const coverInput = form.querySelector('[name="cover_path"]');
+        if (coverInput) {
+            coverInput.addEventListener("input", () => setCoverPreview(coverInput.value));
+        }
+
+        const newProjectButton = document.querySelector("#new-project-button");
+        if (newProjectButton) {
+            newProjectButton.addEventListener("click", () => {
+                form.reset();
+                projectIdInput.value = "";
+                editorTitle.textContent = "Add Project";
+                message.textContent = "";
+                setCoverPreview("");
+                document.querySelector("#project-editor").scrollIntoView({ behavior: "smooth", block: "start" });
+                form.querySelector('[name="title"]').focus();
+            });
+        }
 
         await loadProjects();
     };
