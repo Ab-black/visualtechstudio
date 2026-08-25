@@ -13,7 +13,8 @@
         .cms-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; }
         .cms-projects { display: grid; gap: 12px; }
         .cms-project-row { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px; background: #fff; border: 1px solid #e5e5e2; border-radius: 12px; }
-        .cms-project-cover { width: 72px; height: 56px; display: grid; place-items: center; border-radius: 8px; background: #f0f0ed; color: #6b6b67; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+        .cms-project-cover { width: 72px; height: 56px; display: grid; place-items: center; overflow: hidden; border-radius: 8px; background: #f0f0ed; color: #6b6b67; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+        .cms-project-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .cms-project-main { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-width: 0; }
         .cms-project-main div { display: grid; gap: 5px; min-width: 0; }
         .cms-project-main strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -27,8 +28,10 @@
         .form-grid input, .form-grid textarea, .form-grid select { width: 100%; box-sizing: border-box; border: 1px solid #e5e5e2; border-radius: 8px; padding: 11px 12px; font: inherit; color: #171717; background: #fff; }
         .form-grid textarea { resize: vertical; min-height: 120px; }
         .form-grid input:focus, .form-grid textarea:focus, .form-grid select:focus { outline: 2px solid rgba(185,151,91,.28); border-color: #b9975b; }
+        .cover-preview { width: 100%; min-height: 180px; display: grid; place-items: center; overflow: hidden; border: 1px solid #e5e5e2; border-radius: 10px; background: #f4f4f1; color: #777771; font-size: 11px; letter-spacing: .08em; }
+        .cover-preview img { display: block; width: 100%; max-height: 280px; object-fit: contain; }
         .form-actions { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-top: 24px; }
-        .form-message { margin: 0; color: #6b6b67; font-size: 13px; }
+        .form-message { margin: 0 auto 0 0; color: #6b6b67; font-size: 13px; }
         @media (max-width: 760px) {
             .cms-toolbar, .cms-project-main { align-items: stretch; flex-direction: column; }
             .cms-project-row { grid-template-columns: 56px minmax(0, 1fr); }
@@ -36,6 +39,8 @@
             .cms-project-actions { grid-column: 1 / -1; justify-content: flex-end; }
             .form-grid { grid-template-columns: 1fr; }
             .form-grid .full { grid-column: auto; }
+            .form-actions { flex-wrap: wrap; }
+            .form-message { flex-basis: 100%; }
         }
     </style>
 </head>
@@ -100,7 +105,7 @@
                 <div>
                     <p class="eyebrow">CONTENT MANAGEMENT</p>
                     <h2 id="projects-title">Project library</h2>
-                    <p class="section-description">Create, edit, publish, or remove projects that will later power the public Projects page.</p>
+                    <p class="section-description">Create, edit, publish, or remove projects that power the public Projects page.</p>
                 </div>
                 <button class="button primary" id="new-project-button" type="button">+ Add Project</button>
             </div>
@@ -114,7 +119,7 @@
                 <div>
                     <p class="eyebrow">PROJECT EDITOR</p>
                     <h2 id="project-editor-title">Add Project</h2>
-                    <p class="section-description">Save as a draft while preparing the project, then publish it when it is ready for the public site.</p>
+                    <p class="section-description">Save as a draft while preparing the project, then publish it when it is ready for visitors.</p>
                 </div>
             </div>
             <form class="form-panel" id="project-form">
@@ -140,8 +145,11 @@
                         <textarea name="description" placeholder="Describe the project, the challenge, the solution, and the outcome."></textarea>
                     </label>
                     <label class="full">Cover image path
-                        <input name="cover_path" type="text" placeholder="projects/chronolux-cover.webp">
+                        <input name="cover_path" type="text" placeholder="images/Design 4.jpeg">
                     </label>
+                    <div class="full">
+                        <div class="cover-preview" id="cover-preview" aria-live="polite"><span>No cover selected</span></div>
+                    </div>
                 </div>
                 <div class="form-actions">
                     <p class="form-message" id="project-form-message" role="status"></p>
@@ -174,6 +182,7 @@
             form.reset();
             document.querySelector("#project-id").value = "";
             document.querySelector("#project-form-message").textContent = "";
+            document.querySelector("#cover-preview").innerHTML = "<span>No cover selected</span>";
             editor.querySelector("h2").textContent = "Add Project";
         });
     });
