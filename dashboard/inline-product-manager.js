@@ -8,16 +8,17 @@
     let client;
 
     const setMessage = (text) => {
-        const node = document.querySelector("#product-message");
-        if (node) node.textContent = text;
+        const element = document.querySelector("#product-message");
+        if (element) element.textContent = text;
     };
 
     const loadClient = () => new Promise((resolve, reject) => {
+        if (!config?.url || !config?.publishableKey) return reject(new Error("Supabase configuration is missing."));
         if (window.supabase) return resolve(window.supabase.createClient(config.url, config.publishableKey));
         const script = document.createElement("script");
         script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
         script.onload = () => resolve(window.supabase.createClient(config.url, config.publishableKey));
-        script.onerror = reject;
+        script.onerror = () => reject(new Error("Could not load Supabase."));
         document.head.appendChild(script);
     });
 
@@ -41,13 +42,13 @@
         else box.innerHTML = `<div class="file-preview-generic"><strong>${file.name}</strong><span>${file.type || "ZIP archive"} · ${(file.size / 1024 / 1024).toFixed(1)} MB</span></div>`;
     };
 
-    const slugify = (value) => value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const slugify = (value) => `${value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}-${crypto.randomUUID().slice(0, 8)}`;
 
     const upload = async (bucket, path, file) => {
         const { error } = await client.storage.from(bucket).upload(path, file, {
             cacheControl: "3600",
             upsert: false,
-            contentType: file.type
+            contentType: file.type || "application/octet-stream"
         });
         if (error) throw error;
     };
@@ -63,6 +64,7 @@
         if (!title) return setMessage("Product title is required.");
         const validationError = validate(productFile);
         if (validationError) return setMessage(validationError);
+        if (cover && !cover.type.startsWith("image/")) return setMessage("The cover must be an image.");
         if (cover && cover.size > maxFileSize) return setMessage("The cover image is too large.");
 
         setMessage("Creating product…");
@@ -81,8 +83,9 @@
 
         if (productError) return setMessage(productError.message);
 
+        let coverPath = null;
+        let filePath = null;
         try {
-            let coverPath = null;
             if (cover) {
                 const safeCover = cover.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
                 coverPath = `product-covers/${product.id}-${crypto.randomUUID()}-${safeCover}`;
@@ -90,7 +93,7 @@
             }
 
             const safeFile = productFile.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
-            const filePath = `products/${product.id}/${crypto.randomUUID()}-${safeFile}`;
+            filePath = `products/${product.id}/${crypto.randomUUID()}-${safeFile}`;
             await upload("product-files", filePath, productFile);
 
             const { error: fileError } = await client.from("product_files").insert({
@@ -115,6 +118,8 @@
             form.reset();
             preview(null);
         } catch (error) {
+            if (filePath) await client.storage.from("product-files").remove([filePath]);
+            if (coverPath) await client.storage.from("public-assets").remove([coverPath]);
             await client.from("products").delete().eq("id", product.id);
             setMessage(`Product file setup failed: ${error.message}`);
         }
@@ -123,11 +128,9 @@
     const init = async () => {
         const form = document.querySelector("#inline-product-form");
         if (!form || !config?.url || !config?.publishableKey) return;
-
         const accessPanel = document.querySelector(".product-access-panel");
         if (accessPanel) accessPanel.remove();
         form.hidden = false;
-
         client = await loadClient();
         form.product_file.addEventListener("change", () => {
             const file = form.product_file.files[0];
