@@ -3,19 +3,10 @@
     let supabaseClient = null;
     let products = [];
 
-    const escapeHtml = (value = "") => String(value)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
+    const escapeHtml = (value = "") => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
     const money = (value, currency = "NGN") => {
-        try {
-            return new Intl.NumberFormat("en-NG", { style: "currency", currency, maximumFractionDigits: 0 }).format(Number(value || 0));
-        } catch {
-            return `${currency} ${Number(value || 0).toLocaleString()}`;
-        }
+        try { return new Intl.NumberFormat("en-NG", { style: "currency", currency, maximumFractionDigits: 0 }).format(Number(value || 0)); }
+        catch { return `${currency} ${Number(value || 0).toLocaleString()}`; }
     };
 
     const waitForClient = () => new Promise((resolve, reject) => {
@@ -35,9 +26,40 @@
         if (profileError || profile?.role !== "admin") throw new Error("Administrator access is required.");
     };
 
-    const coverUrl = (product) => {
-        if (!product.cover_path) return null;
-        return `${config.url}/storage/v1/object/public/public-assets/${product.cover_path.split("/").map(encodeURIComponent).join("/")}`;
+    const coverUrl = (product) => product.cover_path ? `${config.url}/storage/v1/object/public/public-assets/${product.cover_path.split("/").map(encodeURIComponent).join("/")}` : null;
+
+    const injectMediaStyles = () => {
+        if (document.querySelector("#media-library-runtime-styles")) return;
+        const style = document.createElement("style");
+        style.id = "media-library-runtime-styles";
+        style.textContent = `
+            #media .media-upload-zone,#media .asset-upload-layout,#media #upload-media-button,#media #asset-file,#media .media-upload-panel { display:none !important; }
+            #media-product-modal { position:fixed; inset:0; z-index:100000; display:grid; place-items:center; padding:24px; }
+            .media-modal-backdrop { position:absolute; inset:0; background:rgba(17,17,17,.58); backdrop-filter:blur(4px); }
+            .media-modal-card { position:relative; width:min(760px,100%); max-height:min(90vh,900px); overflow:auto; background:#fff; border:1px solid var(--border); border-radius:14px; box-shadow:0 24px 80px rgba(0,0,0,.2); padding:24px; }
+            .media-modal-header { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; padding-bottom:18px; margin-bottom:20px; border-bottom:1px solid var(--border); }
+            .media-modal-header h3 { margin:0; font-size:20px; }
+            .media-edit-form { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+            .media-edit-form label { display:grid; gap:7px; font-size:12px; font-weight:600; }
+            .media-edit-form .full { grid-column:1/-1; }
+            .media-edit-form .form-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:4px; }
+            .media-card { overflow:hidden; }
+            .media-preview { min-height:170px; background:#f4f4f1; display:grid; place-items:center; overflow:hidden; }
+            .media-preview img { display:block; width:100%; height:100%; min-height:170px; max-height:240px; object-fit:cover; }
+            .media-meta { display:grid; gap:5px; padding:14px; }
+            .media-meta strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+            .media-meta > span:not(.status) { color:var(--muted); font-size:11px; }
+            .media-actions { display:flex; flex-wrap:wrap; gap:7px; padding:0 14px 14px; }
+            .media-actions .danger { color:var(--danger); border-color:#efc9c5; }
+            @media (max-width:700px) { #media-product-modal { padding:12px; } .media-modal-card { padding:18px; max-height:94vh; } .media-edit-form { grid-template-columns:1fr; } .media-edit-form .full { grid-column:auto; } }
+        `;
+        document.head.appendChild(style);
+    };
+
+    const setupFilter = () => {
+        const filter = document.querySelector("#media-filter");
+        if (!filter) return;
+        filter.innerHTML = `<option value="all">All products</option><option value="published">Published</option><option value="draft">Drafts</option><option value="archived">Archived</option>`;
     };
 
     const renderProducts = () => {
@@ -46,35 +68,30 @@
         const search = (document.querySelector("#media-search")?.value || "").trim().toLowerCase();
         const filter = document.querySelector("#media-filter")?.value || "all";
         const filtered = products.filter((product) => {
-            const matchesSearch = !search || `${product.title} ${product.description || ""} ${product.format || ""}`.toLowerCase().includes(search);
-            const matchesFilter = filter === "all" || product.status === filter;
-            return matchesSearch && matchesFilter;
+            const haystack = `${product.title} ${product.description || ""} ${product.format || ""}`.toLowerCase();
+            return (!search || haystack.includes(search)) && (filter === "all" || product.status === filter);
         });
         list.innerHTML = filtered.map((product) => {
             const cover = coverUrl(product);
-            return `
-                <article class="media-card" data-id="${product.id}">
-                    <div class="media-preview">${cover ? `<img src="${cover}" alt="${escapeHtml(product.title)}" loading="lazy">` : `<div class="file-preview-generic"><strong>${escapeHtml(product.format || "PRODUCT")}</strong><span>No cover image</span></div>`}</div>
-                    <div class="media-meta">
-                        <strong title="${escapeHtml(product.title)}">${escapeHtml(product.title)}</strong>
-                        <span>${escapeHtml(product.format || "Digital product")} · ${money(product.price, product.currency)}</span>
-                        <span>${product.product_file_path ? "Product file attached" : "No product file"}</span>
-                        <span class="status status-${product.status === "published" ? "green" : product.status === "draft" ? "gray" : "amber"}">${escapeHtml(product.status || "draft")}</span>
-                    </div>
-                    <div class="media-actions">
-                        <button class="row-action" type="button" data-action="edit" data-id="${product.id}">Edit</button>
-                        ${product.status === "published" ? `<button class="row-action" type="button" data-action="unpublish" data-id="${product.id}">Unpublish</button>` : `<button class="row-action" type="button" data-action="publish" data-id="${product.id}">Publish</button>`}
-                        <button class="row-action danger" type="button" data-action="delete" data-id="${product.id}">Delete</button>
-                    </div>
-                </article>
-            `;
+            return `<article class="media-card" data-id="${product.id}">
+                <div class="media-preview">${cover ? `<img src="${cover}" alt="${escapeHtml(product.title)}" loading="lazy">` : `<div class="file-preview-generic"><strong>${escapeHtml(product.format || "PRODUCT")}</strong><span>No cover image</span></div>`}</div>
+                <div class="media-meta">
+                    <strong title="${escapeHtml(product.title)}">${escapeHtml(product.title)}</strong>
+                    <span>${escapeHtml(product.format || "Digital product")} · ${money(product.price, product.currency)}</span>
+                    <span>${product.product_file_path ? "Product file attached" : "No product file"}</span>
+                    <span class="status status-${product.status === "published" ? "green" : product.status === "draft" ? "gray" : "amber"}">${escapeHtml(product.status || "draft")}</span>
+                </div>
+                <div class="media-actions">
+                    <button class="row-action" type="button" data-action="edit" data-id="${product.id}">Edit</button>
+                    ${product.status === "published" ? `<button class="row-action" type="button" data-action="unpublish" data-id="${product.id}">Unpublish</button>` : `<button class="row-action" type="button" data-action="publish" data-id="${product.id}">Publish</button>`}
+                    <button class="row-action danger" type="button" data-action="delete" data-id="${product.id}">Delete</button>
+                </div>
+            </article>`;
         }).join("") || '<div class="empty-state">No products match your search.</div>';
     };
 
     const loadProducts = async () => {
-        const { data, error } = await supabaseClient.from("products")
-            .select("id,title,slug,description,price,currency,format,resource_count,cover_path,status,product_file_bucket,product_file_path,purchase_count,like_count,created_at,updated_at")
-            .order("created_at", { ascending: false });
+        const { data, error } = await supabaseClient.from("products").select("id,title,slug,description,price,currency,format,resource_count,cover_path,status,product_file_bucket,product_file_path,purchase_count,like_count,created_at,updated_at").order("created_at", { ascending: false });
         if (error) throw error;
         products = data || [];
         renderProducts();
@@ -86,8 +103,7 @@
         closeModal();
         const modal = document.createElement("div");
         modal.id = "media-product-modal";
-        modal.innerHTML = `
-            <div class="media-modal-backdrop" data-close="true"></div>
+        modal.innerHTML = `<div class="media-modal-backdrop" data-close="true"></div>
             <section class="media-modal-card" role="dialog" aria-modal="true" aria-labelledby="media-modal-title">
                 <div class="media-modal-header"><div><p class="eyebrow">MEDIA LIBRARY</p><h3 id="media-modal-title">Edit product</h3></div><button type="button" class="row-action" data-close="true">Close</button></div>
                 <form id="media-edit-form" class="media-edit-form">
@@ -102,8 +118,7 @@
                     <p id="media-edit-message" class="form-message full"></p>
                     <div class="form-actions full"><button type="button" class="button secondary" data-close="true">Cancel</button><button type="submit" class="button primary">Save changes</button></div>
                 </form>
-            </section>
-        `;
+            </section>`;
         document.body.appendChild(modal);
         const form = modal.querySelector("#media-edit-form");
         const preview = modal.querySelector("#media-edit-preview");
@@ -115,9 +130,7 @@
             else if (file.type === "application/pdf") preview.innerHTML = `<iframe title="Product PDF preview" src="${url}" style="width:100%;height:360px;border:0"></iframe>`;
             else preview.innerHTML = `<div class="file-preview-generic"><strong>${escapeHtml(file.name)}</strong><span>${file.type || "ZIP archive"}</span></div>`;
         });
-        modal.addEventListener("click", (event) => {
-            if (event.target.closest("[data-close='true']")) closeModal();
-        });
+        modal.addEventListener("click", (event) => { if (event.target.closest("[data-close='true']")) closeModal(); });
         form.addEventListener("submit", (event) => saveEdits(event, product, modal));
         form.title.focus();
     };
@@ -131,16 +144,8 @@
         try {
             await ensureAdmin();
             message.textContent = "Saving changes…";
-            const payload = {
-                title: form.title.value.trim(),
-                description: form.description.value.trim() || null,
-                price: Number(form.price.value || 0),
-                format: form.format.value,
-                status: form.status.value,
-                updated_at: new Date().toISOString()
-            };
+            const payload = { title: form.title.value.trim(), description: form.description.value.trim() || null, price: Number(form.price.value || 0), format: form.format.value, status: form.status.value, updated_at: new Date().toISOString() };
             if (!payload.title) throw new Error("Product title is required.");
-
             const cover = form.cover.files[0];
             if (cover) {
                 if (!cover.type.startsWith("image/")) throw new Error("The replacement cover must be an image.");
@@ -151,7 +156,6 @@
                 if (error) throw error;
                 payload.cover_path = newCoverPath;
             }
-
             const file = form.file.files[0];
             if (file) {
                 const allowed = ["application/pdf", "application/zip", "application/x-zip-compressed", "video/mp4", "video/webm", "video/quicktime"];
@@ -164,13 +168,11 @@
                 payload.product_file_bucket = "product-files";
                 payload.product_file_path = newFilePath;
             }
-
             const { error } = await supabaseClient.from("products").update(payload).eq("id", product.id);
             if (error) throw error;
-
             if (file) {
-                const { error: fileRowError } = await supabaseClient.from("product_files").insert({ product_id: product.id, file_path: newFilePath, file_name: file.name, mime_type: file.type || "application/octet-stream", file_size: file.size, is_preview: false });
-                if (fileRowError) throw fileRowError;
+                const { error: rowError } = await supabaseClient.from("product_files").insert({ product_id: product.id, file_path: newFilePath, file_name: file.name, mime_type: file.type || "application/octet-stream", file_size: file.size, is_preview: false });
+                if (rowError) throw rowError;
                 if (product.product_file_path) {
                     await supabaseClient.storage.from(product.product_file_bucket || "product-files").remove([product.product_file_path]);
                     await supabaseClient.from("product_files").delete().eq("product_id", product.id).eq("file_path", product.product_file_path);
@@ -237,8 +239,10 @@
         const media = document.querySelector("#media");
         if (!media || !config?.url || !config?.publishableKey) return;
         try {
+            injectMediaStyles();
             supabaseClient = await waitForClient();
             await ensureAdmin();
+            setupFilter();
             document.querySelector("#media-search")?.addEventListener("input", renderProducts);
             document.querySelector("#media-filter")?.addEventListener("change", renderProducts);
             document.querySelector("#asset-list")?.addEventListener("click", handleAction);
