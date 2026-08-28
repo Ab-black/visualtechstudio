@@ -52,10 +52,10 @@
         const message = gate.querySelector('#dashboard-auth-message');
 
         const checkSession = async () => {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (!session) return false;
-            const { data: profile, error } = await supabaseClient.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
-            if (error || profile?.role !== 'admin') {
+            const { data: { session }, error } = await supabaseClient.auth.getSession();
+            if (error || !session) return false;
+            const { data: profile, error: profileError } = await supabaseClient.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+            if (profileError || profile?.role !== 'admin') {
                 await supabaseClient.auth.signOut();
                 return false;
             }
@@ -111,6 +111,7 @@
         }
 
         supabaseClient = await loadSupabase();
+        window.VISUAL_TECH_SUPABASE_CLIENT = supabaseClient;
         await requireAdminSession();
     };
 
