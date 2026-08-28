@@ -113,6 +113,11 @@
         supabaseClient = await loadSupabase();
         window.VISUAL_TECH_SUPABASE_CLIENT = supabaseClient;
         await requireAdminSession();
+
+        // Tell dependent dashboard modules that authentication is fully initialized.
+        // This prevents Media Library from calling getSession while the initial auth check
+        // (or an automatic token refresh) is still in flight.
+        window.dispatchEvent(new CustomEvent('visualtech:admin-ready'));
     };
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => init().catch(console.error));
