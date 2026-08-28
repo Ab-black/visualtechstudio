@@ -1,199 +1,251 @@
 (() => {
     const config = window.VISUAL_TECH_SUPABASE;
-    const allowedTypes = [
-        "image/jpeg", "image/png", "image/webp", "image/gif",
-        "application/pdf", "application/zip", "application/x-zip-compressed",
-        "video/mp4", "video/webm", "video/quicktime"
-    ];
-    const maxSize = 250 * 1024 * 1024;
-    const bucket = "public-assets";
-    let supabaseClient;
-    let selectedFile = null;
-    let assets = [];
+    let supabaseClient = null;
+    let products = [];
 
     const escapeHtml = (value = "") => String(value)
-        .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;").replaceAll("'", "&#039;");
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 
-    const formatSize = (bytes = 0) => {
-        if (!bytes) return "0 B";
-        const units = ["B", "KB", "MB", "GB"];
-        const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
-        return `${(bytes / Math.pow(1024, index)).toFixed(index ? 1 : 0)} ${units[index]}`;
+    const money = (value, currency = "NGN") => {
+        try {
+            return new Intl.NumberFormat("en-NG", { style: "currency", currency, maximumFractionDigits: 0 }).format(Number(value || 0));
+        } catch {
+            return `${currency} ${Number(value || 0).toLocaleString()}`;
+        }
     };
 
-    const loadSupabase = () => new Promise((resolve, reject) => {
-        if (window.supabase) return resolve(window.supabase.createClient(config.url, config.publishableKey));
-        const script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-        script.onload = () => resolve(window.supabase.createClient(config.url, config.publishableKey));
-        script.onerror = reject;
-        document.head.appendChild(script);
+    const waitForClient = () => new Promise((resolve, reject) => {
+        const started = Date.now();
+        const check = () => {
+            if (window.VISUAL_TECH_SUPABASE_CLIENT) return resolve(window.VISUAL_TECH_SUPABASE_CLIENT);
+            if (Date.now() - started > 15000) return reject(new Error("Dashboard authentication is not ready. Refresh and sign in again."));
+            window.setTimeout(check, 100);
+        };
+        check();
     });
 
-    const validate = (file) => {
-        if (!allowedTypes.includes(file.type)) return "This file type is not supported.";
-        if (file.size > maxSize) return "The maximum file size is 250 MB.";
-        return "";
+    const ensureAdmin = async () => {
+        const { data: { session }, error } = await supabaseClient.auth.getSession();
+        if (error || !session) throw new Error("Your dashboard session has expired. Please sign in again.");
+        const { data: profile, error: profileError } = await supabaseClient.from("profiles").select("role").eq("id", session.user.id).maybeSingle();
+        if (profileError || profile?.role !== "admin") throw new Error("Administrator access is required.");
     };
 
-    const previewFile = (file, container) => {
-        const url = URL.createObjectURL(file);
-        if (file.type.startsWith("image/")) container.innerHTML = `<img src="${url}" alt="Selected file preview">`;
-        else if (file.type.startsWith("video/")) container.innerHTML = `<video controls preload="metadata" src="${url}"></video>`;
-        else if (file.type === "application/pdf") container.innerHTML = `<iframe title="PDF preview" src="${url}"></iframe>`;
-        else container.innerHTML = `<div class="file-preview-generic"><strong>${escapeHtml(file.name)}</strong><span>${escapeHtml(file.type || "File")}</span></div>`;
+    const coverUrl = (product) => {
+        if (!product.cover_path) return null;
+        return `${config.url}/storage/v1/object/public/public-assets/${product.cover_path.split("/").map(encodeURIComponent).join("/")}`;
     };
 
-    const publicUrl = (path) => `${config.url}/storage/v1/object/public/${bucket}/${path.split("/").map(encodeURIComponent).join("/")}`;
-
-    const renderPreview = (asset) => {
-        const url = publicUrl(asset.path);
-        if (asset.mime_type.startsWith("image/")) return `<img src="${url}" alt="${escapeHtml(asset.alt_text || asset.filename)}" loading="lazy">`;
-        if (asset.mime_type.startsWith("video/")) return `<video controls preload="metadata" src="${url}"></video>`;
-        if (asset.mime_type === "application/pdf") return `<iframe title="${escapeHtml(asset.filename)}" src="${url}"></iframe>`;
-        return `<div class="file-preview-generic"><strong>${escapeHtml(asset.mime_type.split("/").pop()?.toUpperCase() || "FILE")}</strong></div>`;
-    };
-
-    const renderAssets = () => {
+    const renderProducts = () => {
         const list = document.querySelector("#asset-list");
         if (!list) return;
         const search = (document.querySelector("#media-search")?.value || "").trim().toLowerCase();
-        const type = document.querySelector("#media-filter")?.value || "all";
-        const filtered = assets.filter((asset) => {
-            const matchesSearch = !search || `${asset.filename} ${asset.mime_type}`.toLowerCase().includes(search);
-            const matchesType = type === "all" || (type === "images" && asset.mime_type.startsWith("image/")) || (type === "documents" && (asset.mime_type === "application/pdf" || asset.mime_type.includes("zip"))) || (type === "video" && asset.mime_type.startsWith("video/"));
-            return matchesSearch && matchesType;
+        const filter = document.querySelector("#media-filter")?.value || "all";
+        const filtered = products.filter((product) => {
+            const matchesSearch = !search || `${product.title} ${product.description || ""} ${product.format || ""}`.toLowerCase().includes(search);
+            const matchesFilter = filter === "all" || product.status === filter;
+            return matchesSearch && matchesFilter;
         });
-        list.innerHTML = filtered.map((asset) => `
-            <article class="media-card" data-id="${asset.id}">
-                <div class="media-preview">${renderPreview(asset)}</div>
-                <div class="media-meta">
-                    <strong title="${escapeHtml(asset.filename)}">${escapeHtml(asset.filename)}</strong>
-                    <span>${escapeHtml(asset.mime_type)} · ${formatSize(asset.size_bytes)}</span>
-                    <span>${asset.alt_text ? `Alt: ${escapeHtml(asset.alt_text)}` : "No alt text"}</span>
-                </div>
-                <div class="media-actions">
-                    <button class="row-action" type="button" data-action="edit" data-id="${asset.id}">Edit</button>
-                    <button class="row-action" type="button" data-action="replace" data-id="${asset.id}">Replace</button>
-                    <button class="row-action danger" type="button" data-action="delete" data-id="${asset.id}">Delete</button>
-                </div>
-            </article>
-        `).join("") || '<div class="empty-state">No matching media.</div>';
+        list.innerHTML = filtered.map((product) => {
+            const cover = coverUrl(product);
+            return `
+                <article class="media-card" data-id="${product.id}">
+                    <div class="media-preview">${cover ? `<img src="${cover}" alt="${escapeHtml(product.title)}" loading="lazy">` : `<div class="file-preview-generic"><strong>${escapeHtml(product.format || "PRODUCT")}</strong><span>No cover image</span></div>`}</div>
+                    <div class="media-meta">
+                        <strong title="${escapeHtml(product.title)}">${escapeHtml(product.title)}</strong>
+                        <span>${escapeHtml(product.format || "Digital product")} · ${money(product.price, product.currency)}</span>
+                        <span>${product.product_file_path ? "Product file attached" : "No product file"}</span>
+                        <span class="status status-${product.status === "published" ? "green" : product.status === "draft" ? "gray" : "amber"}">${escapeHtml(product.status || "draft")}</span>
+                    </div>
+                    <div class="media-actions">
+                        <button class="row-action" type="button" data-action="edit" data-id="${product.id}">Edit</button>
+                        ${product.status === "published" ? `<button class="row-action" type="button" data-action="unpublish" data-id="${product.id}">Unpublish</button>` : `<button class="row-action" type="button" data-action="publish" data-id="${product.id}">Publish</button>`}
+                        <button class="row-action danger" type="button" data-action="delete" data-id="${product.id}">Delete</button>
+                    </div>
+                </article>
+            `;
+        }).join("") || '<div class="empty-state">No products match your search.</div>';
     };
 
-    const loadAssets = async () => {
-        const { data, error } = await supabaseClient.from("media_assets")
-            .select("id,bucket,path,filename,mime_type,size_bytes,alt_text,created_at")
-            .eq("bucket", bucket).order("created_at", { ascending: false }).limit(100);
-        if (error) {
-            document.querySelector("#asset-list").innerHTML = `<div class="empty-state">Unable to load media: ${escapeHtml(error.message)}</div>`;
-            return;
-        }
-        assets = data || [];
-        renderAssets();
+    const loadProducts = async () => {
+        const { data, error } = await supabaseClient.from("products")
+            .select("id,title,slug,description,price,currency,format,resource_count,cover_path,status,product_file_bucket,product_file_path,purchase_count,like_count,created_at,updated_at")
+            .order("created_at", { ascending: false });
+        if (error) throw error;
+        products = data || [];
+        renderProducts();
     };
 
-    const setupUi = () => {
-        const media = document.querySelector("#media");
-        if (!media) return;
-        let input = document.querySelector("#asset-file");
-        let dropzone = document.querySelector("#asset-dropzone");
-        if (!input || !dropzone) {
-            const toolbar = media.querySelector(".media-toolbar");
-            if (!toolbar) return;
-            const panel = document.createElement("div");
-            panel.className = "media-upload-panel";
-            panel.innerHTML = `<div class="media-dropzone" id="asset-dropzone" tabindex="0" role="button" aria-label="Choose or drop a media file"><strong>Drop an asset here</strong><span>Images, PDF, ZIP and video · up to 250 MB</span><input id="asset-file" type="file" hidden accept="image/*,application/pdf,.zip,video/mp4,video/webm,video/quicktime"></div><div class="media-upload-preview" id="asset-preview"><span>No file selected</span></div><label class="media-alt-label">Alt text (for images)<input id="asset-alt-text" type="text" placeholder="Describe the image for accessibility"></label><div class="media-upload-actions"><span id="asset-upload-status" role="status">Choose a file to begin.</span><button class="button primary" id="asset-upload-button" type="button" disabled>Upload asset</button></div>`;
-            toolbar.after(panel);
-            input = panel.querySelector("#asset-file");
-            dropzone = panel.querySelector("#asset-dropzone");
-        }
-        const preview = document.querySelector("#asset-preview");
-        const status = document.querySelector("#asset-upload-status");
-        const uploadButton = document.querySelector("#asset-upload-button");
-        const altText = document.querySelector("#asset-alt-text");
-        const uploadMediaButton = document.querySelector("#upload-media-button");
-        if (uploadMediaButton) uploadMediaButton.addEventListener("click", () => input.click());
-        ["dragenter", "dragover"].forEach((name) => dropzone.addEventListener(name, (event) => { event.preventDefault(); dropzone.classList.add("is-dragging"); }));
-        ["dragleave", "drop"].forEach((name) => dropzone.addEventListener(name, (event) => { event.preventDefault(); dropzone.classList.remove("is-dragging"); }));
-        dropzone.addEventListener("drop", (event) => choose(event.dataTransfer.files[0]));
-        dropzone.addEventListener("click", () => input.click());
-        dropzone.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") input.click(); });
-        input.addEventListener("change", () => choose(input.files[0]));
-        document.querySelector("#media-search")?.addEventListener("input", renderAssets);
-        document.querySelector("#media-filter")?.addEventListener("change", renderAssets);
-        document.querySelector("#asset-list")?.addEventListener("click", handleAction);
+    const closeModal = () => document.querySelector("#media-product-modal")?.remove();
 
-        function choose(file) {
+    const openEditModal = (product) => {
+        closeModal();
+        const modal = document.createElement("div");
+        modal.id = "media-product-modal";
+        modal.innerHTML = `
+            <div class="media-modal-backdrop" data-close="true"></div>
+            <section class="media-modal-card" role="dialog" aria-modal="true" aria-labelledby="media-modal-title">
+                <div class="media-modal-header"><div><p class="eyebrow">MEDIA LIBRARY</p><h3 id="media-modal-title">Edit product</h3></div><button type="button" class="row-action" data-close="true">Close</button></div>
+                <form id="media-edit-form" class="media-edit-form">
+                    <label>Product title<input name="title" required value="${escapeHtml(product.title)}"></label>
+                    <label>Price<input name="price" type="number" min="0" step="0.01" required value="${escapeHtml(product.price ?? 0)}"></label>
+                    <label>Format<select name="format"><option value="PDF" ${product.format === "PDF" ? "selected" : ""}>PDF</option><option value="ZIP" ${product.format === "ZIP" ? "selected" : ""}>ZIP</option><option value="Template" ${product.format === "Template" ? "selected" : ""}>Template</option><option value="Video" ${product.format === "Video" ? "selected" : ""}>Video</option></select></label>
+                    <label>Status<select name="status"><option value="draft" ${product.status === "draft" ? "selected" : ""}>Draft</option><option value="published" ${product.status === "published" ? "selected" : ""}>Published</option><option value="archived" ${product.status === "archived" ? "selected" : ""}>Archived</option></select></label>
+                    <label class="full">Description<textarea name="description" rows="5">${escapeHtml(product.description || "")}</textarea></label>
+                    <label>Replace cover<input name="cover" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></label>
+                    <label>Replace product file<input name="file" type="file" accept=".pdf,.zip,.mp4,.webm,.mov"></label>
+                    <div id="media-edit-preview" class="asset-preview full"><span>Choose a replacement file to preview it here.</span></div>
+                    <p id="media-edit-message" class="form-message full"></p>
+                    <div class="form-actions full"><button type="button" class="button secondary" data-close="true">Cancel</button><button type="submit" class="button primary">Save changes</button></div>
+                </form>
+            </section>
+        `;
+        document.body.appendChild(modal);
+        const form = modal.querySelector("#media-edit-form");
+        const preview = modal.querySelector("#media-edit-preview");
+        form.file.addEventListener("change", () => {
+            const file = form.file.files[0];
             if (!file) return;
-            const error = validate(file);
-            if (error) { selectedFile = null; preview.innerHTML = `<span>${escapeHtml(error)}</span>`; status.textContent = error; uploadButton.disabled = true; return; }
-            selectedFile = file;
-            previewFile(file, preview);
-            status.textContent = `${file.name} · ${formatSize(file.size)}`;
-            uploadButton.disabled = false;
+            const url = URL.createObjectURL(file);
+            if (file.type.startsWith("video/")) preview.innerHTML = `<video controls preload="metadata" src="${url}" style="width:100%;max-height:360px"></video>`;
+            else if (file.type === "application/pdf") preview.innerHTML = `<iframe title="Product PDF preview" src="${url}" style="width:100%;height:360px;border:0"></iframe>`;
+            else preview.innerHTML = `<div class="file-preview-generic"><strong>${escapeHtml(file.name)}</strong><span>${file.type || "ZIP archive"}</span></div>`;
+        });
+        modal.addEventListener("click", (event) => {
+            if (event.target.closest("[data-close='true']")) closeModal();
+        });
+        form.addEventListener("submit", (event) => saveEdits(event, product, modal));
+        form.title.focus();
+    };
+
+    const saveEdits = async (event, product, modal) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+        const message = modal.querySelector("#media-edit-message");
+        let newCoverPath = null;
+        let newFilePath = null;
+        try {
+            await ensureAdmin();
+            message.textContent = "Saving changes…";
+            const payload = {
+                title: form.title.value.trim(),
+                description: form.description.value.trim() || null,
+                price: Number(form.price.value || 0),
+                format: form.format.value,
+                status: form.status.value,
+                updated_at: new Date().toISOString()
+            };
+            if (!payload.title) throw new Error("Product title is required.");
+
+            const cover = form.cover.files[0];
+            if (cover) {
+                if (!cover.type.startsWith("image/")) throw new Error("The replacement cover must be an image.");
+                if (cover.size > 250 * 1024 * 1024) throw new Error("The replacement cover is too large.");
+                const safeName = cover.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
+                newCoverPath = `product-covers/${product.id}-${crypto.randomUUID()}-${safeName}`;
+                const { error } = await supabaseClient.storage.from("public-assets").upload(newCoverPath, cover, { cacheControl: "3600", upsert: false, contentType: cover.type });
+                if (error) throw error;
+                payload.cover_path = newCoverPath;
+            }
+
+            const file = form.file.files[0];
+            if (file) {
+                const allowed = ["application/pdf", "application/zip", "application/x-zip-compressed", "video/mp4", "video/webm", "video/quicktime"];
+                if (!allowed.includes(file.type)) throw new Error("Product files must be PDF, ZIP, MP4, WebM, or MOV.");
+                if (file.size > 250 * 1024 * 1024) throw new Error("The product file must be 250 MB or smaller.");
+                const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
+                newFilePath = `products/${product.id}/${crypto.randomUUID()}-${safeName}`;
+                const { error } = await supabaseClient.storage.from("product-files").upload(newFilePath, file, { cacheControl: "3600", upsert: false, contentType: file.type });
+                if (error) throw error;
+                payload.product_file_bucket = "product-files";
+                payload.product_file_path = newFilePath;
+            }
+
+            const { error } = await supabaseClient.from("products").update(payload).eq("id", product.id);
+            if (error) throw error;
+
+            if (file) {
+                const { error: fileRowError } = await supabaseClient.from("product_files").insert({ product_id: product.id, file_path: newFilePath, file_name: file.name, mime_type: file.type || "application/octet-stream", file_size: file.size, is_preview: false });
+                if (fileRowError) throw fileRowError;
+                if (product.product_file_path) {
+                    await supabaseClient.storage.from(product.product_file_bucket || "product-files").remove([product.product_file_path]);
+                    await supabaseClient.from("product_files").delete().eq("product_id", product.id).eq("file_path", product.product_file_path);
+                }
+            }
+            if (cover && product.cover_path) await supabaseClient.storage.from("public-assets").remove([product.cover_path]);
+            closeModal();
+            await loadProducts();
+        } catch (error) {
+            if (newFilePath) await supabaseClient.storage.from("product-files").remove([newFilePath]);
+            if (newCoverPath) await supabaseClient.storage.from("public-assets").remove([newCoverPath]);
+            message.textContent = error.message;
         }
+    };
 
-        uploadButton.addEventListener("click", uploadSelected);
+    const changeStatus = async (product, status) => {
+        await ensureAdmin();
+        const { error } = await supabaseClient.from("products").update({ status, updated_at: new Date().toISOString() }).eq("id", product.id);
+        if (error) throw error;
+        await loadProducts();
+    };
 
-        async function uploadSelected() {
-            if (!selectedFile) return;
-            uploadButton.disabled = true; status.textContent = "Uploading…";
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (!session) { status.textContent = "Sign in as an administrator before uploading media."; uploadButton.disabled = false; return; }
-            const safeName = selectedFile.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
-            const path = `uploads/${crypto.randomUUID()}-${safeName}`;
-            const { error: uploadError } = await supabaseClient.storage.from(bucket).upload(path, selectedFile, { cacheControl: "3600", upsert: false, contentType: selectedFile.type });
-            if (uploadError) { status.textContent = `Upload failed: ${uploadError.message}`; uploadButton.disabled = false; return; }
-            const { error: metadataError } = await supabaseClient.from("media_assets").insert({ bucket, path, filename: selectedFile.name, mime_type: selectedFile.type, size_bytes: selectedFile.size, alt_text: altText?.value.trim() || null });
-            if (metadataError) { await supabaseClient.storage.from(bucket).remove([path]); status.textContent = `Metadata could not be saved: ${metadataError.message}`; uploadButton.disabled = false; return; }
-            selectedFile = null; input.value = ""; altText.value = ""; preview.innerHTML = "<span>No file selected</span>"; status.textContent = "Upload complete."; await loadAssets();
+    const deleteProduct = async (product) => {
+        await ensureAdmin();
+        if (!window.confirm(`Delete “${product.title}” permanently? This removes the product and its stored files.`)) return;
+        const { data: files, error: filesError } = await supabaseClient.from("product_files").select("file_path").eq("product_id", product.id);
+        if (filesError) throw filesError;
+        const paths = (files || []).map((file) => file.file_path).filter(Boolean);
+        if (product.product_file_path && !paths.includes(product.product_file_path)) paths.push(product.product_file_path);
+        if (paths.length) {
+            const { error } = await supabaseClient.storage.from(product.product_file_bucket || "product-files").remove(paths);
+            if (error) throw error;
         }
+        if (product.cover_path) {
+            const { error } = await supabaseClient.storage.from("public-assets").remove([product.cover_path]);
+            if (error) throw error;
+        }
+        const { error: filesDeleteError } = await supabaseClient.from("product_files").delete().eq("product_id", product.id);
+        if (filesDeleteError) throw filesDeleteError;
+        const { error: productDeleteError } = await supabaseClient.from("products").delete().eq("id", product.id);
+        if (productDeleteError) throw productDeleteError;
+        await loadProducts();
+    };
 
-        async function handleAction(event) {
-            const button = event.target.closest("button[data-action]");
-            if (!button) return;
-            const asset = assets.find((item) => item.id === button.dataset.id);
-            if (!asset) return;
-            if (button.dataset.action === "edit") {
-                const value = window.prompt("Alt text", asset.alt_text || "");
-                if (value === null) return;
-                const { error } = await supabaseClient.from("media_assets").update({ alt_text: value.trim() || null, updated_at: new Date().toISOString() }).eq("id", asset.id);
-                if (error) window.alert(`Could not update metadata: ${error.message}`); else await loadAssets();
-            }
-            if (button.dataset.action === "replace") {
-                const replacement = document.createElement("input"); replacement.type = "file"; replacement.accept = "image/*,application/pdf,.zip,video/mp4,video/webm,video/quicktime";
-                replacement.onchange = async () => {
-                    const file = replacement.files[0]; if (!file) return;
-                    const validationError = validate(file); if (validationError) return window.alert(validationError);
-                    const safeName = file.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
-                    const newPath = `uploads/${crypto.randomUUID()}-${safeName}`;
-                    const { error: uploadError } = await supabaseClient.storage.from(bucket).upload(newPath, file, { cacheControl: "3600", upsert: false, contentType: file.type });
-                    if (uploadError) return window.alert(`Replacement upload failed: ${uploadError.message}`);
-                    const { error: metadataError } = await supabaseClient.from("media_assets").update({ path: newPath, filename: file.name, mime_type: file.type, size_bytes: file.size, updated_at: new Date().toISOString() }).eq("id", asset.id);
-                    if (metadataError) { await supabaseClient.storage.from(bucket).remove([newPath]); return window.alert(`Could not update metadata: ${metadataError.message}`); }
-                    await supabaseClient.storage.from(bucket).remove([asset.path]); await loadAssets();
-                };
-                replacement.click();
-            }
-            if (button.dataset.action === "delete") {
-                if (!window.confirm(`Delete “${asset.filename}” permanently?`)) return;
-                const { error: metadataError } = await supabaseClient.from("media_assets").delete().eq("id", asset.id);
-                if (metadataError) return window.alert(`Could not delete metadata: ${metadataError.message}`);
-                const { error: storageError } = await supabaseClient.storage.from(bucket).remove([asset.path]);
-                if (storageError) return window.alert(`Metadata deleted, but storage cleanup failed: ${storageError.message}`);
-                await loadAssets();
-            }
+    const handleAction = async (event) => {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+        const product = products.find((item) => item.id === button.dataset.id);
+        if (!product) return;
+        button.disabled = true;
+        try {
+            if (button.dataset.action === "edit") openEditModal(product);
+            if (button.dataset.action === "unpublish") await changeStatus(product, "draft");
+            if (button.dataset.action === "publish") await changeStatus(product, "published");
+            if (button.dataset.action === "delete") await deleteProduct(product);
+        } catch (error) {
+            window.alert(error.message);
+        } finally {
+            button.disabled = false;
         }
     };
 
     window.addEventListener("DOMContentLoaded", async () => {
+        const media = document.querySelector("#media");
+        if (!media || !config?.url || !config?.publishableKey) return;
         try {
-            if (!config?.url || !config?.publishableKey || config.publishableKey.includes("PASTE_YOUR")) return;
-            supabaseClient = await loadSupabase();
-            setupUi();
-            await loadAssets();
-        } catch (error) { console.error("Media manager failed to initialize", error); }
+            supabaseClient = await waitForClient();
+            await ensureAdmin();
+            document.querySelector("#media-search")?.addEventListener("input", renderProducts);
+            document.querySelector("#media-filter")?.addEventListener("change", renderProducts);
+            document.querySelector("#asset-list")?.addEventListener("click", handleAction);
+            await loadProducts();
+        } catch (error) {
+            const list = document.querySelector("#asset-list");
+            if (list) list.innerHTML = `<div class="empty-state">Unable to load products: ${escapeHtml(error.message)}</div>`;
+        }
     });
 })();
