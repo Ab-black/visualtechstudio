@@ -7,6 +7,7 @@
     const escapeHtml = (value = "") => String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
     const setMessage = (id, text) => { const el = document.querySelector(id); if (el) el.textContent = text; };
     const slugify = (value) => `${value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}-${crypto.randomUUID().slice(0, 8)}`;
+    const normalizeUrl = (value = "") => { const url = value.trim(); if (!url) return null; try { const parsed = new URL(url); return /^https?:$/.test(parsed.protocol) ? parsed.href : null; } catch { return null; } };
 
     const waitForClient = () => new Promise((resolve, reject) => {
         if (window.VISUAL_TECH_SUPABASE_CLIENT) return resolve(window.VISUAL_TECH_SUPABASE_CLIENT);
@@ -18,7 +19,7 @@
     });
 
     const validateProductFile = (file) => {
-        if (!file) return "Choose the digital product file first.";
+        if (!file) return "Choose the product file first.";
         if (file.size > maxFileSize) return "The product file must be 250 MB or smaller.";
         if (!allowedTypes.includes(file.type)) return "Product files must be PDF, ZIP, MP4, WebM, or MOV.";
         return "";
@@ -81,7 +82,7 @@
         const section = document.createElement("section");
         section.className = "content-section";
         section.id = "commerce-project-form-section";
-        section.innerHTML = `<div class="section-intro"><div><p class="eyebrow">COMMERCE</p><h2>Create project</h2><p class="section-description">Create a project here, upload its cover image, save it as a draft, or publish it to the public Projects page and Media Library.</p></div></div><form class="form-panel" id="commerce-project-form"><input id="commerce-project-id" type="hidden"><div class="form-grid"><label>Project title<input name="project_title" required placeholder="Nervous Realty"></label><label>Category<input name="project_category" placeholder="Brand & Digital"></label><label class="full">Description<textarea name="project_description" rows="5" placeholder="Describe the project, challenge, solution, and outcome."></textarea></label><label class="full">Cover image<input name="project_cover" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></label><label>Status<select name="project_status"><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></label><div class="cover-preview" id="commerce-project-cover-preview"><span>No cover selected</span></div></div><div class="form-actions"><p class="form-message" id="commerce-project-message"></p><button class="button secondary" type="button" id="commerce-project-clear">Clear</button><button class="button secondary" type="submit" data-status="draft">Save Draft</button><button class="button primary" type="submit" data-status="published">Publish</button></div></form>`;
+        section.innerHTML = `<div class="section-intro"><div><p class="eyebrow">COMMERCE</p><h2>Create project</h2><p class="section-description">Create a project here, upload its cover image, save it as a draft, or publish it to the public Projects page and Media Library.</p></div></div><form class="form-panel" id="commerce-project-form"><input id="commerce-project-id" type="hidden"><div class="form-grid"><label>Project title<input name="project_title" required placeholder="Nervous Realty"></label><label>Category<input name="project_category" placeholder="Brand & Digital"></label><label class="full">Project link <span class="field-hint">Optional · opens when the project title is clicked on the public Projects page.</span><input name="project_url" type="url" inputmode="url" placeholder="https://example.com"></label><label class="full">Description<textarea name="project_description" rows="5" placeholder="Describe the project, challenge, solution, and outcome."></textarea></label><label class="full">Cover image<input name="project_cover" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></label><label>Status<select name="project_status"><option value="draft">Draft</option><option value="published">Published</option><option value="archived">Archived</option></select></label><div class="cover-preview" id="commerce-project-cover-preview"><span>No cover selected</span></div></div><div class="form-actions"><p class="form-message" id="commerce-project-message"></p><button class="button secondary" type="button" id="commerce-project-clear">Clear</button><button class="button secondary" type="submit" data-status="draft">Save Draft</button><button class="button primary" type="submit" data-status="published">Publish</button></div></form>`;
         productSection.insertAdjacentElement("afterend", section);
         const form = section.querySelector("#commerce-project-form");
         const cover = form.project_cover;
@@ -109,9 +110,12 @@
         const title = form.project_title.value.trim();
         const category = form.project_category.value.trim() || null;
         const description = form.project_description.value.trim() || null;
+        const projectUrlInput = form.project_url.value.trim();
+        const projectUrl = normalizeUrl(projectUrlInput);
         const cover = form.project_cover.files[0];
         const status = event.submitter?.dataset.status || form.project_status.value || "draft";
         if (!title) return setMessage("#commerce-project-message", "Project title is required.");
+        if (projectUrlInput && !projectUrl) return setMessage("#commerce-project-message", "Project link must be a valid http:// or https:// URL.");
         if (cover && !cover.type.startsWith("image/")) return setMessage("#commerce-project-message", "The cover must be an image.");
         if (cover && cover.size > maxFileSize) return setMessage("#commerce-project-message", "The cover image is too large.");
         setMessage("#commerce-project-message", "Saving project…");
@@ -128,7 +132,7 @@
                 coverPath = `project-covers/${projectId || crypto.randomUUID()}-${crypto.randomUUID()}-${safe}`;
                 await upload("public-assets", coverPath, cover);
             }
-            const payload = { title, slug: projectId ? undefined : slugify(title), category, description, status, ...(cover ? { cover_path: coverPath } : {}), updated_at: new Date().toISOString() };
+            const payload = { title, slug: projectId ? undefined : slugify(title), category, description, project_url: projectUrl, status, ...(cover ? { cover_path: coverPath } : {}), updated_at: new Date().toISOString() };
             let result;
             if (projectId) result = await client.from("projects").update(payload).eq("id", projectId);
             else result = await client.from("projects").insert(payload);
