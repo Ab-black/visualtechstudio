@@ -1,6 +1,5 @@
 (() => {
     const initRequests = () => {
-        const client = window.VISUAL_TECH_SUPABASE_CLIENT;
         const tableBody = document.querySelector('#requests-table-body');
         const count = document.querySelector('#request-count');
         const metric = document.querySelector('#request-metric-count');
@@ -9,9 +8,11 @@
         const statusFilter = document.querySelector('#request-status-filter');
         const refresh = document.querySelector('#request-refresh');
 
-        if (!client || !tableBody) return;
+        if (!tableBody || !count || !metric || !message || !search || !statusFilter || !refresh) return;
 
+        let client = null;
         let requests = [];
+        let initialized = false;
 
         const escapeHtml = (value) => String(value ?? '')
             .replaceAll('&', '&amp;')
@@ -95,6 +96,7 @@
         };
 
         const load = async () => {
+            if (!client) return;
             setMessage('Loading requests…');
             refresh.disabled = true;
 
@@ -119,32 +121,21 @@
 
         const getRequest = (id) => requests.find((request) => request.id === id);
 
+        const closeModal = () => document.querySelector('#request-detail-modal')?.remove();
+
         const showModal = (html) => {
-            document.querySelector('#request-detail-modal')?.remove();
+            closeModal();
             const modal = document.createElement('div');
             modal.id = 'request-detail-modal';
             modal.className = 'request-modal';
             modal.innerHTML = `<div class="request-modal-backdrop" data-request-close></div><section class="request-modal-card" role="dialog" aria-modal="true" aria-labelledby="request-modal-title">${html}</section>`;
             document.body.appendChild(modal);
-            modal.querySelector('[data-request-close]')?.addEventListener('click', () => modal.remove());
-            modal.querySelector('[data-request-modal-status]')?.addEventListener('change', async (event) => {
-                const id = event.target.dataset.requestModalStatus;
-                const nextStatus = event.target.value;
-                const { error } = await client.from('service_requests').update({ status: nextStatus }).eq('id', id);
-                if (error) {
-                    event.target.value = getRequest(id)?.status || 'new';
-                    window.alert(`Could not update status: ${error.message}`);
-                    return;
-                }
-                const request = getRequest(id);
-                if (request) request.status = nextStatus;
-                render();
-            });
+            modal.querySelectorAll('[data-request-close]').forEach((button) => button.addEventListener('click', closeModal));
         };
 
         const viewRequest = async (id) => {
             const request = getRequest(id);
-            if (!request) return;
+            if (!request || !client) return;
 
             let files = request.service_request_files || [];
             if (!files.length) {
@@ -169,28 +160,35 @@
                 <footer class="request-modal-footer"><label>Status<select data-request-modal-status="${escapeHtml(request.id)}"><option value="new" ${request.status === 'new' ? 'selected' : ''}>New</option><option value="reviewing" ${request.status === 'reviewing' ? 'selected' : ''}>Reviewing</option><option value="contacted" ${request.status === 'contacted' ? 'selected' : ''}>Contacted</option><option value="in_progress" ${request.status === 'in_progress' ? 'selected' : ''}>In progress</option><option value="completed" ${request.status === 'completed' ? 'selected' : ''}>Completed</option><option value="declined" ${request.status === 'declined' ? 'selected' : ''}>Declined</option></select></label><span class="request-email-status">Email: ${escapeHtml(request.email_status || 'pending')}</span></footer>
             `);
 
-            document.querySelectorAll('[data-request-file]').forEach((button) => {
+            const modal = document.querySelector('#request-detail-modal');
+            modal.querySelector('[data-request-modal-status]')?.addEventListener('change', async (event) => {
+                const nextStatus = event.target.value;
+                const previousStatus = request.status;
+                const { error } = await client.from('service_requests').update({ status: nextStatus }).eq('id', request.id);
+                if (error) {
+                    event.target.value = previousStatus;
+                    window.alert(`Could not update status: ${error.message}`);
+                    return;
+                }
+                request.status = nextStatus;
+                render();
+            });
+
+            modal.querySelectorAll('[data-request-file]').forEach((button) => {
                 button.addEventListener('click', async () => {
-                    const filePath = button.dataset.requestFile;
-                    const fileName = button.dataset.requestFileName || 'attachment';
-                    const { data, error } = await client.storage.from('request-attachments').createSignedUrl(filePath, 300);
+                    const { data, error } = await client.storage.from('request-attachments').createSignedUrl(button.dataset.requestFile, 300);
                     if (error || !data?.signedUrl) {
                         window.alert(`Could not open attachment: ${error?.message || 'Signed URL unavailable.'}`);
                         return;
                     }
-                    const link = document.createElement('a');
-                    link.href = data.signedUrl;
-                    link.target = '_blank';
-                    link.rel = 'noopener';
-                    link.download = fileName;
-                    link.click();
+                    window.open(data.signedUrl, '_blank', 'noopener,noreferrer');
                 });
             });
         };
 
         const deleteRequest = async (id) => {
             const request = getRequest(id);
-            if (!request) return;
+            if (!request || !client) return;
             const files = request.service_request_files || [];
             const confirmed = window.confirm(`Delete the request from ${request.name}?\n\nThis permanently removes the request and its stored attachments from Supabase. The email already delivered to Gmail will not be affected.`);
             if (!confirmed) return;
@@ -211,6 +209,7 @@
             }
 
             requests = requests.filter((item) => item.id !== id);
+            closeModal();
             render();
             setMessage('Request deleted from the dashboard and Supabase. The Gmail copy remains unchanged.', 'success');
         };
@@ -225,9 +224,17 @@
         search.addEventListener('input', render);
         statusFilter.addEventListener('change', render);
         refresh.addEventListener('click', load);
-        window.addEventListener('visualtech:admin-ready', load, { once: true });
 
-        if (window.VISUAL_TECH_SUPABASE_CLIENT) load();
+        const start = () => {
+            if (initialized) return;
+            client = window.VISUAL_TECH_SUPABASE_CLIENT;
+            if (!client) return;
+            initialized = true;
+            load();
+        };
+
+        window.addEventListener('visualtech:admin-ready', start);
+        start();
     };
 
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initRequests);
