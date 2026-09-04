@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Visual Tech Studio customer account.">
+<title>Customer Account — Visual Tech Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/public-pages.css"><link rel="stylesheet" href="../css/desktop-overrides.css">
+<style>
+.account-wrap{max-width:760px;margin:0 auto;padding:90px 24px 110px}.account-panel{max-width:520px;margin:0 auto;border:1px solid rgba(127,127,127,.22);background:rgba(255,255,255,.025);border-radius:18px;padding:30px}.account-panel h1{margin:0 0 12px}.account-form{display:grid;gap:16px;margin-top:26px}.account-form label{display:grid;gap:7px;font:600 .82rem/1.2 Inter,sans-serif}.account-form input{width:100%;box-sizing:border-box;border:1px solid rgba(127,127,127,.28);background:transparent;color:inherit;border-radius:10px;padding:13px 14px;font:400 .95rem/1.2 Inter,sans-serif}.account-form input:focus{outline:2px solid currentColor;outline-offset:2px}.account-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.account-message{margin-top:16px;padding:12px 14px;border-radius:10px;font:500 .84rem/1.4 Inter,sans-serif}.account-message.error{background:rgba(170,40,40,.08)}.account-message.success{background:rgba(60,150,100,.08)}.account-note{font-size:.78rem;line-height:1.5;opacity:.72}.account-link{display:inline-block;margin-top:18px}.is-hidden{display:none!important}@media(max-width:600px){.account-wrap{padding:55px 18px 80px}.account-panel{padding:22px}.account-actions{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a href="../store/">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
+<main class="public-page"><section class="page-hero account-wrap"><p class="eyebrow">CUSTOMER ACCOUNT</p><div class="account-panel"><h1 id="account-heading">Your account.</h1><p class="page-lead" id="account-lead">Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.</p><div id="account-message" class="account-message is-hidden" role="alert"></div><form id="account-form" class="account-form"><label>Email<input id="email" type="email" autocomplete="email" required maxlength="254"></label><label>Password<input id="password" type="password" autocomplete="current-password" required minlength="6" maxlength="72"></label><div class="account-actions"><button class="btn-primary" id="submit-button" type="submit">Sign in</button><button class="btn-secondary" id="signup-button" type="button">Create account</button></div><p class="account-note">We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website's code.</p></form><a class="account-link" href="../store/">← Return to Store</a></div></section></main>
+<script src="../js/script.js"></script><script src="../dashboard/supabase-config.js"></script>
+<script>
+(()=>{
+ const config=window.VISUAL_TECH_SUPABASE,$=id=>document.getElementById(id),params=new URLSearchParams(location.search),returnTo=params.get('return')||'../store/';
+ const message=(text,type='error')=>{const el=$('account-message');el.textContent=text;el.className=`account-message ${type}`};
+ const clearMessage=()=>{$('account-message').classList.add('is-hidden')};
+ let client;
+ const redirectBack=()=>{window.location.href=returnTo};
+ const load=async()=>{
+  if(!config?.url||!config?.publishableKey){message('Account configuration is unavailable. Please try again later.');return}
+  const supabase=window.supabase||await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.onload=()=>res(window.supabase);s.onerror=rej;document.head.appendChild(s)});
+  client=supabase.createClient(config.url,config.publishableKey);
+  const {data}=await client.auth.getSession();
+  if(data?.session){redirectBack();return}
+ };
+ $('account-form').addEventListener('submit',async e=>{
+  e.preventDefault();clearMessage();const button=$('submit-button');button.disabled=true;button.textContent='Signing in…';
+  try{const email=$('email').value.trim().toLowerCase(),password=$('password').value;const {error}=await client.auth.signInWithPassword({email,password});if(error)throw error;message('Signed in successfully. Returning to checkout…','success');setTimeout(redirectBack,400)}catch(err){message(err?.message||'Unable to sign in. Please try again.')}finally{button.disabled=false;button.textContent='Sign in'}
+ });
+ $('signup-button').addEventListener('click',async()=>{
+  clearMessage();const button=$('signup-button');button.disabled=true;button.textContent='Creating…';
+  try{const email=$('email').value.trim().toLowerCase(),password=$('password').value;if(!email||password.length<6){throw new Error('Enter a valid email and a password of at least 6 characters.')}const {data,error}=await client.auth.signUp({email,password});if(error)throw error;if(data?.session){message('Account created. Returning to checkout…','success');setTimeout(redirectBack,400)}else{message('Account created. Check your email to confirm the account, then return to checkout.','success')}}catch(err){message(err?.message||'Unable to create the account. Please try again.')}finally{button.disabled=false;button.textContent='Create account'}
+ });
+ load().catch(err=>{console.error(err);message('Unable to load the account service. Please try again.')});
+})();
+</script>
+</body></html>
