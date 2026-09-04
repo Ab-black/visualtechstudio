@@ -28,7 +28,7 @@
  const coverUrl=p=>!p?'':/^https?:\/\//i.test(p)?p:p.startsWith('images/')?`../${p}`:`${config.url}/storage/v1/object/public/public-assets/${p.split('/').map(encodeURIComponent).join('/')}`;
  let client,product;
  const showVerified=paidAt=>{
-  $('checkout-form').classList.add('is-hidden');$('checkout-success').textContent=`Payment verified successfully. Your order has been confirmed${paidAt?' at '+new Date(paidAt).toLocaleString() : ''}.`;$('checkout-success').classList.remove('is-hidden');$('checkout-heading').innerHTML='Payment<br><em>verified.</em>';$('checkout-lead').textContent='Supabase confirmed the payment with Paystack. Your purchase count has not been changed yet; that happens in Phase 4.';
+  $('checkout-form').classList.add('is-hidden');$('checkout-success').textContent=`Payment verified successfully. Your order has been confirmed${paidAt?' at '+new Date(paidAt).toLocaleString() : ''}.`;$('checkout-success').classList.remove('is-hidden');$('checkout-heading').innerHTML='Payment<br><em>verified.</em>';$('checkout-lead').
  };
  const verifyPayment=async()=>{
   if(!reference)return;
