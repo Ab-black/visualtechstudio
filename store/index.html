@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Visual Tech Studio digital store — templates, guides and useful digital products.">
+    <meta name="description" content="Visual Tech Studio digital store — useful digital products.">
     <title>Store — Visual Tech Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,7 +20,7 @@
     </nav>
     <main class="public-page store-page">
         <section class="page-hero"><p class="eyebrow">DIGITAL STORE</p><h1>Useful things,<br><em>beautifully made.</em></h1><p class="page-lead">Templates, guides, systems, and digital resources designed to help you move from idea to execution.</p></section>
-        <section class="store-toolbar"><p>Studio releases</p><div><button class="filter active" data-filter="all">All</button><button class="filter" data-filter="guide">Guides</button><button class="filter" data-filter="template">Templates</button><button class="filter" data-filter="resource">Resources</button></div></section>
+        <section class="store-toolbar"><p>Studio releases</p><div><button class="filter active" data-filter="all" type="button">All</button></div></section>
         <section class="product-grid" id="store-products"><p class="page-lead">Loading products…</p></section>
         <section class="store-note"><p class="eyebrow">AFTER PURCHASE</p><h2>Your products live in your account.</h2><p>After payment, purchased digital products become available in your customer library. Product files are not exposed before purchase.</p></section>
     </main>
@@ -38,8 +38,51 @@
                 if (path.startsWith('images/')) return `../${path}`;
                 return `${config.url}/storage/v1/object/public/public-assets/${path.split('/').map(encodeURIComponent).join('/')}`;
             };
+            const visitorKey = () => {
+                const keyName = 'visual-tech-store-like-visitor';
+                let key = localStorage.getItem(keyName);
+                if (!key) {
+                    key = crypto.randomUUID();
+                    localStorage.setItem(keyName, key);
+                }
+                return key;
+            };
             const render = (products) => {
-                grid.innerHTML = products.map((product) => `<article class="product-card" data-category="${escapeHtml((product.format || '').toLowerCase())}"><div class="product-cover" style="overflow:hidden">${product.cover_path ? `<img src="${escapeHtml(coverUrl(product.cover_path))}" alt="${escapeHtml(product.title)} cover" style="width:100%;height:100%;object-fit:cover;display:block">` : `<span>${escapeHtml(product.title)}</span>`}</div><div class="product-info"><div><p class="eyebrow">${escapeHtml(product.format || 'DIGITAL PRODUCT')}</p><h2>${escapeHtml(product.title)}</h2><p>${escapeHtml(product.description || '')}</p></div><div class="product-bottom"><strong>${money(product.price, product.currency || 'NGN')}</strong><span class="product-stats">${Number(product.purchase_count || 0)} bought · ${Number(product.like_count || 0)} liked</span><button class="btn-primary buy-button" type="button" data-product-id="${escapeHtml(product.id)}">Buy Now</button></div></div></article>`).join('') || '<p class="page-lead">No published products yet.</p>';
+                grid.innerHTML = products.map((product) => `<article class="product-card"><div class="product-cover" style="overflow:hidden">${product.cover_path ? `<img src="${escapeHtml(coverUrl(product.cover_path))}" alt="${escapeHtml(product.title)} cover" style="width:100%;height:100%;object-fit:cover;display:block">` : `<span>${escapeHtml(product.title)}</span>`}</div><div class="product-info"><div><p class="eyebrow">${escapeHtml(product.format || 'DIGITAL PRODUCT')}</p><h2>${escapeHtml(product.title)}</h2><p>${escapeHtml(product.description || '')}</p></div><div class="product-bottom"><strong>${money(product.price, product.currency || 'NGN')}</strong><span class="product-stats"><span class="purchase-count">${Number(product.purchase_count || 0)} bought</span><button class="like-button" type="button" aria-label="Like ${escapeHtml(product.title)}" aria-pressed="false" data-product-id="${escapeHtml(product.id)}"><span class="like-emoji" aria-hidden="true">♡</span> <span class="like-count">${Number(product.like_count || 0)}</span></button></span><button class="btn-primary buy-button" type="button" data-product-id="${escapeHtml(product.id)}">Buy Now</button></div></div></article>`).join('') || '<p class="page-lead">No published products yet.</p>';
+            };
+            const injectStyles = () => {
+                if (document.querySelector('#store-like-styles')) return;
+                const style = document.createElement('style');
+                style.id = 'store-like-styles';
+                style.textContent = `.like-button{appearance:none;border:0;background:transparent;padding:2px 4px;margin:0;font:inherit;color:inherit;cursor:pointer;display:inline-flex;align-items:center;gap:4px;line-height:1;border-radius:6px}.like-button:hover{opacity:.82}.like-button:focus-visible{outline:2px solid currentColor;outline-offset:3px}.like-emoji{font-size:1.2em;line-height:1}.like-button.is-liked .like-emoji{color:#d71920}.like-button.is-liked{color:#d71920}.like-button[disabled]{cursor:wait;opacity:.6}`;
+                document.head.appendChild(style);
+            };
+            const bind = (client, products) => {
+                injectStyles();
+                const state = new Map(products.map((product) => [product.id, { liked: false, count: Number(product.like_count || 0) }]));
+                document.querySelectorAll('.like-button').forEach((button) => button.addEventListener('click', async () => {
+                    if (button.disabled) return;
+                    const productId = button.dataset.productId;
+                    const current = state.get(productId) || { liked: false, count: 0 };
+                    button.disabled = true;
+                    try {
+                        const { data, error } = await client.rpc('toggle_product_like', { p_product_id: productId, p_visitor_key: visitorKey() });
+                        if (error) throw error;
+                        const result = Array.isArray(data) ? data[0] : data;
+                        if (!result) throw new Error('Like update failed');
+                        const next = { liked: Boolean(result.liked), count: Number(result.like_count || 0) };
+                        state.set(productId, next);
+                        button.classList.toggle('is-liked', next.liked);
+                        button.setAttribute('aria-pressed', String(next.liked));
+                        button.querySelector('.like-emoji').textContent = next.liked ? '♥' : '♡';
+                        button.querySelector('.like-count').textContent = String(next.count);
+                    } catch (error) {
+                        console.error('Unable to update product like', error);
+                    } finally {
+                        button.disabled = false;
+                    }
+                }));
+                document.querySelectorAll('.buy-button').forEach((button) => button.addEventListener('click', () => { window.location.href = `../checkout/?product=${encodeURIComponent(button.dataset.productId)}`; }));
             };
             const load = async () => {
                 if (!config?.url || !config?.publishableKey) return;
@@ -48,8 +91,7 @@
                 const { data, error } = await client.from('products').select('id,title,description,price,currency,format,resource_count,cover_path,status,purchase_count,like_count').eq('status', 'published').order('created_at', { ascending: false });
                 if (error) { grid.innerHTML = `<p class="page-lead">Unable to load products.</p>`; return; }
                 render(data || []);
-                document.querySelectorAll('.filter').forEach((button) => button.addEventListener('click', () => { document.querySelectorAll('.filter').forEach((item) => item.classList.remove('active')); button.classList.add('active'); const filter = button.dataset.filter; document.querySelectorAll('.product-card').forEach((card) => { const value = card.dataset.category; card.hidden = filter !== 'all' && !value.includes(filter); }); }));
-                document.querySelectorAll('.buy-button').forEach((button) => button.addEventListener('click', () => { window.location.href = `../checkout/?product=${encodeURIComponent(button.dataset.productId)}`; }));
+                bind(client, data || []);
             };
             load().catch(() => { grid.innerHTML = '<p class="page-lead">Unable to load products.</p>'; });
         })();
