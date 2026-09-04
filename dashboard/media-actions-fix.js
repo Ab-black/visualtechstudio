@@ -1,3 +1,4 @@
+/* Project edit link support enabled — 2026-09-04 */
 (() => {
   const config = window.VISUAL_TECH_SUPABASE;
   const esc = (v='') => String(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
