@@ -5,42 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="Secure checkout for Visual Tech Studio digital products.">
 <title>Checkout — Visual Tech Studio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/public-pages.css">
-<link rel="stylesheet" href="../css/desktop-overrides.css">
+<link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/public-pages.css"><link rel="stylesheet" href="../css/desktop-overrides.css">
 <style>
-.checkout-wrap{max-width:1100px;margin:0 auto;padding:70px 24px 100px}.checkout-grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:32px;align-items:start}.checkout-panel{border:1px solid rgba(127,127,127,.22);background:rgba(255,255,255,.025);border-radius:18px;padding:30px}.checkout-panel h2{margin:0 0 22px}.checkout-product{display:flex;gap:18px;align-items:center}.checkout-cover{width:100px;height:100px;border-radius:12px;overflow:hidden;background:rgba(127,127,127,.08);display:grid;place-items:center;flex:0 0 auto}.checkout-cover img{width:100%;height:100%;object-fit:cover}.checkout-product h2{margin:0 0 7px;font-size:1.35rem}.checkout-product p{margin:0}.checkout-price{font:600 1.25rem/1 Inter,sans-serif;margin-top:16px}.checkout-form{display:grid;gap:16px}.checkout-form label{display:grid;gap:7px;font:600 .82rem/1.2 Inter,sans-serif}.checkout-form input{width:100%;box-sizing:border-box;border:1px solid rgba(127,127,127,.28);background:transparent;color:inherit;border-radius:10px;padding:13px 14px;font:400 .95rem/1.2 Inter,sans-serif}.checkout-form input:focus{outline:2px solid currentColor;outline-offset:2px}.checkout-summary{display:grid;gap:16px}.summary-row{display:flex;justify-content:space-between;gap:20px;font:500 .9rem/1.4 Inter,sans-serif}.summary-total{padding-top:16px;border-top:1px solid rgba(127,127,127,.22);font-weight:700}.checkout-error,.checkout-success{padding:12px 14px;border-radius:10px;font:500 .84rem/1.4 Inter,sans-serif}.checkout-error{background:rgba(170,40,40,.08)}.checkout-success{background:rgba(40,121,79,.08)}.checkout-note{font-size:.78rem;line-height:1.5;opacity:.72}.checkout-button{width:100%;margin-top:8px}.is-hidden{display:none!important}@media(max-width:800px){.checkout-wrap{padding:45px 18px 70px}.checkout-grid{grid-template-columns:1fr}.checkout-panel{padding:22px}}
+.checkout-wrap{max-width:1100px;margin:0 auto;padding:70px 24px 100px}.checkout-grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:32px;align-items:start}.checkout-panel{border:1px solid rgba(127,127,127,.22);background:rgba(255,255,255,.025);border-radius:18px;padding:30px}.checkout-panel h2{margin:0 0 22px}.checkout-product{display:flex;gap:18px;align-items:center}.checkout-cover{width:100px;height:100px;border-radius:12px;overflow:hidden;background:rgba(127,127,127,.08);display:grid;place-items:center;flex:0 0 auto}.checkout-cover img{width:100%;height:100%;object-fit:cover}.checkout-product h2{margin:0 0 7px;font-size:1.35rem}.checkout-product p{margin:0}.checkout-price{font:600 1.25rem/1 Inter,sans-serif;margin-top:16px}.checkout-form{display:grid;gap:16px}.checkout-form label{display:grid;gap:7px;font:600 .82rem/1.2 Inter,sans-serif}.checkout-form input{width:100%;box-sizing:border-box;border:1px solid rgba(127,127,127,.28);background:transparent;color:inherit;border-radius:10px;padding:13px 14px;font:400 .95rem/1.2 Inter,sans-serif}.checkout-form input:focus{outline:2px solid currentColor;outline-offset:2px}.checkout-summary{display:grid;gap:16px}.summary-row{display:flex;justify-content:space-between;gap:20px;font:500 .9rem/1.4 Inter,sans-serif}.summary-total{padding-top:16px;border-top:1px solid rgba(127,127,127,.22);font-weight:700}.checkout-error{padding:12px 14px;border-radius:10px;font:500 .84rem/1.4 Inter,sans-serif;margin-bottom:16px;background:rgba(170,40,40,.08)}.checkout-note{font-size:.78rem;line-height:1.5;opacity:.72}.checkout-button{width:100%;margin-top:8px}.is-hidden{display:none!important}@media(max-width:800px){.checkout-wrap{padding:45px 18px 70px}.checkout-grid{grid-template-columns:1fr}.checkout-panel{padding:22px}}
 </style>
 </head>
 <body>
 <nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a href="../store/">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
 <main class="public-page">
-<section class="page-hero checkout-wrap" style="padding-bottom:30px"><p class="eyebrow">CHECKOUT</p><h1>Complete your<br><em>purchase.</em></h1><p class="page-lead">Your order will be created as pending before payment. Purchase counts remain unchanged until payment is genuinely confirmed.</p></section>
-<section class="checkout-wrap" style="padding-top:0">
-<div id="checkout-error" class="checkout-error is-hidden" role="alert"></div>
-<div id="checkout-success" class="checkout-success is-hidden" role="status"></div>
-<div class="checkout-grid" id="checkout-content">
-<div class="checkout-panel"><h2>Customer details</h2><form class="checkout-form" id="checkout-form"><label>Name<input id="customer-name" name="name" type="text" autocomplete="name" required></label><label>Email<input id="customer-email" name="email" type="email" autocomplete="email" required></label><button class="btn-primary checkout-button" id="pay-button" type="submit">Continue to Paystack</button><p class="checkout-note">Payment is processed securely by Paystack in Test Mode. Visual Tech Studio does not collect or store your card details.</p></form></div>
-<aside class="checkout-panel"><h2>Order summary</h2><div class="checkout-summary"><div class="checkout-product"><div class="checkout-cover" id="checkout-cover"></div><div><h2 id="product-title">Loading…</h2><p id="product-format"></p></div></div><div class="checkout-price" id="product-price"></div><div class="summary-row summary-total"><span>Total</span><strong id="summary-total"></strong></div></div></aside>
-</div></section></main>
-<script src="../js/script.js"></script>
-<script src="../dashboard/supabase-config.js"></script>
-<script src="../js/payment-config.js"></script>
+<section class="page-hero checkout-wrap" style="padding-bottom:30px"><p class="eyebrow">CHECKOUT</p><h1>Complete your<br><em>purchase.</em></h1><p class="page-lead">Your order is created only when you continue to payment. Purchase counts remain unchanged until payment is genuinely confirmed.</p></section>
+<section class="checkout-wrap" style="padding-top:0"><div id="checkout-error" class="checkout-error is-hidden" role="alert"></div>
+<div class="checkout-grid" id="checkout-content"><div class="checkout-panel"><h2>Customer details</h2><form class="checkout-form" id="checkout-form"><label>Name<input id="customer-name" name="name" type="text" autocomplete="name" required maxlength="120"></label><label>Email<input id="customer-email" name="email" type="email" autocomplete="email" required maxlength="254"></label><button class="btn-primary checkout-button" id="pay-button" type="submit">Continue to Paystack</button><p class="checkout-note">Payment is processed securely by Paystack in Test Mode. Visual Tech Studio does not collect or store your card details.</p></form></div>
+<aside class="checkout-panel"><h2>Order summary</h2><div class="checkout-summary"><div class="checkout-product"><div class="checkout-cover" id="checkout-cover"></div><div><h2 id="product-title">Loading…</h2><p id="product-format"></p></div></div><div class="checkout-price" id="product-price"></div><div class="summary-row summary-total"><span>Total</span><strong id="summary-total"></strong></div></div></aside></div></section></main>
+<script src="../js/script.js"></script><script src="../dashboard/supabase-config.js"></script><script src="../js/payment-config.js"></script>
 <script>
 (()=>{
- const config=window.VISUAL_TECH_SUPABASE,payment=window.VISUAL_TECH_PAYMENT;
- const params=new URLSearchParams(location.search),productId=params.get('product');
- const $=id=>document.getElementById(id);
+ const config=window.VISUAL_TECH_SUPABASE,payment=window.VISUAL_TECH_PAYMENT,params=new URLSearchParams(location.search),productId=params.get('product'),$=id=>document.getElementById(id);
  const error=msg=>{$('checkout-error').textContent=msg;$('checkout-error').classList.remove('is-hidden')};
  const money=(v,c='NGN')=>{try{return new Intl.NumberFormat('en-NG',{style:'currency',currency:c,maximumFractionDigits:0}).format(Number(v||0))}catch{return `${c} ${Number(v||0).toLocaleString()}`}};
  const coverUrl=p=>!p?'':/^https?:\/\//i.test(p)?p:p.startsWith('images/')?`../${p}`:`${config.url}/storage/v1/object/public/public-assets/${p.split('/').map(encodeURIComponent).join('/')}`;
  let client,product;
  const load=async()=>{
   if(!productId){error('No product was selected. Return to the Store and choose a product.');$('checkout-content').classList.add('is-hidden');return}
-  if(!config?.url||!config?.publishableKey){error('Store configuration is unavailable.');return}
+  if(!config?.url||!config?.publishableKey||payment?.provider!=='paystack'){error('Checkout configuration is unavailable.');return}
   const supabase=window.supabase||await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.onload=()=>res(window.supabase);s.onerror=rej;document.head.appendChild(s)});
   client=supabase.createClient(config.url,config.publishableKey);
   const {data,error:e}=await client.from('products').select('id,title,description,price,currency,format,cover_path,status').eq('id',productId).eq('status','published').maybeSingle();
@@ -48,21 +37,16 @@
   product=data;$('product-title').textContent=data.title;$('product-format').textContent=data.format||'Digital Product';$('product-price').textContent=money(data.price,data.currency||'NGN');$('summary-total').textContent=money(data.price,data.currency||'NGN');if(data.cover_path)$('checkout-cover').innerHTML=`<img src="${coverUrl(data.cover_path)}" alt="${data.title} cover">`;else $('checkout-cover').textContent=data.title;
  };
  $('checkout-form').addEventListener('submit',async e=>{
-  e.preventDefault();$('checkout-error').classList.add('is-hidden');const button=$('pay-button');button.disabled=true;button.textContent='Creating order…';
+  e.preventDefault();$('checkout-error').classList.add('is-hidden');const button=$('pay-button');button.disabled=true;button.textContent='Preparing secure payment…';
   try{
-   const {data:{user}}=await client.auth.getUser();
-   const name=$('customer-name').value.trim(),email=$('customer-email').value.trim();
+   const name=$('customer-name').value.trim(),email=$('customer-email').value.trim().toLowerCase();
    if(!name||!email)throw new Error('Please enter your name and email.');
-   // Phase 2: create the pending order through the authenticated database session.
-   // No purchase count is changed here. Paystack initialization is intentionally the next backend step.
-   const {data:order,error:e}=await client.from('orders').insert({product_id:product.id,customer_id:user?.id||null,amount:Number(product.price),currency:product.currency||'NGN',status:'pending'}).select('id,payment_reference').single();
-   if(e)throw e;
-   // The backend will attach a unique payment reference when transaction initialization is implemented.
-   // Keep this page ready for the Paystack handoff without pretending payment has occurred.
-   $('checkout-success').textContent=`Order ${order.id} created and is pending payment.`;$('checkout-success').classList.remove('is-hidden');button.textContent='Pending Paystack setup…';
-  }catch(err){console.error(err);error(err?.message||'Unable to create your order. Please try again.');button.disabled=false;button.textContent='Continue to Paystack'}
+   const response=await fetch(`${config.url}/functions/v1/paystack-initialize-transaction`,{method:'POST',headers:{'Content-Type':'application/json','apikey':config.publishableKey},body:JSON.stringify({product_id:product.id,name,email})});
+   const result=await response.json().catch(()=>({}));
+   if(!response.ok||!result.authorization_url)throw new Error(result.error||'Unable to initialize payment. Please try again.');
+   window.location.href=result.authorization_url;
+  }catch(err){console.error(err);error(err?.message||'Unable to initialize payment. Please try again.');button.disabled=false;button.textContent='Continue to Paystack'}
  });
  load().catch(err=>{console.error(err);error('Unable to load checkout. Please return to the Store and try again.')});
 })();
-</script>
-</body></html>
+</script></body></html>
