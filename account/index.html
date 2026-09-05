@@ -9,40 +9,144 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/public-pages.css"><link rel="stylesheet" href="../css/desktop-overrides.css">
 <style>
-.account-wrap{max-width:760px;margin:0 auto;padding:90px 24px 110px}.account-panel{max-width:520px;margin:0 auto;border:1px solid rgba(127,127,127,.22);background:rgba(255,255,255,.025);border-radius:18px;padding:30px}.account-panel h1{margin:0 0 12px}.account-form{display:grid;gap:16px;margin-top:26px}.account-form label{display:grid;gap:7px;font:600 .82rem/1.2 Inter,sans-serif}.account-form input{width:100%;box-sizing:border-box;border:1px solid rgba(127,127,127,.28);background:transparent;color:inherit;border-radius:10px;padding:13px 14px;font:400 .95rem/1.2 Inter,sans-serif}.account-form input:focus{outline:2px solid currentColor;outline-offset:2px}.account-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.account-message{margin-top:16px;padding:12px 14px;border-radius:10px;font:500 .84rem/1.4 Inter,sans-serif}.account-message.error{background:rgba(170,40,40,.08)}.account-message.success{background:rgba(60,150,100,.08)}.account-note{font-size:.78rem;line-height:1.5;opacity:.72}.account-link{display:inline-block;margin-top:18px}.account-recovery{display:flex;justify-content:flex-end;margin-top:-7px}.account-recovery button{border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer;padding:0;font:500 .78rem/1.2 Inter,sans-serif;opacity:.82}.is-hidden{display:none!important}@media(max-width:600px){.account-wrap{padding:55px 18px 80px}.account-panel{padding:22px}.account-actions{grid-template-columns:1fr}}
+.account-wrap{max-width:760px;margin:0 auto;padding:90px 24px 110px}.account-panel{max-width:520px;margin:0 auto;border:1px solid rgba(127,127,127,.22);background:rgba(255,255,255,.025);border-radius:18px;padding:30px}.account-panel h1{margin:0 0 12px}.account-form{display:grid;gap:16px;margin-top:26px}.account-form label{display:grid;gap:7px;font:600 .82rem/1.2 Inter,sans-serif}.account-form input{width:100%;box-sizing:border-box;border:1px solid rgba(127,127,127,.28);background:transparent;color:inherit;border-radius:10px;padding:13px 14px;font:400 .95rem/1.2 Inter,sans-serif}.account-form input:focus{outline:2px solid currentColor;outline-offset:2px}.account-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.account-message{margin-top:16px;padding:12px 14px;border-radius:10px;font:500 .84rem/1.4 Inter,sans-serif}.account-message.error{background:rgba(170,40,40,.08)}.account-message.success{background:rgba(60,150,100,.08)}.account-note{font-size:.78rem;line-height:1.5;opacity:.72}.account-link{display:inline-block;margin-top:18px}.account-secondary{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-top:4px}.account-secondary button,.account-secondary a{border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer;padding:0;font:500 .78rem/1.2 Inter,sans-serif;opacity:.82}.account-status{display:grid;gap:14px;margin-top:24px}.account-status-card{padding:16px;border:1px solid rgba(127,127,127,.18);border-radius:12px;background:rgba(255,255,255,.02)}.account-status-card strong{display:block;margin-bottom:5px}.account-actions.single{grid-template-columns:1fr}.is-hidden{display:none!important}@media(max-width:600px){.account-wrap{padding:55px 18px 80px}.account-panel{padding:22px}.account-actions{grid-template-columns:1fr}.account-secondary{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
 <nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a href="../store/">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
-<main class="public-page"><section class="page-hero account-wrap"><p class="eyebrow">CUSTOMER ACCOUNT</p><div class="account-panel"><h1 id="account-heading">Your account.</h1><p class="page-lead" id="account-lead">Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.</p><div id="account-message" class="account-message is-hidden" role="alert"></div><form id="account-form" class="account-form"><label>Email<input id="email" type="email" autocomplete="email" required maxlength="254"></label><label>Password<input id="password" type="password" autocomplete="current-password" required minlength="6" maxlength="72"></label><div class="account-recovery"><button id="forgot-button" type="button">Forgot password?</button></div><div class="account-actions"><button class="btn-primary" id="submit-button" type="submit">Sign in</button><button class="btn-secondary" id="signup-button" type="button">Create account</button></div><p class="account-note">We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website's code.</p></form><a class="account-link" href="../store/">← Return to Store</a></div></section></main>
+<main class="public-page"><section class="page-hero account-wrap"><p class="eyebrow">CUSTOMER ACCOUNT</p><div class="account-panel">
+<h1 id="account-heading">Your account.</h1>
+<p class="page-lead" id="account-lead">Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.</p>
+<div id="account-message" class="account-message is-hidden" role="alert" aria-live="polite"></div>
+
+<form id="account-form" class="account-form">
+<label>Email<input id="email" type="email" autocomplete="email" required maxlength="254"></label>
+<label id="password-field">Password<input id="password" type="password" autocomplete="current-password" minlength="8" maxlength="72"></label>
+<label id="confirm-password-field" class="is-hidden">Confirm password<input id="confirm-password" type="password" autocomplete="new-password" minlength="8" maxlength="72"></label>
+<div id="forgot-row" class="account-secondary"><button id="forgot-button" type="button">Forgot password?</button></div>
+<div class="account-actions" id="auth-actions"><button class="btn-primary" id="submit-button" type="submit">Sign in</button><button class="btn-secondary" id="signup-button" type="button">Create account</button></div>
+<p class="account-note" id="form-note">We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website's code.</p>
+</form>
+
+<div id="signed-in-state" class="account-status is-hidden">
+<div class="account-status-card"><strong>Signed in</strong><span id="signed-in-email"></span></div>
+<div class="account-actions single"><button class="btn-primary" id="return-button" type="button">Continue</button><button class="btn-secondary" id="signout-button" type="button">Sign out</button></div>
+</div>
+
+<a class="account-link" href="../store/">← Return to Store</a>
+</div></section></main>
 <script src="../js/script.js"></script><script src="../dashboard/supabase-config.js"></script>
 <script>
 (()=>{
- const config=window.VISUAL_TECH_SUPABASE,$=id=>document.getElementById(id),params=new URLSearchParams(location.search),returnTo=params.get('return')||'../store/';
+ const config=window.VISUAL_TECH_SUPABASE,params=new URLSearchParams(location.search),$=id=>document.getElementById(id);
+ const normalizeReturn=value=>{
+  if(!value)return '../store/';
+  try{
+   const decoded=decodeURIComponent(value);
+   if(!decoded.startsWith('../')||decoded.startsWith('//')||decoded.includes('\\')||/^[a-z][a-z0-9+.-]*:/i.test(decoded))return '../store/';
+   const target=new URL(decoded,location.href);
+   if(target.origin!==location.origin)return '../store/';
+   const allowed=['/checkout/','/store/','/account/','/library/'];
+   if(!allowed.some(path=>target.pathname.startsWith(path)))return '../store/';
+   return decoded;
+  }catch{return '../store/'}
+ };
+ const returnTo=normalizeReturn(params.get('return'));
+ const recovery=params.get('reset')==='1',emailConfirmed=!recovery&&location.hash.includes('access_token=');
+ let client=null,mode='signin',busy=false;
  const message=(text,type='error')=>{const el=$('account-message');el.textContent=text;el.className=`account-message ${type}`};
- const clearMessage=()=>{$('account-message').classList.add('is-hidden')};
- let client;
- const redirectBack=()=>{window.location.href=returnTo};
+ const clearMessage=()=>{$('account-message').classList.add('is-hidden');$('account-message').textContent=''};
+ const setBusy=(value,label)=>{busy=value;['submit-button','signup-button','forgot-button','return-button','signout-button'].forEach(id=>{const el=$(id);if(el)el.disabled=value});if(label)$('submit-button').textContent=label};
+ const accountUrl=(extra='')=>`${location.origin}${location.pathname}${extra}${extra.includes('?')?'&':'?'}return=${encodeURIComponent(returnTo)}`;
+ const setMode=next=>{
+  mode=next;clearMessage();
+  const signup=next==='signup',forgot=next==='forgot',reset=next==='reset';
+  $('account-heading').textContent=reset?'Set a new password.':forgot?'Reset your password.':signup?'Create your account.':'Your account.';
+  $('account-lead').textContent=reset?'Choose a new password for your Visual Tech Studio account.':forgot?'Enter your account email and we will request a secure password reset link.':signup?'Create an account so verified purchases can be securely connected to your personal library.':'Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.';
+  $('password-field').classList.toggle('is-hidden',forgot);
+  $('confirm-password-field').classList.toggle('is-hidden',!signup&&!reset);
+  $('forgot-row').classList.toggle('is-hidden',!next==='signin');
+  $('auth-actions').classList.toggle('is-hidden',forgot);
+  $('submit-button').textContent=signup?'Create account':reset?'Save new password':'Sign in';
+  $('signup-button').textContent='Create account';
+  $('form-note').textContent=reset?'Use at least 8 characters. Your new password will replace the old one.':signup?'After creating your account, check your email and confirm your address before signing in.':'We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website\'s code.';
+  $('email').disabled=reset;
+  $('email').required=!reset;
+  $('password').required=!forgot;
+  $('confirm-password').required=signup||reset;
+  if(forgot){$('forgot-row').classList.add('is-hidden');$('auth-actions').classList.remove('is-hidden');$('submit-button').classList.add('is-hidden');$('signup-button').classList.remove('is-hidden');$('signup-button').textContent='Back to sign in'}else{$('submit-button').classList.remove('is-hidden');$('signup-button').classList.remove('is-hidden')}
+ };
+ const showSignedIn=user=>{
+  $('account-form').classList.add('is-hidden');$('signed-in-state').classList.remove('is-hidden');$('signed-in-email').textContent=user?.email||'';$('account-heading').textContent='You\'re signed in.';$('account-lead').textContent='Your customer session is active. Continue when you are ready to return to your purchase or library.';$('return-button').textContent=returnTo.includes('/checkout/')?'Return to checkout':returnTo.includes('/library/')?'Open my library':'Continue';
+ };
+ const showAuth=()=>{$('account-form').classList.remove('is-hidden');$('signed-in-state').classList.add('is-hidden')};
+ const getSession=async()=>{const {data,error}=await client.auth.getSession();if(error)throw error;return data?.session||null};
+ const handleSession=async session=>{
+  if(mode==='reset'||recovery){
+   if(session){showAuth();setMode('reset');return}
+   showAuth();setMode('signin');message('This password reset link is missing or has expired. Request a new one.');return;
+  }
+  if(session){showSignedIn(session.user)}else{showAuth();setMode(mode==='signup'?'signup':'signin')}
+ };
  const load=async()=>{
   if(!config?.url||!config?.publishableKey){message('Account configuration is unavailable. Please try again later.');return}
   const supabase=window.supabase||await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.onload=()=>res(window.supabase);s.onerror=rej;document.head.appendChild(s)});
-  client=supabase.createClient(config.url,config.publishableKey);
-  const {data}=await client.auth.getSession();
-  if(data?.session){redirectBack();return}
+  client=supabase.createClient(config.url,config.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  client.auth.onAuthStateChange((event,session)=>{
+   if(event==='PASSWORD_RECOVERY'){setMode('reset');if(session)showAuth()}
+   else if(event==='SIGNED_OUT'){mode='signin';showAuth();setMode('signin')}
+   else if(event==='SIGNED_IN'&&session&&!recovery){showSignedIn(session.user)}
+  });
+  const session=await getSession();
+  if(location.hash.includes('access_token=')){history.replaceState({},document.title,location.pathname+location.search)}
+  if(recovery){setMode('reset');await handleSession(session);return}
+  if(session){showSignedIn(session.user);if(emailConfirmed)message('Email confirmed successfully. You are now signed in.','success');return}
+  setMode(params.get('signup')==='1'?'signup':'signin');
  };
+ const requestReset=async()=>{
+  if(!client||busy)return;clearMessage();const email=$('email').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(email)){message('Enter a valid email address first.');return}
+  setBusy(true);$('forgot-button').textContent='Sending…';
+  try{const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:accountUrl('?reset=1')});if(error)throw error;message('If an account exists for this email, a password reset email has been requested. Check your inbox and spam folder.','success');}
+  catch(err){message(err?.message||'Unable to request a password reset. Please try again.')}finally{setBusy(false);$('forgot-button').textContent='Forgot password?'}
+ };
+ $('forgot-button').addEventListener('click',()=>{setMode('forgot');$('email').focus()});
  $('account-form').addEventListener('submit',async e=>{
-  e.preventDefault();clearMessage();const button=$('submit-button');button.disabled=true;button.textContent='Signing in…';
-  try{const email=$('email').value.trim().toLowerCase(),password=$('password').value;const {error}=await client.auth.signInWithPassword({email,password});if(error)throw error;message('Signed in successfully. Returning to checkout…','success');setTimeout(redirectBack,400)}catch(err){const text=err?.message||'';message(/invalid login credentials/i.test(text)?'The email or password is incorrect. If you already created this account, use “Forgot password?” to set a new password.':text||'Unable to sign in. Please try again.')}finally{button.disabled=false;button.textContent='Sign in'}
+  e.preventDefault();if(busy||!client)return;clearMessage();
+  if(mode==='forgot'){await requestReset();return}
+  const email=$('email').value.trim().toLowerCase(),password=$('password').value,confirm=$('confirm-password').value;
+  setBusy(true,mode==='signup'?'Creating…':mode==='reset'?'Saving…':'Signing in…');
+  try{
+   if(mode==='signup'){
+    if(!email)throw new Error('Enter your email address.');
+    if(password.length<8)throw new Error('Your password must be at least 8 characters.');
+    if(password!==confirm)throw new Error('Your passwords do not match.');
+    const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:accountUrl()}});
+    if(error)throw error;
+    if(data?.session){showSignedIn(data.session.user);message('Your account is ready.','success')}else{setMode('signin');message('If this email can be used for a new account, a confirmation email has been sent. Check your inbox and click the confirmation link.','success')}
+   }else if(mode==='reset'){
+    if(password.length<8)throw new Error('Your new password must be at least 8 characters.');
+    if(password!==confirm)throw new Error('Your passwords do not match.');
+    const {error}=await client.auth.updateUser({password});if(error)throw error;
+    message('Password reset successful. You are now signed in.','success');const session=await getSession();if(session){setTimeout(()=>showSignedIn(session.user),500)}
+   }else{
+    if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw new Error('Enter a valid email address.');
+    if(!password)throw new Error('Enter your password.');
+    const {data,error}=await client.auth.signInWithPassword({email,password});if(error)throw error;
+    showSignedIn(data.user);message('Signed in successfully.','success');
+   }
+  }catch(err){
+   const text=err?.message||'';
+   if(/email not confirmed/i.test(text))message('Your email has not been confirmed yet. Check your inbox for the confirmation link, then sign in again.');
+   else if(/invalid login credentials/i.test(text))message('The email or password is incorrect. If you have not confirmed your email, confirm it first.');
+   else if(/password/i.test(text)&&/weak|least|characters/i.test(text))message('Choose a stronger password with at least 8 characters.');
+   else message(text||'Something went wrong. Please try again.');
+  }finally{setBusy(false,mode==='signup'?'Create account':mode==='reset'?'Save new password':'Sign in')}
  });
- $('signup-button').addEventListener('click',async()=>{
-  clearMessage();const button=$('signup-button');button.disabled=true;button.textContent='Creating…';
-  try{const email=$('email').value.trim().toLowerCase(),password=$('password').value;if(!email||password.length<6){throw new Error('Enter a valid email and a password of at least 6 characters.')}const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:`${location.origin}${location.pathname}?return=${encodeURIComponent(returnTo)}`}});if(error)throw error;if(data?.session){message('Account created. Returning to checkout…','success');setTimeout(redirectBack,400)}else{message('If this is a new account, check your email for the confirmation link. If you already have an account, use “Sign in” or “Forgot password?” instead.','success')}}catch(err){message(err?.message||'Unable to create the account. Please try again.')}finally{button.disabled=false;button.textContent='Create account'}
- });
- $('forgot-button').addEventListener('click',async()=>{
-  clearMessage();const button=$('forgot-button');button.disabled=true;button.textContent='Sending…';
-  try{const email=$('email').value.trim().toLowerCase();if(!email)throw new Error('Enter your account email first.');const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:`${location.origin}${location.pathname}?reset=1&return=${encodeURIComponent(returnTo)}`});if(error)throw error;message('If an account exists for this email, a password reset email has been requested. Check your inbox and spam folder.','success')}catch(err){message(err?.message||'Unable to request a password reset. Please try again.')}finally{button.disabled=false;button.textContent='Forgot password?'}
- });
+ $('signup-button').addEventListener('click',()=>{if(mode==='forgot'){setMode('signin');return}if(mode==='signin'){setMode('signup');return}setMode('signin')});
+ $('return-button').addEventListener('click',()=>{window.location.href=returnTo});
+ $('signout-button').addEventListener('click',async()=>{if(!client||busy)return;setBusy(true);try{const {error}=await client.auth.signOut();if(error)throw error}catch(err){message(err?.message||'Unable to sign out. Please try again.')}finally{setBusy(false)}});
  load().catch(err=>{console.error(err);message('Unable to load the account service. Please try again.')});
 })();
 </script>
-</body></html>
+</body>
+</html>
