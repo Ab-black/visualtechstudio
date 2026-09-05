@@ -18,7 +18,6 @@
 <h1 id="account-heading">Your account.</h1>
 <p class="page-lead" id="account-lead">Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.</p>
 <div id="account-message" class="account-message is-hidden" role="alert" aria-live="polite"></div>
-
 <form id="account-form" class="account-form">
 <label>Email<input id="email" type="email" autocomplete="email" required maxlength="254"></label>
 <label id="password-field">Password<input id="password" type="password" autocomplete="current-password" minlength="8" maxlength="72"></label>
@@ -27,12 +26,10 @@
 <div class="account-actions" id="auth-actions"><button class="btn-primary" id="submit-button" type="submit">Sign in</button><button class="btn-secondary" id="signup-button" type="button">Create account</button></div>
 <p class="account-note" id="form-note">We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website's code.</p>
 </form>
-
 <div id="signed-in-state" class="account-status is-hidden">
 <div class="account-status-card"><strong>Signed in</strong><span id="signed-in-email"></span></div>
 <div class="account-actions single"><button class="btn-primary" id="return-button" type="button">Continue</button><button class="btn-secondary" id="signout-button" type="button">Sign out</button></div>
 </div>
-
 <a class="account-link" href="../store/">← Return to Store</a>
 </div></section></main>
 <script src="../js/script.js"></script><script src="../dashboard/supabase-config.js"></script>
@@ -65,16 +62,16 @@
   $('account-lead').textContent=reset?'Choose a new password for your Visual Tech Studio account.':forgot?'Enter your account email and we will request a secure password reset link.':signup?'Create an account so verified purchases can be securely connected to your personal library.':'Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.';
   $('password-field').classList.toggle('is-hidden',forgot);
   $('confirm-password-field').classList.toggle('is-hidden',!signup&&!reset);
-  $('forgot-row').classList.toggle('is-hidden',!next==='signin');
-  $('auth-actions').classList.toggle('is-hidden',forgot);
-  $('submit-button').textContent=signup?'Create account':reset?'Save new password':'Sign in';
-  $('signup-button').textContent='Create account';
-  $('form-note').textContent=reset?'Use at least 8 characters. Your new password will replace the old one.':signup?'After creating your account, check your email and confirm your address before signing in.':'We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website\'s code.';
+  $('forgot-row').classList.toggle('is-hidden',next!=='signin');
+  $('auth-actions').classList.toggle('is-hidden',false);
+  $('submit-button').textContent=forgot?'Send reset link':signup?'Create account':reset?'Save new password':'Sign in';
+  $('signup-button').textContent=forgot?'Back to sign in':'Create account';
+  $('form-note').textContent=reset?'Use at least 8 characters. Your new password will replace the old one.':signup?'After creating your account, check your email and confirm your address before signing in.':forgot?'For your security, we will not reveal whether an email is registered. If an account exists, a reset link will be sent.':'We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website\'s code.';
   $('email').disabled=reset;
   $('email').required=!reset;
   $('password').required=!forgot;
   $('confirm-password').required=signup||reset;
-  if(forgot){$('forgot-row').classList.add('is-hidden');$('auth-actions').classList.remove('is-hidden');$('submit-button').classList.add('is-hidden');$('signup-button').classList.remove('is-hidden');$('signup-button').textContent='Back to sign in'}else{$('submit-button').classList.remove('is-hidden');$('signup-button').classList.remove('is-hidden')}
+  $('submit-button').classList.remove('is-hidden');
  };
  const showSignedIn=user=>{
   $('account-form').classList.add('is-hidden');$('signed-in-state').classList.remove('is-hidden');$('signed-in-email').textContent=user?.email||'';$('account-heading').textContent='You\'re signed in.';$('account-lead').textContent='Your customer session is active. Continue when you are ready to return to your purchase or library.';$('return-button').textContent=returnTo.includes('/checkout/')?'Return to checkout':returnTo.includes('/library/')?'Open my library':'Continue';
@@ -105,9 +102,9 @@
  };
  const requestReset=async()=>{
   if(!client||busy)return;clearMessage();const email=$('email').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(email)){message('Enter a valid email address first.');return}
-  setBusy(true);$('forgot-button').textContent='Sending…';
+  setBusy(true,'Sending…');
   try{const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:accountUrl('?reset=1')});if(error)throw error;message('If an account exists for this email, a password reset email has been requested. Check your inbox and spam folder.','success');}
-  catch(err){message(err?.message||'Unable to request a password reset. Please try again.')}finally{setBusy(false);$('forgot-button').textContent='Forgot password?'}
+  catch(err){message(err?.message||'Unable to request a password reset. Please try again.')}finally{setBusy(false,'Send reset link')}
  };
  $('forgot-button').addEventListener('click',()=>{setMode('forgot');$('email').focus()});
  $('account-form').addEventListener('submit',async e=>{
@@ -140,7 +137,7 @@
    else if(/invalid login credentials/i.test(text))message('The email or password is incorrect. If you have not confirmed your email, confirm it first.');
    else if(/password/i.test(text)&&/weak|least|characters/i.test(text))message('Choose a stronger password with at least 8 characters.');
    else message(text||'Something went wrong. Please try again.');
-  }finally{setBusy(false,mode==='signup'?'Create account':mode==='reset'?'Save new password':'Sign in')}
+  }finally{setBusy(false,mode==='forgot'?'Send reset link':mode==='signup'?'Create account':mode==='reset'?'Save new password':'Sign in')}
  });
  $('signup-button').addEventListener('click',()=>{if(mode==='forgot'){setMode('signin');return}if(mode==='signin'){setMode('signup');return}setMode('signin')});
  $('return-button').addEventListener('click',()=>{window.location.href=returnTo});
