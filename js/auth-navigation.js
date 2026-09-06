@@ -31,7 +31,7 @@
     const safeReturnPath = () => {
         const path = `${window.location.pathname}${window.location.search}`;
         if (!path.startsWith(siteRoot) || path.includes("\\")) {
-            return `${siteRoot}`;
+            return siteRoot;
         }
         return path;
     };
@@ -51,24 +51,53 @@
 
     const libraryUrl = () => `${siteRoot}library/`;
 
-    const createNavItem = (href, label, className = "") => {
+    const ensureStyles = () => {
+        if (document.getElementById("auth-navigation-styles")) {
+            return;
+        }
+        const style = document.createElement("style");
+        style.id = "auth-navigation-styles";
+        style.textContent = `
+            .site-nav .auth-nav-button {
+                appearance: none;
+                border: 0;
+                background: transparent;
+                color: inherit;
+                padding: 0;
+                font: inherit;
+                cursor: pointer;
+                opacity: .9;
+            }
+            .site-nav .auth-nav-button:hover { opacity: 1; }
+            .site-nav .auth-nav-button:disabled { opacity: .5; cursor: wait; }
+        `;
+        document.head.appendChild(style);
+    };
+
+    const closeMobileMenu = navMenu => {
+        const toggle = navMenu.closest(".site-nav")?.querySelector(".menu-toggle");
+        navMenu.classList.remove("is-open");
+        toggle?.setAttribute("aria-expanded", "false");
+        toggle?.setAttribute("aria-label", "Open navigation menu");
+    };
+
+    const createNavItem = (href, label, navMenu) => {
         const li = document.createElement("li");
         const link = document.createElement("a");
         link.href = href;
         link.textContent = label;
-        if (className) {
-            link.className = className;
-        }
+        link.addEventListener("click", () => closeMobileMenu(navMenu));
         li.appendChild(link);
         return li;
     };
 
-    const removeAuthItems = (navMenu) => {
-        navMenu.querySelectorAll("[data-auth-nav]").forEach((item) => item.remove());
+    const removeAuthItems = navMenu => {
+        navMenu.querySelectorAll("[data-auth-nav]").forEach(item => item.remove());
     };
 
-    const renderNavigation = (session) => {
-        document.querySelectorAll(".site-nav .nav-menu").forEach((navMenu) => {
+    const renderNavigation = session => {
+        ensureStyles();
+        document.querySelectorAll(".site-nav .nav-menu").forEach(navMenu => {
             const list = navMenu.querySelector("ul");
             if (!list) {
                 return;
@@ -77,8 +106,8 @@
             removeAuthItems(navMenu);
 
             if (session?.user) {
-                const account = createNavItem(accountUrl("signin"), "My Account");
-                const library = createNavItem(libraryUrl(), "My Library");
+                const account = createNavItem(accountUrl("signin"), "My Account", navMenu);
+                const library = createNavItem(libraryUrl(), "My Library", navMenu);
                 account.dataset.authNav = "true";
                 library.dataset.authNav = "true";
                 list.append(account, library);
@@ -94,6 +123,7 @@
                         return;
                     }
                     button.disabled = true;
+                    closeMobileMenu(navMenu);
                     try {
                         const { error } = await window.VISUAL_TECH_AUTH_CLIENT.auth.signOut();
                         if (error) {
@@ -107,8 +137,8 @@
                 signOut.appendChild(button);
                 list.appendChild(signOut);
             } else {
-                const login = createNavItem(accountUrl("signin"), "Login");
-                const signup = createNavItem(accountUrl("signup"), "Create Account");
+                const login = createNavItem(accountUrl("signin"), "Login", navMenu);
+                const signup = createNavItem(accountUrl("signup"), "Create Account", navMenu);
                 login.dataset.authNav = "true";
                 signup.dataset.authNav = "true";
                 list.append(login, signup);
