@@ -1,4 +1,20 @@
 (() => {
+    const loadAuthNavigation = () => {
+        if (document.querySelector('script[data-vts-auth-navigation="true"]')) return;
+
+        const configScript = document.createElement('script');
+        configScript.src = '../dashboard/supabase-config.js';
+        configScript.onload = () => {
+            const authScript = document.createElement('script');
+            authScript.src = '../js/auth-navigation.js';
+            authScript.dataset.vtsAuthNavigation = 'true';
+            document.body.appendChild(authScript);
+        };
+        document.body.appendChild(configScript);
+    };
+
+    loadAuthNavigation();
+
     const form = document.querySelector('#quote-form');
     if (!form) return;
 
@@ -20,7 +36,7 @@
     const extension = file => file.name.includes('.') ? file.name.split('.').pop().toLowerCase() : '';
     const isAllowed = file => allowedExtensions.has(extension(file)) || allowedImageTypes.has(file.type);
     const formatSize = bytes => bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
-    const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+    const escapeHtml = value => String(value).replace(/[&<>\"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#039;'}[char]));
 
     const renderFiles = () => {
         list.innerHTML = selectedFiles.map((file, index) => `<div class="contact-file-item"><span class="contact-file-name" title="${escapeHtml(file.name)}">${escapeHtml(file.name)}</span><span class="contact-file-size">${formatSize(file.size)} · <button type="button" class="text-link" data-remove-file="${index}" style="border:0;background:transparent;padding:0;cursor:pointer">Remove</button></span></div>`).join('');
