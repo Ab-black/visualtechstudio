@@ -3,11 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Visual Tech Studio customer account.">
+<meta name="description" content="Visual Tech Studio customer account authentication.">
 <title>Customer Account — Visual Tech Studio</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/public-pages.css"><link rel="stylesheet" href="../css/desktop-overrides.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/public-pages.css">
+<link rel="stylesheet" href="../css/desktop-overrides.css">
 <style>
 .account-wrap{max-width:760px;margin:0 auto;padding:90px 24px 110px}.account-panel{max-width:520px;margin:0 auto;border:1px solid rgba(127,127,127,.22);background:rgba(255,255,255,.025);border-radius:18px;padding:30px}.account-panel h1{margin:0 0 12px}.account-form{display:grid;gap:16px;margin-top:26px}.account-form label{display:grid;gap:7px;font:600 .82rem/1.2 Inter,sans-serif}.account-form input{width:100%;box-sizing:border-box;border:1px solid rgba(127,127,127,.28);background:transparent;color:inherit;border-radius:10px;padding:13px 14px;font:400 .95rem/1.2 Inter,sans-serif}.account-form input:focus{outline:2px solid currentColor;outline-offset:2px}.account-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.account-message{margin-top:16px;padding:12px 14px;border-radius:10px;font:500 .84rem/1.4 Inter,sans-serif}.account-message.error{background:rgba(170,40,40,.08)}.account-message.success{background:rgba(60,150,100,.08)}.account-note{font-size:.78rem;line-height:1.5;opacity:.72}.account-link{display:inline-block;margin-top:18px}.account-secondary{display:flex;justify-content:space-between;gap:14px;align-items:center;margin-top:4px}.account-secondary button,.account-secondary a{border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer;padding:0;font:500 .78rem/1.2 Inter,sans-serif;opacity:.82}.account-status{display:grid;gap:14px;margin-top:24px}.account-status-card{padding:16px;border:1px solid rgba(127,127,127,.18);border-radius:12px;background:rgba(255,255,255,.02)}.account-status-card strong{display:block;margin-bottom:5px}.account-actions.single{grid-template-columns:1fr}.is-hidden{display:none!important}@media(max-width:600px){.account-wrap{padding:55px 18px 80px}.account-panel{padding:22px}.account-actions{grid-template-columns:1fr}.account-secondary{align-items:flex-start;flex-direction:column}}
 </style>
@@ -33,135 +36,307 @@
 </div>
 <a class="account-link" href="../store/">← Return to Store</a>
 </div></section></main>
-<script src="../js/script.js"></script><script src="../dashboard/supabase-config.js"></script><script src="../js/auth-navigation.js"></script>
+<script src="../js/script.js"></script>
+<script src="../dashboard/supabase-config.js"></script>
+<script src="../js/auth-navigation.js"></script>
 <script>
-(()=>{
- const config=window.VISUAL_TECH_SUPABASE,params=new URLSearchParams(location.search),$=id=>document.getElementById(id);
- const normalizeReturn=value=>{
-  if(!value)return '../store/';
-  try{
-   const decoded=decodeURIComponent(value);
-   if(!decoded.startsWith('../')||decoded.startsWith('//')||decoded.includes('\\')||/^[a-z][a-z0-9+.-]*:/i.test(decoded))return '../store/';
-   const target=new URL(decoded,location.href);
-   if(target.origin!==location.origin)return '../store/';
-   const allowed=['/checkout/','/store/','/account/','/library/'];
-   if(!allowed.some(path=>target.pathname.startsWith(path)))return '../store/';
-   return decoded;
-  }catch{return '../store/'}
- };
- const returnTo=normalizeReturn(params.get('return'));
- const recovery=params.get('reset')==='1',emailConfirmed=!recovery&&location.hash.includes('access_token=');
- let client=null,mode='signin',busy=false;
- const message=(text,type='error')=>{const el=$('account-message');el.textContent=text;el.className=`account-message ${type}`};
- const clearMessage=()=>{$('account-message').classList.add('is-hidden');$('account-message').textContent=''};
- const showConfirmationActions=show=>{$('confirmation-actions').classList.toggle('is-hidden',!show)};
- const setBusy=(value,label)=>{busy=value;['submit-button','signup-button','forgot-button','resend-confirmation-button','return-button','signout-button'].forEach(id=>{const el=$(id);if(el)el.disabled=value});if(label)$('submit-button').textContent=label};
- const accountUrl=(extra='')=>`${location.origin}${location.pathname}${extra}${extra.includes('?')?'&':'?'}return=${encodeURIComponent(returnTo)}`;
- const setMode=next=>{
-  mode=next;clearMessage();showConfirmationActions(false);
-  const signup=next==='signup',forgot=next==='forgot',reset=next==='reset';
-  $('account-heading').textContent=reset?'Set a new password.':forgot?'Reset your password.':signup?'Create your account.':'Your account.';
-  $('account-lead').textContent=reset?'Choose a new password for your Visual Tech Studio account.':forgot?'Enter your account email and we will request a secure password reset link.':signup?'Create an account so verified purchases can be securely connected to your personal library.':'Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.';
-  $('password-field').classList.toggle('is-hidden',forgot);
-  $('confirm-password-field').classList.toggle('is-hidden',!signup&&!reset);
-  $('forgot-row').classList.toggle('is-hidden',next!=='signin');
-  $('auth-actions').classList.toggle('is-hidden',false);
-  $('submit-button').textContent=forgot?'Send reset link':signup?'Create account':reset?'Save new password':'Sign in';
-  $('signup-button').textContent=forgot?'Back to sign in':'Create account';
-  $('form-note').textContent=reset?'Use at least 8 characters. Your new password will replace the old one.':signup?'After creating your account, check your email and confirm your address before signing in.':forgot?'For your security, we will not reveal whether an email is registered. If an account exists, a reset link will be sent.':'We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website\'s code.';
-  $('email').disabled=reset;
-  $('email').required=!reset;
-  $('password').required=!forgot;
-  $('confirm-password').required=signup||reset;
-  $('submit-button').classList.remove('is-hidden');
- };
- const showSignedIn=user=>{
-  $('account-form').classList.add('is-hidden');$('signed-in-state').classList.remove('is-hidden');$('signed-in-email').textContent=user?.email||'';$('account-heading').textContent='You\'re signed in.';$('account-lead').textContent='Your customer session is active. Continue when you are ready to return to your purchase or library.';$('return-button').textContent=returnTo.includes('/checkout/')?'Return to checkout':returnTo.includes('/library/')?'Open my library':'Continue';
- };
- const showAuth=()=>{$('account-form').classList.remove('is-hidden');$('signed-in-state').classList.add('is-hidden')};
- const getSession=async()=>{const {data,error}=await client.auth.getSession();if(error)throw error;return data?.session||null};
- const handleSession=async session=>{
-  if(mode==='reset'||recovery){
-   if(session){showAuth();setMode('reset');return}
-   showAuth();setMode('signin');message('This password reset link is missing or has expired. Request a new one.');return;
-  }
-  if(session){showSignedIn(session.user)}else{showAuth();setMode(mode==='signup'?'signup':'signin')}
- };
- const load=async()=>{
-  if(!config?.url||!config?.publishableKey){message('Account configuration is unavailable. Please try again later.');return}
-  const supabase=window.supabase||await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';s.onload=()=>res(window.supabase);s.onerror=rej;document.head.appendChild(s)});
-  client=supabase.createClient(config.url,config.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-  client.auth.onAuthStateChange((event,session)=>{
-   if(event==='PASSWORD_RECOVERY'){setMode('reset');if(session)showAuth()}
-   else if(event==='SIGNED_OUT'){mode='signin';showAuth();setMode('signin')}
-   else if(event==='SIGNED_IN'&&session&&!recovery){showSignedIn(session.user)}
-  });
-  const session=await getSession();
-  if(location.hash.includes('access_token=')){history.replaceState({},document.title,location.pathname+location.search)}
-  if(recovery){setMode('reset');await handleSession(session);return}
-  if(session){showSignedIn(session.user);if(emailConfirmed)message('Email confirmed successfully. You are now signed in.','success');return}
-  setMode(params.get('signup')==='1'?'signup':'signin');
- };
- const requestReset=async()=>{
-  if(!client||busy)return;clearMessage();const email=$('email').value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(email)){message('Enter a valid email address first.');return}
-  setBusy(true,'Sending…');
-  try{const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:accountUrl('?reset=1')});if(error)throw error;message('If an account exists for this email, a password reset email has been requested. Check your inbox and spam folder.','success');}
-  catch(err){message(err?.message||'Unable to request a password reset. Please try again.')}finally{setBusy(false,'Send reset link')}
- };
- const resendConfirmation=async()=>{
-  if(!client||busy)return;
-  clearMessage();
-  const email=$('email').value.trim().toLowerCase();
-  if(!/^\S+@\S+\.\S+$/.test(email)){message('Enter the email address you used to create the account first.');$('email').focus();return}
-  setBusy(true,'Sending…');
-  try{
-   const {error}=await client.auth.resend({type:'signup',email,options:{emailRedirectTo:accountUrl()}});
-   if(error)throw error;
-   message('A new confirmation email has been requested. Check your inbox and spam folder, then use the latest confirmation link.','success');
-  }catch(err){
-   const text=err?.message||'';
-   if(/rate limit/i.test(text))message('Too many confirmation emails were requested. Please wait a little before trying again.');
-   else message(text||'Unable to resend the confirmation email. Please try again.');
-  }finally{setBusy(false,'Sign in')}
- };
- $('forgot-button').addEventListener('click',()=>{setMode('forgot');$('email').focus()});
- $('resend-confirmation-button').addEventListener('click',resendConfirmation);
- $('account-form').addEventListener('submit',async e=>{
-  e.preventDefault();if(busy||!client)return;clearMessage();
-  if(mode==='forgot'){await requestReset();return}
-  const email=$('email').value.trim().toLowerCase(),password=$('password').value,confirm=$('confirm-password').value;
-  setBusy(true,mode==='signup'?'Creating…':mode==='reset'?'Saving…':'Signing in…');
-  try{
-   if(mode==='signup'){
-    if(!email)throw new Error('Enter your email address.');
-    if(password.length<8)throw new Error('Your password must be at least 8 characters.');
-    if(password!==confirm)throw new Error('Your passwords do not match.');
-    const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:accountUrl()}});
-    if(error)throw error;
-    if(data?.session){showSignedIn(data.session.user);message('Your account is ready.','success')}else{setMode('signin');$('email').value=email;showConfirmationActions(true);message('Your account was created. Check your email and click the confirmation link before signing in.','success')}
-   }else if(mode==='reset'){
-    if(password.length<8)throw new Error('Your new password must be at least 8 characters.');
-    if(password!==confirm)throw new Error('Your passwords do not match.');
-    const {error}=await client.auth.updateUser({password});if(error)throw error;
-    message('Password reset successful. You are now signed in.','success');const session=await getSession();if(session){setTimeout(()=>showSignedIn(session.user),500)}
-   }else{
-    if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))throw new Error('Enter a valid email address.');
-    if(!password)throw new Error('Enter your password.');
-    const {data,error}=await client.auth.signInWithPassword({email,password});if(error)throw error;
-    showSignedIn(data.user);message('Signed in successfully.','success');
-   }
-  }catch(err){
-   const text=err?.message||'';
-   if(/email not confirmed/i.test(text)){showConfirmationActions(true);message('Your email has not been confirmed yet. Check your inbox for the confirmation link, or resend it below.');}
-   else if(/invalid login credentials/i.test(text))message('The email or password is incorrect. If you have not confirmed your email, confirm it first.');
-   else if(/password/i.test(text)&&/weak|least|characters/i.test(text))message('Choose a stronger password with at least 8 characters.');
-   else message(text||'Something went wrong. Please try again.');
-  }finally{setBusy(false,mode==='forgot'?'Send reset link':mode==='signup'?'Create account':mode==='reset'?'Save new password':'Sign in')}
- });
- $('signup-button').addEventListener('click',()=>{if(mode==='forgot'){setMode('signin');return}if(mode==='signin'){setMode('signup');return}setMode('signin')});
- $('return-button').addEventListener('click',()=>{window.location.href=returnTo});
- $('signout-button').addEventListener('click',async()=>{if(!client||busy)return;setBusy(true);try{const {error}=await client.auth.signOut();if(error)throw error}catch(err){message(err?.message||'Unable to sign out. Please try again.')}finally{setBusy(false)}});
- load().catch(err=>{console.error(err);message('Unable to load the account service. Please try again.')});
+(() => {
+    const $ = id => document.getElementById(id);
+    const params = new URLSearchParams(window.location.search);
+    const recoveryRequested = params.get('reset') === '1';
+    const emailConfirmed = !recoveryRequested && window.location.hash.includes('access_token=');
+    let client = null;
+    let mode = params.get('signup') === '1' ? 'signup' : 'signin';
+    let busy = false;
+
+    const safeReturnPath = value => {
+        if (!value) return '../store/';
+        try {
+            const decoded = decodeURIComponent(value);
+            if (!decoded.startsWith('../') || decoded.startsWith('//') || decoded.includes('\\') || /^[a-z][a-z0-9+.-]*:/i.test(decoded)) return '../store/';
+            const target = new URL(decoded, window.location.href);
+            if (target.origin !== window.location.origin) return '../store/';
+            const allowed = ['/checkout/', '/store/', '/account/', '/library/'];
+            return allowed.some(path => target.pathname.startsWith(path)) ? decoded : '../store/';
+        } catch {
+            return '../store/';
+        }
+    };
+
+    const returnTo = safeReturnPath(params.get('return'));
+    const returnUrl = (extra = '') => {
+        const query = new URLSearchParams(extra);
+        if (returnTo) query.set('return', returnTo);
+        return `${window.location.origin}${window.location.pathname}?${query.toString()}`;
+    };
+
+    const showMessage = (text, type = 'error') => {
+        const el = $('account-message');
+        el.textContent = text;
+        el.className = `account-message ${type}`;
+    };
+    const clearMessage = () => {
+        $('account-message').className = 'account-message is-hidden';
+        $('account-message').textContent = '';
+    };
+    const showConfirmationActions = show => $('confirmation-actions').classList.toggle('is-hidden', !show);
+    const setBusy = (value, label) => {
+        busy = value;
+        ['submit-button','signup-button','forgot-button','resend-confirmation-button','return-button','signout-button'].forEach(id => {
+            const el = $(id);
+            if (el) el.disabled = value;
+        });
+        if (label) $('submit-button').textContent = label;
+    };
+
+    const setMode = next => {
+        mode = next;
+        clearMessage();
+        showConfirmationActions(false);
+        const signup = next === 'signup';
+        const forgot = next === 'forgot';
+        const reset = next === 'reset';
+        $('account-heading').textContent = reset ? 'Set a new password.' : forgot ? 'Reset your password.' : signup ? 'Create your account.' : 'Your account.';
+        $('account-lead').textContent = reset
+            ? 'Choose a new password for your Visual Tech Studio account.'
+            : forgot
+                ? 'Enter your account email and we will request a secure password reset link.'
+                : signup
+                    ? 'Create an account so verified purchases can be securely connected to your personal library.'
+                    : 'Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.';
+        $('password-field').classList.toggle('is-hidden', forgot);
+        $('confirm-password-field').classList.toggle('is-hidden', !signup && !reset);
+        $('forgot-row').classList.toggle('is-hidden', next !== 'signin');
+        $('submit-button').textContent = forgot ? 'Send reset link' : signup ? 'Create account' : reset ? 'Save new password' : 'Sign in';
+        $('signup-button').textContent = signup || forgot || reset ? 'Back to sign in' : 'Create account';
+        $('form-note').textContent = reset
+            ? 'Use at least 8 characters. Your new password will replace the old one.'
+            : signup
+                ? 'After creating your account, check your email and confirm your address before signing in.'
+                : forgot
+                    ? 'For your security, we will not reveal whether an email is registered. If an account exists, a reset link will be sent.'
+                    : 'We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website\'s code.';
+        $('email').disabled = reset;
+        $('email').required = !reset;
+        $('password').required = !forgot;
+        $('confirm-password').required = signup || reset;
+    };
+
+    const showSignedIn = user => {
+        $('account-form').classList.add('is-hidden');
+        $('signed-in-state').classList.remove('is-hidden');
+        $('signed-in-email').textContent = user?.email || '';
+        $('account-heading').textContent = "You're signed in.";
+        $('account-lead').textContent = 'Your customer session is active. Continue when you are ready to return to your purchase or library.';
+        $('return-button').textContent = returnTo.includes('/checkout/') ? 'Return to checkout' : returnTo.includes('/library/') ? 'Open my library' : 'Continue';
+    };
+    const showAuth = () => {
+        $('account-form').classList.remove('is-hidden');
+        $('signed-in-state').classList.add('is-hidden');
+    };
+    const getSession = async () => {
+        const { data, error } = await client.auth.getSession();
+        if (error) throw error;
+        return data?.session || null;
+    };
+
+    const handleSession = async session => {
+        if (mode === 'reset' || recoveryRequested) {
+            if (session) {
+                showAuth();
+                setMode('reset');
+            } else {
+                showAuth();
+                setMode('signin');
+                showMessage('This password reset link is missing or has expired. Request a new one.');
+            }
+            return;
+        }
+        if (session) showSignedIn(session.user);
+        else {
+            showAuth();
+            setMode(mode === 'signup' ? 'signup' : 'signin');
+        }
+    };
+
+    const requestReset = async () => {
+        if (!client || busy) return;
+        clearMessage();
+        const email = $('email').value.trim().toLowerCase();
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            showMessage('Enter a valid email address first.');
+            return;
+        }
+        setBusy(true, 'Sending…');
+        try {
+            const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: returnUrl('reset=1') });
+            if (error) throw error;
+            showMessage('If an account exists for this email, a password reset email has been requested. Check your inbox and spam folder.', 'success');
+        } catch (error) {
+            showMessage(error?.message || 'Unable to request a password reset. Please try again.');
+        } finally {
+            setBusy(false, 'Send reset link');
+        }
+    };
+
+    const resendConfirmation = async () => {
+        if (!client || busy) return;
+        clearMessage();
+        const email = $('email').value.trim().toLowerCase();
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            showMessage('Enter the email address you used to create the account first.');
+            $('email').focus();
+            return;
+        }
+        setBusy(true, 'Sending…');
+        try {
+            const { error } = await client.auth.resend({
+                type: 'signup',
+                email,
+                options: { emailRedirectTo: returnUrl() }
+            });
+            if (error) throw error;
+            showMessage('A new confirmation email has been requested. Check your inbox and spam folder, then use the latest confirmation link.', 'success');
+        } catch (error) {
+            const text = error?.message || '';
+            showMessage(/rate limit/i.test(text) ? 'Too many confirmation emails were requested. Please wait a little before trying again.' : text || 'Unable to resend the confirmation email. Please try again.');
+        } finally {
+            setBusy(false, mode === 'signin' ? 'Sign in' : 'Create account');
+        }
+    };
+
+    const initialize = async () => {
+        try {
+            if (!window.VISUAL_TECH_AUTH_READY) throw new Error('Shared authentication client is unavailable.');
+            client = await window.VISUAL_TECH_AUTH_READY;
+            if (!client) throw new Error('Shared authentication client is unavailable.');
+
+            client.auth.onAuthStateChange((event, session) => {
+                if (event === 'PASSWORD_RECOVERY') {
+                    setMode('reset');
+                    showAuth();
+                } else if (event === 'SIGNED_OUT') {
+                    showAuth();
+                    setMode('signin');
+                } else if (event === 'SIGNED_IN' && session && !recoveryRequested) {
+                    showSignedIn(session.user);
+                }
+            });
+
+            const session = await getSession();
+            if (window.location.hash.includes('access_token=')) {
+                history.replaceState({}, document.title, window.location.pathname + window.location.search);
+            }
+            if (recoveryRequested) {
+                setMode('reset');
+                await handleSession(session);
+            } else if (session) {
+                showSignedIn(session.user);
+                if (emailConfirmed) showMessage('Email confirmed successfully. You are now signed in.', 'success');
+            } else {
+                setMode(params.get('signup') === '1' ? 'signup' : 'signin');
+            }
+        } catch (error) {
+            console.error('Visual Tech Studio account authentication failed:', error);
+            showMessage('Account authentication is temporarily unavailable. Please try again shortly.');
+        }
+    };
+
+    $('forgot-button').addEventListener('click', () => {
+        setMode('forgot');
+        $('email').focus();
+    });
+    $('signup-button').addEventListener('click', () => {
+        setMode(mode === 'signin' ? 'signup' : 'signin');
+        $('email').focus();
+    });
+    $('resend-confirmation-button').addEventListener('click', resendConfirmation);
+    $('return-button').addEventListener('click', () => { window.location.href = returnTo; });
+    $('signout-button').addEventListener('click', async () => {
+        if (!client || busy) return;
+        setBusy(true, 'Signing out…');
+        try {
+            const { error } = await client.auth.signOut();
+            if (error) throw error;
+            showAuth();
+            setMode('signin');
+            showMessage('You have been signed out.', 'success');
+        } catch (error) {
+            showMessage(error?.message || 'Unable to sign out. Please try again.');
+        } finally {
+            setBusy(false, 'Sign in');
+        }
+    });
+
+    $('account-form').addEventListener('submit', async event => {
+        event.preventDefault();
+        if (busy || !client) return;
+        clearMessage();
+
+        if (mode === 'forgot') {
+            await requestReset();
+            return;
+        }
+
+        const email = $('email').value.trim().toLowerCase();
+        const password = $('password').value;
+        const confirm = $('confirm-password').value;
+        setBusy(true, mode === 'signup' ? 'Creating…' : mode === 'reset' ? 'Saving…' : 'Signing in…');
+
+        try {
+            if (mode === 'signup') {
+                if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error('Enter a valid email address.');
+                if (password.length < 8) throw new Error('Your password must be at least 8 characters.');
+                if (password !== confirm) throw new Error('Your passwords do not match.');
+                const { data, error } = await client.auth.signUp({ email, password, options: { emailRedirectTo: returnUrl() } });
+                if (error) throw error;
+                if (data?.session) {
+                    showSignedIn(data.session.user);
+                    showMessage('Your account is ready.', 'success');
+                } else {
+                    setMode('signin');
+                    $('email').value = email;
+                    showConfirmationActions(true);
+                    showMessage('Your account was created. Check your email and click the confirmation link before signing in.', 'success');
+                }
+            } else if (mode === 'reset') {
+                if (password.length < 8) throw new Error('Your new password must be at least 8 characters.');
+                if (password !== confirm) throw new Error('Your passwords do not match.');
+                const { error } = await client.auth.updateUser({ password });
+                if (error) throw error;
+                showMessage('Password reset successful. You are now signed in.', 'success');
+                const session = await getSession();
+                if (session) setTimeout(() => showSignedIn(session.user), 500);
+            } else {
+                if (!/^\S+@\S+\.\S+$/.test(email)) throw new Error('Enter a valid email address.');
+                if (!password) throw new Error('Enter your password.');
+                const { data, error } = await client.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                showSignedIn(data.user);
+                showMessage('Signed in successfully.', 'success');
+            }
+        } catch (error) {
+            const text = error?.message || '';
+            if (/email not confirmed/i.test(text)) {
+                showConfirmationActions(true);
+                showMessage('Your email has not been confirmed yet. Check your inbox for the confirmation link, or resend it below.');
+            } else if (/already registered|already exists|user already/i.test(text)) {
+                setMode('signin');
+                $('email').value = email;
+                showMessage('An account with this email already exists. Sign in instead, or use Forgot password if you cannot remember your password.');
+            } else if (/invalid login credentials/i.test(text)) {
+                showMessage('The email or password is incorrect. If you have not confirmed your email, confirm it first.');
+            } else if (/password/i.test(text) && /weak|least|characters/i.test(text)) {
+                showMessage('Choose a stronger password with at least 8 characters.');
+            } else {
+                showMessage(text || 'Something went wrong. Please try again.');
+            }
+        } finally {
+            setBusy(false, mode === 'signup' ? 'Create account' : mode === 'reset' ? 'Save new password' : 'Sign in');
+        }
+    });
+
+    initialize();
 })();
 </script>
 </body>
