@@ -49,6 +49,7 @@
         return `${siteRoot}account/${query ? `?${query}` : ""}`;
     };
 
+    const myAccountUrl = () => `${siteRoot}my-account/`;
     const libraryUrl = () => `${siteRoot}library/`;
 
     const ensureStyles = () => {
@@ -138,7 +139,7 @@
             removeAuthItems(navMenu);
 
             if (session?.user) {
-                const account = createNavItem(accountUrl("signin"), "My Account", navMenu);
+                const account = createNavItem(myAccountUrl(), "My Account", navMenu);
                 const library = createNavItem(libraryUrl(), "My Library", navMenu);
                 account.dataset.authNav = "true";
                 library.dataset.authNav = "true";
