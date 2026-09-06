@@ -179,38 +179,47 @@
     };
 
     const initialize = async () => {
-        try {
-            const supabase = await loadSupabase();
-            if (!supabase) {
-                return;
-            }
-
-            const client = supabase.createClient(config.url, config.publishableKey, {
-                auth: {
-                    persistSession: true,
-                    autoRefreshToken: true,
-                    detectSessionInUrl: true
-                }
-            });
-
-            window.VISUAL_TECH_AUTH_CLIENT = client;
-
-            const { data } = await client.auth.getSession();
-            renderNavigation(data?.session || null);
-            observeAccountActions();
-
-            client.auth.onAuthStateChange((_event, session) => {
-                renderNavigation(session || null);
-                syncAccountActions();
-            });
-        } catch (error) {
-            console.error("Visual Tech Studio authentication navigation failed:", error);
+        const supabase = await loadSupabase();
+        if (!supabase) {
+            throw new Error("Supabase client library unavailable");
         }
+
+        const client = supabase.createClient(config.url, config.publishableKey, {
+            auth: {
+                persistSession: true,
+                autoRefreshToken: true,
+                detectSessionInUrl: true
+            }
+        });
+
+        window.VISUAL_TECH_AUTH_CLIENT = client;
+
+        const { data } = await client.auth.getSession();
+        renderNavigation(data?.session || null);
+        observeAccountActions();
+
+        client.auth.onAuthStateChange((_event, session) => {
+            renderNavigation(session || null);
+            syncAccountActions();
+        });
+
+        return client;
     };
 
-    if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", initialize, { once: true });
-    } else {
-        initialize();
-    }
+    const ready = new Promise((resolve, reject) => {
+        const start = () => initialize().then(resolve).catch(error => {
+            console.error("Visual Tech Studio authentication navigation failed:", error);
+            reject(error);
+        });
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", start, { once: true });
+        } else {
+            start();
+        }
+    });
+
+    // Public pages can await this promise instead of creating another persistent
+    // Supabase client. This prevents competing refresh-token operations.
+    window.VISUAL_TECH_AUTH_READY = ready;
 })();
