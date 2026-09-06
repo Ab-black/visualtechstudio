@@ -87,7 +87,7 @@
 
             const email = user.email || 'Customer';
             const verified = Boolean(user.email_confirmed_at);
-            setText('welcome-heading', `Welcome back${email ? ',' : ''}` + (email ? '.' : ''));
+            setText('welcome-heading', 'Welcome back.');
             setText('account-email', email);
             setText('info-email', email);
             setText('info-created', formatDate(user.created_at));
