@@ -74,6 +74,38 @@
         document.head.appendChild(style);
     };
 
+    const syncAccountActions = () => {
+        const heading = document.getElementById("account-heading");
+        const secondaryAction = document.getElementById("signup-button");
+        if (!heading || !secondaryAction) {
+            return;
+        }
+
+        const title = heading.textContent.trim();
+        const isAlternateMode = [
+            "Create your account.",
+            "Reset your password.",
+            "Set a new password."
+        ].includes(title);
+
+        secondaryAction.textContent = isAlternateMode ? "Back to sign in" : "Create account";
+        secondaryAction.setAttribute(
+            "aria-label",
+            isAlternateMode ? "Back to sign in" : "Create account"
+        );
+    };
+
+    const observeAccountActions = () => {
+        const heading = document.getElementById("account-heading");
+        if (!heading || !document.getElementById("signup-button")) {
+            return;
+        }
+
+        syncAccountActions();
+        const observer = new MutationObserver(syncAccountActions);
+        observer.observe(heading, { childList: true, characterData: true, subtree: true });
+    };
+
     const closeMobileMenu = navMenu => {
         const toggle = navMenu.closest(".site-nav")?.querySelector(".menu-toggle");
         navMenu.classList.remove("is-open");
@@ -165,9 +197,11 @@
 
             const { data } = await client.auth.getSession();
             renderNavigation(data?.session || null);
+            observeAccountActions();
 
             client.auth.onAuthStateChange((_event, session) => {
                 renderNavigation(session || null);
+                syncAccountActions();
             });
         } catch (error) {
             console.error("Visual Tech Studio authentication navigation failed:", error);
