@@ -24,6 +24,7 @@
 <label id="confirm-password-field" class="is-hidden">Confirm password<input id="confirm-password" type="password" autocomplete="new-password" minlength="8" maxlength="72"></label>
 <div id="forgot-row" class="account-secondary"><button id="forgot-button" type="button">Forgot password?</button></div>
 <div class="account-actions" id="auth-actions"><button class="btn-primary" id="submit-button" type="submit">Sign in</button><button class="btn-secondary" id="signup-button" type="button">Create account</button></div>
+<div id="confirmation-actions" class="account-secondary is-hidden"><button id="resend-confirmation-button" type="button">Resend confirmation email</button></div>
 <p class="account-note" id="form-note">We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website's code.</p>
 </form>
 <div id="signed-in-state" class="account-status is-hidden">
@@ -53,10 +54,11 @@
  let client=null,mode='signin',busy=false;
  const message=(text,type='error')=>{const el=$('account-message');el.textContent=text;el.className=`account-message ${type}`};
  const clearMessage=()=>{$('account-message').classList.add('is-hidden');$('account-message').textContent=''};
- const setBusy=(value,label)=>{busy=value;['submit-button','signup-button','forgot-button','return-button','signout-button'].forEach(id=>{const el=$(id);if(el)el.disabled=value});if(label)$('submit-button').textContent=label};
+ const showConfirmationActions=show=>{$('confirmation-actions').classList.toggle('is-hidden',!show)};
+ const setBusy=(value,label)=>{busy=value;['submit-button','signup-button','forgot-button','resend-confirmation-button','return-button','signout-button'].forEach(id=>{const el=$(id);if(el)el.disabled=value});if(label)$('submit-button').textContent=label};
  const accountUrl=(extra='')=>`${location.origin}${location.pathname}${extra}${extra.includes('?')?'&':'?'}return=${encodeURIComponent(returnTo)}`;
  const setMode=next=>{
-  mode=next;clearMessage();
+  mode=next;clearMessage();showConfirmationActions(false);
   const signup=next==='signup',forgot=next==='forgot',reset=next==='reset';
   $('account-heading').textContent=reset?'Set a new password.':forgot?'Reset your password.':signup?'Create your account.':'Your account.';
   $('account-lead').textContent=reset?'Choose a new password for your Visual Tech Studio account.':forgot?'Enter your account email and we will request a secure password reset link.':signup?'Create an account so verified purchases can be securely connected to your personal library.':'Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.';
@@ -106,7 +108,24 @@
   try{const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:accountUrl('?reset=1')});if(error)throw error;message('If an account exists for this email, a password reset email has been requested. Check your inbox and spam folder.','success');}
   catch(err){message(err?.message||'Unable to request a password reset. Please try again.')}finally{setBusy(false,'Send reset link')}
  };
+ const resendConfirmation=async()=>{
+  if(!client||busy)return;
+  clearMessage();
+  const email=$('email').value.trim().toLowerCase();
+  if(!/^\S+@\S+\.\S+$/.test(email)){message('Enter the email address you used to create the account first.');$('email').focus();return}
+  setBusy(true,'Sending…');
+  try{
+   const {error}=await client.auth.resend({type:'signup',email,options:{emailRedirectTo:accountUrl()}});
+   if(error)throw error;
+   message('A new confirmation email has been requested. Check your inbox and spam folder, then use the latest confirmation link.','success');
+  }catch(err){
+   const text=err?.message||'';
+   if(/rate limit/i.test(text))message('Too many confirmation emails were requested. Please wait a little before trying again.');
+   else message(text||'Unable to resend the confirmation email. Please try again.');
+  }finally{setBusy(false,'Sign in')}
+ };
  $('forgot-button').addEventListener('click',()=>{setMode('forgot');$('email').focus()});
+ $('resend-confirmation-button').addEventListener('click',resendConfirmation);
  $('account-form').addEventListener('submit',async e=>{
   e.preventDefault();if(busy||!client)return;clearMessage();
   if(mode==='forgot'){await requestReset();return}
@@ -119,7 +138,7 @@
     if(password!==confirm)throw new Error('Your passwords do not match.');
     const {data,error}=await client.auth.signUp({email,password,options:{emailRedirectTo:accountUrl()}});
     if(error)throw error;
-    if(data?.session){showSignedIn(data.session.user);message('Your account is ready.','success')}else{setMode('signin');message('If this email can be used for a new account, a confirmation email has been sent. Check your inbox and click the confirmation link.','success')}
+    if(data?.session){showSignedIn(data.session.user);message('Your account is ready.','success')}else{setMode('signin');$('email').value=email;showConfirmationActions(true);message('Your account was created. Check your email and click the confirmation link before signing in.','success')}
    }else if(mode==='reset'){
     if(password.length<8)throw new Error('Your new password must be at least 8 characters.');
     if(password!==confirm)throw new Error('Your passwords do not match.');
@@ -133,7 +152,7 @@
    }
   }catch(err){
    const text=err?.message||'';
-   if(/email not confirmed/i.test(text))message('Your email has not been confirmed yet. Check your inbox for the confirmation link, then sign in again.');
+   if(/email not confirmed/i.test(text)){showConfirmationActions(true);message('Your email has not been confirmed yet. Check your inbox for the confirmation link, or resend it below.');}
    else if(/invalid login credentials/i.test(text))message('The email or password is incorrect. If you have not confirmed your email, confirm it first.');
    else if(/password/i.test(text)&&/weak|least|characters/i.test(text))message('Choose a stronger password with at least 8 characters.');
    else message(text||'Something went wrong. Please try again.');
