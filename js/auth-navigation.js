@@ -46,7 +46,7 @@
         if (document.getElementById("auth-navigation-styles")) return;
         const style = document.createElement("style");
         style.id = "auth-navigation-styles";
-        style.textContent = `.site-nav .auth-nav-button{appearance:none;border:0;background:transparent;color:inherit;padding:0;font:inherit;cursor:pointer;opacity:.9}.site-nav .auth-nav-button:hover{opacity:1}.site-nav .auth-nav-button:disabled{opacity:.5;cursor:wait}`;
+        style.textContent = `.site-nav .auth-nav-button{appearance:none;border:1px solid var(--color-accent);background:var(--color-accent);color:#061018;padding:10px 17px;border-radius:var(--radius-control);font:700 .82rem/1 Inter,Arial,sans-serif;cursor:pointer;opacity:1;transition:background var(--duration-standard) ease,color var(--duration-standard) ease,transform var(--duration-standard) var(--ease-premium)}.site-nav .auth-nav-button:hover{background:var(--color-accent-hover);border-color:var(--color-accent-hover);transform:translateY(-2px)}.site-nav .auth-nav-button:active{transform:translateY(1px) scale(.98)}.site-nav .auth-nav-button:disabled{opacity:.5;cursor:wait;transform:none}`;
         document.head.appendChild(style);
     };
 
@@ -93,6 +93,11 @@
             const list = navMenu.querySelector("ul");
             if (!list) return;
             removeAuthItems(navMenu);
+
+            const home = createNavItem(siteRoot, "Home", navMenu);
+            home.dataset.homeNav = "true";
+            list.prepend(home);
+
             if (session?.user) {
                 const account = createNavItem(myAccountUrl(), "My Account", navMenu);
                 const library = createNavItem(libraryUrl(), "My Library", navMenu);
