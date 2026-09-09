@@ -85,7 +85,7 @@
         return li;
     };
 
-    const removeAuthItems = navMenu => navMenu.querySelectorAll("[data-auth-nav]").forEach(item => item.remove());
+    const removeAuthItems = navMenu => navMenu.querySelectorAll("[data-auth-nav],[data-home-nav]").forEach(item => item.remove());
 
     const renderNavigation = session => {
         ensureStyles();
