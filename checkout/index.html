@@ -29,8 +29,20 @@
  const coverUrl=p=>!p?'':/^https?:\/\//i.test(p)?p:p.startsWith('images/')?`../${p}`:`${config.url}/storage/v1/object/public/public-assets/${p.split('/').map(encodeURIComponent).join('/')}`;
  const accountReturn=`../checkout/?product=${encodeURIComponent(productId||'')}`;
  let client,product,currentUser;
- const showVerified=async paidAt=>{
-  $('checkout-form').classList.add('is-hidden');$('auth-required').classList.add('is-hidden');$('checkout-success').textContent=`Payment verified successfully. Your order has been confirmed${paidAt?' at '+new Date(paidAt).toLocaleString():''}.`;$('checkout-success').classList.remove('is-hidden');$('checkout-heading').innerHTML='Payment<br><em>verified.</em>';$('checkout-lead').textContent='Your payment is confirmed and your product access has been granted to your customer account.';
+ const waitForAccess=async(userId,orderId,expectedProductId,retries=8)=>{
+  for(let i=0;i<retries;i++){
+   const {data,error:e}=await client.from('product_access').select('id,product_id,order_id').eq('user_id',userId).eq('product_id',expectedProductId).limit(1);
+   if(!e&&data?.some(row=>!orderId||row.order_id===orderId||row.product_id===expectedProductId))return true;
+   if(i<retries-1)await new Promise(r=>setTimeout(r,750));
+  }
+  return false;
+ };
+ const showVerified=async(paidAt,orderId)=>{
+  $('checkout-form').classList.add('is-hidden');$('auth-required').classList.add('is-hidden');$('checkout-heading').innerHTML='Payment<br><em>verified.</em>';$('checkout-lead').textContent='Payment confirmed. Securing your product access…';$('checkout-success').textContent='Payment verified successfully. Your product is being added to your library.';$('checkout-success').classList.remove('is-hidden');
+  const userId=currentUser?.id;if(!userId){error('Payment was verified, but your customer session is unavailable. Please sign in to access your library.');return}
+  const accessGranted=await waitForAccess(userId,orderId,product.id);
+  if(accessGranted){$('checkout-success').textContent='Payment confirmed. Your product is ready in My Library.';window.location.replace(`../library/?purchased=${encodeURIComponent(product.id)}`);return}
+  $('checkout-lead').textContent='Payment is confirmed, but product access is still being finalized. Please check your library again shortly.';$('checkout-success').textContent='Payment confirmed. We could not confirm library access yet, so you have not been redirected.';$('checkout-success').classList.remove('is-hidden');
  };
  const verifyPayment=async()=>{
   if(!reference)return;
@@ -38,7 +50,7 @@
   try{
    const response=await fetch(`${config.url}/functions/v1/paystack-verify-transaction`,{method:'POST',headers:{'Content-Type':'application/json','apikey':config.publishableKey},body:JSON.stringify({reference})});
    const result=await response.json().catch(()=>({}));
-   if(result.verified&&result.status==='paid'){showVerified(result.paid_at);return}
+   if(result.verified&&result.status==='paid'){if(result.access_granted){await showVerified(result.paid_at,result.order_id);return}await showVerified(result.paid_at,result.order_id);return}
    if(result.status==='pending'||result.status==='processing'||result.status==='ongoing'){$('checkout-lead').textContent='Payment is still being processed. We have not marked the order as paid.';$('pay-button').disabled=false;$('pay-button').textContent='Check Payment Again';return}
    error(result.error||'Payment could not be confirmed. No purchase count was changed.');$('pay-button').disabled=false;$('pay-button').textContent='Check Payment Again';
   }catch(err){console.error(err);error('We could not verify the payment right now. No purchase count was changed.');$('pay-button').disabled=false;$('pay-button').textContent='Check Payment Again'}
