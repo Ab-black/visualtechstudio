@@ -7,10 +7,7 @@
     }
 
     const loadSupabase = async () => {
-        if (window.supabase) {
-            return window.supabase;
-        }
-
+        if (window.supabase) return window.supabase;
         return new Promise((resolve, reject) => {
             const existing = document.querySelector('script[data-supabase-client="true"]');
             if (existing) {
@@ -18,7 +15,6 @@
                 existing.addEventListener("error", reject, { once: true });
                 return;
             }
-
             const script = document.createElement("script");
             script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
             script.dataset.supabaseClient = "true";
@@ -30,21 +26,15 @@
 
     const safeReturnPath = () => {
         const path = `${window.location.pathname}${window.location.search}`;
-        if (!path.startsWith(siteRoot) || path.includes("\\")) {
-            return siteRoot;
-        }
+        if (!path.startsWith(siteRoot) || path.includes("\\")) return siteRoot;
         return path;
     };
 
     const accountUrl = (mode = "signin") => {
         const relative = safeReturnPath().replace(siteRoot, "");
         const params = new URLSearchParams();
-        if (mode === "signup") {
-            params.set("signup", "1");
-        }
-        if (relative) {
-            params.set("return", `../${relative}`);
-        }
+        if (mode === "signup") params.set("signup", "1");
+        if (relative) params.set("return", `../${relative}`);
         const query = params.toString();
         return `${siteRoot}account/${query ? `?${query}` : ""}`;
     };
@@ -53,55 +43,26 @@
     const libraryUrl = () => `${siteRoot}library/`;
 
     const ensureStyles = () => {
-        if (document.getElementById("auth-navigation-styles")) {
-            return;
-        }
+        if (document.getElementById("auth-navigation-styles")) return;
         const style = document.createElement("style");
         style.id = "auth-navigation-styles";
-        style.textContent = `
-            .site-nav .auth-nav-button {
-                appearance: none;
-                border: 0;
-                background: transparent;
-                color: inherit;
-                padding: 0;
-                font: inherit;
-                cursor: pointer;
-                opacity: .9;
-            }
-            .site-nav .auth-nav-button:hover { opacity: 1; }
-            .site-nav .auth-nav-button:disabled { opacity: .5; cursor: wait; }
-        `;
+        style.textContent = `.site-nav .auth-nav-button{appearance:none;border:0;background:transparent;color:inherit;padding:0;font:inherit;cursor:pointer;opacity:.9}.site-nav .auth-nav-button:hover{opacity:1}.site-nav .auth-nav-button:disabled{opacity:.5;cursor:wait}`;
         document.head.appendChild(style);
     };
 
     const syncAccountActions = () => {
         const heading = document.getElementById("account-heading");
         const secondaryAction = document.getElementById("signup-button");
-        if (!heading || !secondaryAction) {
-            return;
-        }
-
+        if (!heading || !secondaryAction) return;
         const title = heading.textContent.trim();
-        const isAlternateMode = [
-            "Create your account.",
-            "Reset your password.",
-            "Set a new password."
-        ].includes(title);
-
+        const isAlternateMode = ["Create your account.", "Reset your password.", "Set a new password."].includes(title);
         secondaryAction.textContent = isAlternateMode ? "Back to sign in" : "Create account";
-        secondaryAction.setAttribute(
-            "aria-label",
-            isAlternateMode ? "Back to sign in" : "Create account"
-        );
+        secondaryAction.setAttribute("aria-label", isAlternateMode ? "Back to sign in" : "Create account");
     };
 
     const observeAccountActions = () => {
         const heading = document.getElementById("account-heading");
-        if (!heading || !document.getElementById("signup-button")) {
-            return;
-        }
-
+        if (!heading || !document.getElementById("signup-button")) return;
         syncAccountActions();
         const observer = new MutationObserver(syncAccountActions);
         observer.observe(heading, { childList: true, characterData: true, subtree: true });
@@ -124,27 +85,20 @@
         return li;
     };
 
-    const removeAuthItems = navMenu => {
-        navMenu.querySelectorAll("[data-auth-nav]").forEach(item => item.remove());
-    };
+    const removeAuthItems = navMenu => navMenu.querySelectorAll("[data-auth-nav]").forEach(item => item.remove());
 
     const renderNavigation = session => {
         ensureStyles();
         document.querySelectorAll(".site-nav .nav-menu").forEach(navMenu => {
             const list = navMenu.querySelector("ul");
-            if (!list) {
-                return;
-            }
-
+            if (!list) return;
             removeAuthItems(navMenu);
-
             if (session?.user) {
                 const account = createNavItem(myAccountUrl(), "My Account", navMenu);
                 const library = createNavItem(libraryUrl(), "My Library", navMenu);
                 account.dataset.authNav = "true";
                 library.dataset.authNav = "true";
                 list.append(account, library);
-
                 const signOut = document.createElement("li");
                 signOut.dataset.authNav = "true";
                 const button = document.createElement("button");
@@ -152,16 +106,12 @@
                 button.textContent = "Sign Out";
                 button.className = "auth-nav-button";
                 button.addEventListener("click", async () => {
-                    if (button.disabled) {
-                        return;
-                    }
+                    if (button.disabled) return;
                     button.disabled = true;
                     closeMobileMenu(navMenu);
                     try {
                         const { error } = await window.VISUAL_TECH_AUTH_CLIENT.auth.signOut();
-                        if (error) {
-                            throw error;
-                        }
+                        if (error) throw error;
                     } catch (error) {
                         console.error("Visual Tech Studio sign out failed:", error);
                         button.disabled = false;
@@ -181,29 +131,16 @@
 
     const initialize = async () => {
         const supabase = await loadSupabase();
-        if (!supabase) {
-            throw new Error("Supabase client library unavailable");
-        }
-
-        const client = supabase.createClient(config.url, config.publishableKey, {
-            auth: {
-                persistSession: true,
-                autoRefreshToken: true,
-                detectSessionInUrl: true
-            }
-        });
-
+        if (!supabase) throw new Error("Supabase client library unavailable");
+        const client = supabase.createClient(config.url, config.publishableKey, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
         window.VISUAL_TECH_AUTH_CLIENT = client;
-
         const { data } = await client.auth.getSession();
         renderNavigation(data?.session || null);
         observeAccountActions();
-
         client.auth.onAuthStateChange((_event, session) => {
             renderNavigation(session || null);
             syncAccountActions();
         });
-
         return client;
     };
 
@@ -212,15 +149,9 @@
             console.error("Visual Tech Studio authentication navigation failed:", error);
             reject(error);
         });
-
-        if (document.readyState === "loading") {
-            document.addEventListener("DOMContentLoaded", start, { once: true });
-        } else {
-            start();
-        }
+        if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, { once: true });
+        else start();
     });
 
-    // Public pages can await this promise instead of creating another persistent
-    // Supabase client. This prevents competing refresh-token operations.
     window.VISUAL_TECH_AUTH_READY = ready;
 })();
