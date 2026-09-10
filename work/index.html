@@ -9,13 +9,40 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/public-pages.css">
 <link rel="stylesheet" href="../css/desktop-overrides.css">
 <link rel="stylesheet" href="../css/project-title-link.css">
+<style>
+/* Projects page — page-scoped layout only */
+main{width:100%}
+.work-archive,.page-hero,.page-cta{width:100%;max-width:none;margin-left:auto;margin-right:auto;box-sizing:border-box}
+.page-hero{padding-left:5vw;padding-right:5vw}
+.page-hero-inner{width:100%;max-width:none}
+.work-archive{padding-left:5vw;padding-right:5vw}
+.work-archive .section-heading{width:100%;max-width:none}
+.work-grid{display:grid;grid-template-columns:1fr;gap:42px;width:100%;max-width:none;margin-top:42px}
+.work-grid .work-item,.work-grid .work-item.work-item-featured{grid-column:1 / -1;width:100%;min-width:0}
+.work-grid .work-item img{width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;display:block}
+.work-grid .work-item-meta{display:flex;justify-content:space-between;align-items:flex-end;gap:40px;padding:24px 0 4px}
+.work-grid .work-item-meta>div{min-width:0;max-width:760px}
+.work-grid .work-item-meta .text-link{flex:0 0 auto}
+.page-cta{padding-left:5vw;padding-right:5vw}
+@media(max-width:900px){
+.page-hero,.work-archive,.page-cta{padding-left:28px;padding-right:28px}
+.work-grid{gap:34px;margin-top:36px}
+.work-grid .work-item-meta{gap:28px}
+}
+@media(max-width:640px){
+.page-hero,.work-archive,.page-cta{padding-left:20px;padding-right:20px}
+.work-grid{gap:30px;margin-top:30px}
+.work-grid .work-item img{aspect-ratio:4 / 3}
+.work-grid .work-item-meta{display:block;padding-top:18px}
+.work-grid .work-item-meta .text-link{display:inline-block;margin-top:22px}
+}
+</style>
 </head>
 <body>
 <nav class="site-nav" aria-label="Primary navigation">
