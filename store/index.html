@@ -7,18 +7,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/public-pages.css"><link rel="stylesheet" href="../css/desktop-overrides.css">
     <style>
-    .store-page .product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-    .store-page .product-card{min-width:0}
-    .store-page .product-cover{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:var(--color-surface-elevated);overflow:hidden}
+    .store-page .product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+    .store-page .product-card{min-width:0;height:100%;display:flex;flex-direction:column;box-sizing:border-box}
+    .store-page .product-cover{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:var(--color-surface-elevated);overflow:hidden;flex:0 0 auto}
     .store-page .product-cover img{width:100%;height:100%;object-fit:contain;display:block}
-    .store-page .product-info{display:flex;flex-direction:column;min-width:0;height:100%}
-    .store-page .product-info>div:first-child{flex:1;min-height:0}
+    .store-page .product-info{display:flex;flex-direction:column;min-width:0;flex:1;height:auto;box-sizing:border-box}
+    .store-page .product-info>div:first-child{flex:0 1 auto;min-height:0}
     .store-page .product-description{margin-bottom:0}
     .store-page .product-description.is-clamped{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
     .store-page .read-more-button{appearance:none;border:0;background:none;color:inherit;padding:0;margin-top:9px;font:600 .82rem/1.4 Inter,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
     .store-page .read-more-button:hover{opacity:.75}
     .store-page .read-more-button:focus-visible{outline:2px solid currentColor;outline-offset:3px}
-    .store-page .product-bottom{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-end;gap:0;min-width:0;margin-top:22px}
+    .store-page .product-bottom{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-end;gap:0;min-width:0;margin-top:auto;padding-top:22px}
     .store-page .product-price{display:block;font-size:1.1rem}
     .store-page .product-engagement{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(127,127,127,.22);min-width:0}
     .store-page .reaction-group{display:flex;align-items:center;gap:8px;min-width:0}.store-page .reaction-button{appearance:none;border:1px solid rgba(127,127,127,.28);background:rgba(127,127,127,.055);color:inherit;border-radius:999px;min-height:38px;padding:7px 11px;display:inline-flex;align-items:center;gap:7px;font:600 .82rem/1 Inter,sans-serif;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease,color .2s ease}.store-page .reaction-button:hover{transform:translateY(-1px);background:rgba(127,127,127,.1)}.store-page .reaction-button:focus-visible{outline:2px solid currentColor;outline-offset:3px}.store-page .reaction-button .reaction-icon{font-size:1.1rem;line-height:1}.store-page .reaction-button.is-like{color:#28794f;border-color:rgba(40,121,79,.35);background:rgba(40,121,79,.08)}.store-page .reaction-button.is-dislike{color:#4b5563;border-color:rgba(75,85,99,.35);background:rgba(75,85,99,.08)}.store-page .reaction-button[disabled]{opacity:.55;cursor:wait;transform:none}.store-page .purchase-count{font:600 .76rem/1 Inter,sans-serif;color:#6b6b67;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}.store-page .purchase-count::before{content:'✓';display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(32,120,75,.1);color:#28794f;font-size:.68rem}.store-page .reaction-count{min-width:10px;text-align:center}.store-page .buy-button{display:flex;width:100%;max-width:100%;min-width:0;box-sizing:border-box;justify-content:center;margin-top:14px;white-space:normal}
@@ -36,7 +36,7 @@
     </style>
 </head>
 <body>
-<nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a class="active" href="./">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
+<nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a class="active" href="./">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
 <main class="public-page store-page"><section class="page-hero"><p class="eyebrow">DIGITAL STORE</p><h1>Useful things,<br><em>beautifully made.</em></h1><p class="page-lead">Templates, guides, systems, and digital resources designed to help you move from idea to execution.</p></section>
 <section class="store-toolbar"><p>Studio releases</p><div><button class="filter active" data-filter="all" type="button">All</button></div></section>
 <section class="product-grid" id="store-products"><p class="page-lead">Loading products…</p></section>
