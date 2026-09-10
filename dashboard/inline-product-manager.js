@@ -48,30 +48,38 @@
         const cover = form.product_cover.files[0];
         const status = event.submitter?.dataset.status || "draft";
         if (!title) return setMessage("#product-message", "Product title is required.");
-        const validationError = validateProductFile(productFile);
-        if (validationError) return setMessage("#product-message", validationError);
+        if (status === "published") {
+            const validationError = validateProductFile(productFile);
+            if (validationError) return setMessage("#product-message", validationError);
+        } else if (productFile) {
+            const validationError = validateProductFile(productFile);
+            if (validationError) return setMessage("#product-message", validationError);
+        }
         if (cover && !cover.type.startsWith("image/")) return setMessage("#product-message", "The cover must be an image.");
         if (cover && cover.size > maxFileSize) return setMessage("#product-message", "The cover image is too large.");
-        setMessage("#product-message", "Creating product…");
+        setMessage("#product-message", status === "published" ? "Publishing product…" : "Saving draft…");
         const { data: product, error: productError } = await client.from("products").insert({ title, slug: slugify(title), description: form.product_description.value.trim() || null, price: Number(form.product_price.value || 0), currency: "NGN", format: form.product_format.value, status, cover_path: null, product_file_bucket: "product-files", product_file_path: null }).select("id").single();
         if (productError) return setMessage("#product-message", productError.message);
         let coverPath = null, filePath = null;
         try {
             if (cover) { const safe = cover.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-"); coverPath = `product-covers/${product.id}-${crypto.randomUUID()}-${safe}`; await upload("public-assets", coverPath, cover); }
-            const safeFile = productFile.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
-            filePath = `products/${product.id}/${crypto.randomUUID()}-${safeFile}`;
-            await upload("product-files", filePath, productFile);
-            const { error: fileError } = await client.from("product_files").insert({ product_id: product.id, file_path: filePath, file_name: productFile.name, mime_type: productFile.type || "application/octet-stream", file_size: productFile.size, is_preview: false });
-            if (fileError) throw fileError;
-            const { error: updateError } = await client.from("products").update({ cover_path: coverPath, product_file_bucket: "product-files", product_file_path: filePath, updated_at: new Date().toISOString() }).eq("id", product.id);
+            if (productFile) {
+                const safeFile = productFile.name.toLowerCase().replace(/[^a-z0-9._-]+/g, "-");
+                filePath = `products/${product.id}/${crypto.randomUUID()}-${safeFile}`;
+                await upload("product-files", filePath, productFile);
+                const { error: fileError } = await client.from("product_files").insert({ product_id: product.id, file_path: filePath, file_name: productFile.name, mime_type: productFile.type || "application/octet-stream", file_size: productFile.size, is_preview: false });
+                if (fileError) throw fileError;
+            }
+            const { error: updateError } = await client.from("products").update({ cover_path: coverPath, product_file_bucket: productFile ? "product-files" : null, product_file_path: filePath, updated_at: new Date().toISOString() }).eq("id", product.id);
             if (updateError) throw updateError;
+            if (status === "published" && !filePath) throw new Error("A product file is required before publishing.");
             setMessage("#product-message", status === "published" ? "Product published successfully." : "Product saved as draft.");
             form.reset(); previewProduct(null);
         } catch (error) {
             if (filePath) await client.storage.from("product-files").remove([filePath]);
             if (coverPath) await client.storage.from("public-assets").remove([coverPath]);
             await client.from("products").delete().eq("id", product.id);
-            setMessage("#product-message", `Product file setup failed: ${error.message}`);
+            setMessage("#product-message", `Product setup failed: ${error.message}`);
         }
     };
 
@@ -160,7 +168,11 @@
         const accessPanel = document.querySelector(".product-access-panel"); if (accessPanel) accessPanel.remove();
         productForm.hidden = false;
         client = await waitForClient();
+        productForm.product_file.required = false;
         productForm.product_file.addEventListener("change", () => { const file = productForm.product_file.files[0]; const error = validateProductFile(file); if (error) setMessage("#product-message", error); else setMessage("#product-message", `${file.name} selected.`); previewProduct(file); });
+        productForm.querySelectorAll("button[type='submit']").forEach((button) => button.addEventListener("click", () => {
+            productForm.product_file.required = button.dataset.status === "published";
+        }));
         productForm.addEventListener("submit", saveProduct);
         injectProjectForm();
         const list = document.querySelector("#asset-list");
