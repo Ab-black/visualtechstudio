@@ -11,7 +11,11 @@
 
 @media (max-width: 820px) {
     .hero {
+        background-image:
+            linear-gradient(rgba(7, 16, 24, 0.46), rgba(7, 16, 24, 0.46)),
+            url('../images/mobile-homepage-hero.jpg');
         background-position: center center;
-        background-size: 100% auto;
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 }
