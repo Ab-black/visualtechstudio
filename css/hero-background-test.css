@@ -1,7 +1,8 @@
 .hero {
     background:
         linear-gradient(rgba(7, 16, 24, 0.46), rgba(7, 16, 24, 0.46)),
-        url('../images/hero-background-test.png') center center / cover no-repeat;
+        url('../images/hero-background-test.png') center center / 108% auto no-repeat;
+    background-color: #071018;
 }
 
 .hero::before {
@@ -11,5 +12,6 @@
 @media (max-width: 820px) {
     .hero {
         background-position: center center;
+        background-size: 108% auto;
     }
 }
