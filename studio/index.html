@@ -7,93 +7,62 @@
     <title>Studio — Visual Tech Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/public-pages.css">
     <link rel="stylesheet" href="../css/desktop-overrides.css">
     <style>
-        .studio-page .studio-about,
-        .studio-page .studio-services,
-        .studio-page .studio-audience,
-        .studio-page .studio-approach,
-        .studio-page .studio-why,
-        .studio-page .studio-values,
-        .studio-page .studio-work {
-            max-width: var(--page-max);
-            margin: 0 auto;
-            padding-left: var(--page-pad);
-            padding-right: var(--page-pad);
-        }
-
-        .studio-page .studio-about { padding-top: clamp(90px, 11vw, 150px); padding-bottom: clamp(90px, 11vw, 150px); }
-        .studio-page .studio-about-grid { display:grid; grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr); gap:8vw; align-items:start; }
-        .studio-page .studio-about h2,.studio-page .studio-services h2,.studio-page .studio-audience h2,.studio-page .studio-approach h2,.studio-page .studio-why h2,.studio-page .studio-values h2,.studio-page .studio-work h2 { font-family:var(--font-display); font-size:clamp(2.8rem,5vw,5.5rem); line-height:.95; font-weight:500; letter-spacing:-.025em; }
-        .studio-page .studio-about-copy { max-width:700px; }
-        .studio-page .studio-about-copy p,.studio-page .studio-services-intro>p:last-child,.studio-page .studio-audience-intro>p:last-child,.studio-page .studio-why-copy>p:last-child,.studio-page .studio-work-copy>p:last-child { color:var(--color-text-secondary); line-height:1.85; }
-        .studio-page .studio-about-copy p+p { margin-top:22px; }
-        .studio-page .studio-services { padding-top:clamp(90px,11vw,150px); padding-bottom:clamp(90px,11vw,150px); border-top:1px solid var(--color-border); }
-        .studio-page .studio-services-intro,.studio-page .studio-audience-intro,.studio-page .studio-why-intro,.studio-page .studio-values-intro,.studio-page .studio-work-intro { display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:8vw; align-items:end; margin-bottom:60px; }
-        .studio-page .studio-service-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border-top:1px solid var(--color-border); }
-        .studio-page .studio-service-item { min-width:0; padding:38px 28px 42px 0; border-bottom:1px solid var(--color-border); }
-        .studio-page .studio-service-item+.studio-service-item { padding-left:28px; border-left:1px solid var(--color-border); }
-        .studio-page .studio-service-item h3,.studio-page .studio-approach-card h3,.studio-page .studio-why-item h3,.studio-page .studio-value h3 { font-family:var(--font-display); font-size:clamp(1.9rem,2.8vw,3rem); line-height:1; font-weight:500; margin-bottom:24px; }
-        .studio-page .studio-service-item ul { list-style:none; margin:0; padding:0; }
-        .studio-page .studio-service-item li { padding:13px 0; border-bottom:1px solid var(--color-border); color:var(--color-text-secondary); line-height:1.5; }
-        .studio-page .studio-service-item li:last-child { border-bottom:0; }
-        .studio-page .studio-audience { padding-top:clamp(90px,12vw,170px); padding-bottom:clamp(90px,12vw,170px); }
-        .studio-page .studio-audience-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border-top:1px solid var(--color-border); }
-        .studio-page .studio-audience-card { padding:34px 24px 34px 0; border-bottom:1px solid var(--color-border); }
-        .studio-page .studio-audience-card+.studio-audience-card { padding-left:24px; border-left:1px solid var(--color-border); }
-        .studio-page .studio-audience-card h3 { font-family:var(--font-display); font-size:1.65rem; font-weight:500; margin-bottom:12px; }
-        .studio-page .studio-audience-card p,.studio-page .studio-approach-card p,.studio-page .studio-why-item p,.studio-page .studio-value p { color:var(--color-text-secondary); line-height:1.75; }
-        .studio-page .studio-approach { padding-top:clamp(90px,12vw,170px); padding-bottom:clamp(90px,12vw,170px); border-top:1px solid var(--color-border); }
-        .studio-page .studio-approach-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border-top:1px solid var(--color-border); }
-        .studio-page .studio-approach-card { padding:34px 24px 34px 0; border-bottom:1px solid var(--color-border); }
-        .studio-page .studio-approach-card+.studio-approach-card { padding-left:24px; border-left:1px solid var(--color-border); }
-        .studio-page .studio-approach-label { display:block; margin-bottom:26px; color:var(--color-accent); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; }
-        .studio-page .studio-why { padding-top:clamp(90px,12vw,170px); padding-bottom:clamp(90px,12vw,170px); }
-        .studio-page .studio-why-grid { display:grid; grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr); gap:8vw; }
-        .studio-page .studio-why-copy { max-width:720px; }
-        .studio-page .studio-why-list { border-top:1px solid var(--color-border); }
-        .studio-page .studio-why-item { display:grid; grid-template-columns:1fr 1.2fr; gap:30px; padding:26px 0; border-bottom:1px solid var(--color-border); }
-        .studio-page .studio-why-item h3 { font-size:1.7rem; margin:0; }
-        .studio-page .studio-values { padding-top:clamp(90px,12vw,170px); padding-bottom:clamp(90px,12vw,170px); border-top:1px solid var(--color-border); }
-        .studio-page .studio-values-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border-top:1px solid var(--color-border); }
-        .studio-page .studio-value { padding:34px 24px 34px 0; border-bottom:1px solid var(--color-border); }
-        .studio-page .studio-value+.studio-value { padding-left:24px; border-left:1px solid var(--color-border); }
-        .studio-page .studio-value h3 { margin-bottom:14px; font-size:2rem; }
-        .studio-page .studio-work { padding-top:clamp(90px,11vw,150px); padding-bottom:clamp(90px,11vw,150px); border-top:1px solid var(--color-border); }
-        .studio-page .studio-work-panel { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr); min-height:390px; border:1px solid var(--color-border); background:var(--color-surface); }
-        .studio-page .studio-work-visual { min-height:390px; position:relative; display:flex; align-items:center; justify-content:center; padding:32px; overflow:hidden; background:#071018; }
-        .studio-page .studio-work-visual img { display:block; width:min(82%,520px); height:auto; max-height:82%; object-fit:contain; object-position:center; }
-        .studio-page .studio-work-visual span { position:absolute; left:32px; bottom:28px; color:var(--color-accent); font-size:.72rem; letter-spacing:.16em; text-transform:uppercase; }
-        .studio-page .studio-work-content { display:flex; flex-direction:column; justify-content:center; padding:clamp(34px,5vw,70px); background:var(--color-editorial); color:var(--color-editorial-text); }
-        .studio-page .studio-work-content h3 { font-family:var(--font-display); font-size:clamp(2.3rem,4vw,4rem); line-height:.98; font-weight:500; margin:18px 0; }
-        .studio-page .studio-work-content p:not(.eyebrow) { color:#53616A; line-height:1.75; margin-bottom:28px; }
-        .studio-page .studio-work-content .btn-primary { align-self:flex-start; }
-        .studio-page .page-cta { margin-top:0; }
-
-        @media (max-width:900px) {
-            .studio-page .studio-service-list,.studio-page .studio-audience-grid,.studio-page .studio-approach-grid,.studio-page .studio-values-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
-            .studio-page .studio-service-item:nth-child(3),.studio-page .studio-audience-card:nth-child(3),.studio-page .studio-approach-card:nth-child(3),.studio-page .studio-value:nth-child(3) { border-left:0; padding-left:0; }
-            .studio-page .studio-service-item:nth-child(even),.studio-page .studio-audience-card:nth-child(even),.studio-page .studio-approach-card:nth-child(even),.studio-page .studio-value:nth-child(even) { padding-left:24px; border-left:1px solid var(--color-border); }
-            .studio-page .studio-service-item:nth-child(3),.studio-page .studio-audience-card:nth-child(3),.studio-page .studio-approach-card:nth-child(3),.studio-page .studio-value:nth-child(3),.studio-page .studio-service-item:nth-child(4),.studio-page .studio-audience-card:nth-child(4),.studio-page .studio-approach-card:nth-child(4),.studio-page .studio-value:nth-child(4) { border-top:0; }
-        }
-        @media (max-width:760px) {
-            .studio-page .studio-about-grid,.studio-page .studio-services-intro,.studio-page .studio-audience-intro,.studio-page .studio-why-intro,.studio-page .studio-values-intro,.studio-page .studio-work-intro,.studio-page .studio-why-grid { grid-template-columns:1fr; gap:36px; }
-            .studio-page .studio-service-list,.studio-page .studio-audience-grid,.studio-page .studio-approach-grid,.studio-page .studio-values-grid,.studio-page .studio-work-panel { grid-template-columns:1fr; }
-            .studio-page .studio-service-item,.studio-page .studio-service-item+.studio-service-item,.studio-page .studio-audience-card,.studio-page .studio-audience-card+.studio-audience-card,.studio-page .studio-approach-card,.studio-page .studio-approach-card+.studio-approach-card,.studio-page .studio-value,.studio-page .studio-value+.studio-value { padding-left:0; padding-right:0; border-left:0; }
-            .studio-page .studio-service-item+.studio-service-item,.studio-page .studio-audience-card+.studio-audience-card,.studio-page .studio-approach-card+.studio-approach-card,.studio-page .studio-value+.studio-value { border-top:1px solid var(--color-border); }
-            .studio-page .studio-why-item { grid-template-columns:1fr; gap:10px; }
-            .studio-page .studio-work-visual { min-height:300px; }
-            .studio-page .studio-work-visual img { width:min(70%,360px); max-height:78%; }
-        }
-        @media (max-width:520px) {
-            .studio-page .studio-about,.studio-page .studio-services,.studio-page .studio-audience,.studio-page .studio-approach,.studio-page .studio-why,.studio-page .studio-values,.studio-page .studio-work { padding-left:20px; padding-right:20px; }
-            .studio-page .studio-work-visual { min-height:250px; padding:24px; }
-            .studio-page .studio-work-visual img { width:min(76%,300px); max-height:72%; }
-            .studio-page .studio-work-visual span { left:24px; bottom:20px; }
-        }
+        .studio-page .studio-about,.studio-page .studio-services,.studio-page .studio-audience,.studio-page .studio-approach,.studio-page .studio-why,.studio-page .studio-values,.studio-page .studio-work{max-width:var(--page-max);margin:0 auto;padding-left:var(--page-pad);padding-right:var(--page-pad)}
+        .studio-page .studio-about{padding-top:clamp(90px,11vw,150px);padding-bottom:clamp(90px,11vw,150px)}
+        .studio-page .studio-about-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:8vw;align-items:start}
+        .studio-page .studio-about h2,.studio-page .studio-services h2,.studio-page .studio-audience h2,.studio-page .studio-approach h2,.studio-page .studio-why h2,.studio-page .studio-values h2,.studio-page .studio-work h2{font-family:var(--font-display);font-size:clamp(2.8rem,5vw,5.5rem);line-height:.95;font-weight:500;letter-spacing:-.025em}
+        .studio-page .studio-about-copy{max-width:700px}
+        .studio-page .studio-about-copy p,.studio-page .studio-services-intro>p:last-child,.studio-page .studio-audience-intro>p:last-child,.studio-page .studio-why-copy>p:last-child,.studio-page .studio-work-copy>p:last-child{color:var(--color-text-secondary);line-height:1.85}
+        .studio-page .studio-about-copy p+p{margin-top:22px}
+        .studio-page .studio-services{padding-top:clamp(90px,11vw,150px);padding-bottom:clamp(90px,11vw,150px);border-top:1px solid var(--color-border)}
+        .studio-page .studio-services-intro,.studio-page .studio-audience-intro,.studio-page .studio-why-intro,.studio-page .studio-values-intro,.studio-page .studio-work-intro{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:8vw;align-items:end;margin-bottom:60px}
+        .studio-page .studio-service-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--color-border)}
+        .studio-page .studio-service-item{min-width:0;padding:38px 28px 42px 0;border-bottom:1px solid var(--color-border)}
+        .studio-page .studio-service-item+.studio-service-item{padding-left:28px;border-left:1px solid var(--color-border)}
+        .studio-page .studio-service-item h3,.studio-page .studio-approach-card h3,.studio-page .studio-why-item h3,.studio-page .studio-value h3{font-family:var(--font-display);font-size:clamp(1.9rem,2.8vw,3rem);line-height:1;font-weight:500;margin-bottom:24px}
+        .studio-page .studio-service-item ul{list-style:none;margin:0;padding:0}
+        .studio-page .studio-service-item li{padding:13px 0;border-bottom:1px solid var(--color-border);color:var(--color-text-secondary);line-height:1.5}
+        .studio-page .studio-service-item li:last-child{border-bottom:0}
+        .studio-page .studio-audience{padding-top:clamp(90px,12vw,170px);padding-bottom:clamp(90px,12vw,170px)}
+        .studio-page .studio-audience-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--color-border)}
+        .studio-page .studio-audience-card{padding:34px 24px 34px 0;border-bottom:1px solid var(--color-border)}
+        .studio-page .studio-audience-card+.studio-audience-card{padding-left:24px;border-left:1px solid var(--color-border)}
+        .studio-page .studio-audience-card h3{font-family:var(--font-display);font-size:1.65rem;font-weight:500;margin-bottom:12px}
+        .studio-page .studio-audience-card p,.studio-page .studio-approach-card p,.studio-page .studio-why-item p,.studio-page .studio-value p{color:var(--color-text-secondary);line-height:1.75}
+        .studio-page .studio-approach{padding-top:clamp(90px,12vw,170px);padding-bottom:clamp(90px,12vw,170px);border-top:1px solid var(--color-border)}
+        .studio-page .studio-approach-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--color-border)}
+        .studio-page .studio-approach-card{padding:34px 24px 34px 0;border-bottom:1px solid var(--color-border)}
+        .studio-page .studio-approach-card+.studio-approach-card{padding-left:24px;border-left:1px solid var(--color-border)}
+        .studio-page .studio-approach-label{display:block;margin-bottom:26px;color:var(--color-accent);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase}
+        .studio-page .studio-why{padding-top:clamp(90px,12vw,170px);padding-bottom:clamp(90px,12vw,170px)}
+        .studio-page .studio-why-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:8vw}
+        .studio-page .studio-why-copy{max-width:720px}
+        .studio-page .studio-why-list{border-top:1px solid var(--color-border)}
+        .studio-page .studio-why-item{display:grid;grid-template-columns:1fr 1.2fr;gap:30px;padding:26px 0;border-bottom:1px solid var(--color-border)}
+        .studio-page .studio-why-item h3{font-size:1.7rem;margin:0}
+        .studio-page .studio-values{padding-top:clamp(90px,12vw,170px);padding-bottom:clamp(90px,12vw,170px);border-top:1px solid var(--color-border)}
+        .studio-page .studio-values-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--color-border)}
+        .studio-page .studio-value{padding:34px 24px 34px 0;border-bottom:1px solid var(--color-border)}
+        .studio-page .studio-value+.studio-value{padding-left:24px;border-left:1px solid var(--color-border)}
+        .studio-page .studio-value h3{margin-bottom:14px;font-size:2rem}
+        .studio-page .studio-work{padding-top:clamp(90px,11vw,150px);padding-bottom:clamp(90px,11vw,150px);border-top:1px solid var(--color-border)}
+        .studio-page .studio-work-panel{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);min-height:390px;border:1px solid var(--color-border);background:var(--color-surface)}
+        .studio-page .studio-work-visual{min-height:390px;position:relative;display:flex;align-items:center;justify-content:center;padding:0;overflow:hidden;background:#071018}
+        .studio-page .studio-work-visual img{display:block;width:100%;height:100%;max-width:none;max-height:none;object-fit:contain;object-position:center}
+        .studio-page .studio-work-visual span{position:absolute;left:32px;bottom:28px;color:var(--color-accent);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.8)}
+        .studio-page .studio-work-content{display:flex;flex-direction:column;justify-content:center;padding:clamp(34px,5vw,70px);background:var(--color-editorial);color:var(--color-editorial-text)}
+        .studio-page .studio-work-content h3{font-family:var(--font-display);font-size:clamp(2.3rem,4vw,4rem);line-height:.98;font-weight:500;margin:18px 0}
+        .studio-page .studio-work-content p:not(.eyebrow){color:#53616A;line-height:1.75;margin-bottom:28px}
+        .studio-page .studio-work-content .btn-primary{align-self:flex-start}
+        .studio-page .page-cta{margin-top:0}
+        @media(max-width:900px){.studio-page .studio-service-list,.studio-page .studio-audience-grid,.studio-page .studio-approach-grid,.studio-page .studio-values-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.studio-page .studio-service-item:nth-child(3),.studio-page .studio-audience-card:nth-child(3),.studio-page .studio-approach-card:nth-child(3),.studio-page .studio-value:nth-child(3){border-left:0;padding-left:0}.studio-page .studio-service-item:nth-child(even),.studio-page .studio-audience-card:nth-child(even),.studio-page .studio-approach-card:nth-child(even),.studio-page .studio-value:nth-child(even){padding-left:24px;border-left:1px solid var(--color-border)}.studio-page .studio-service-item:nth-child(3),.studio-page .studio-audience-card:nth-child(3),.studio-page .studio-approach-card:nth-child(3),.studio-page .studio-value:nth-child(3),.studio-page .studio-service-item:nth-child(4),.studio-page .studio-audience-card:nth-child(4),.studio-page .studio-approach-card:nth-child(4),.studio-page .studio-value:nth-child(4){border-top:0}}
+        @media(max-width:760px){.studio-page .studio-about-grid,.studio-page .studio-services-intro,.studio-page .studio-audience-intro,.studio-page .studio-why-intro,.studio-page .studio-values-intro,.studio-page .studio-work-intro,.studio-page .studio-why-grid{grid-template-columns:1fr;gap:36px}.studio-page .studio-service-list,.studio-page .studio-audience-grid,.studio-page .studio-approach-grid,.studio-page .studio-values-grid,.studio-page .studio-work-panel{grid-template-columns:1fr}.studio-page .studio-service-item,.studio-page .studio-service-item+.studio-service-item,.studio-page .studio-audience-card,.studio-page .studio-audience-card+.studio-audience-card,.studio-page .studio-approach-card,.studio-page .studio-approach-card+.studio-approach-card,.studio-page .studio-value,.studio-page .studio-value+.studio-value{padding-left:0;padding-right:0;border-left:0}.studio-page .studio-service-item+.studio-service-item,.studio-page .studio-audience-card+.studio-audience-card,.studio-page .studio-approach-card+.studio-approach-card,.studio-page .studio-value+.studio-value{border-top:1px solid var(--color-border)}.studio-page .studio-why-item{grid-template-columns:1fr;gap:10px}.studio-page .studio-work-visual{min-height:300px}.studio-page .studio-work-visual img{width:100%;height:100%;max-width:none;max-height:none;object-fit:contain}}
+        @media(max-width:520px){.studio-page .studio-about,.studio-page .studio-services,.studio-page .studio-audience,.studio-page .studio-approach,.studio-page .studio-why,.studio-page .studio-values,.studio-page .studio-work{padding-left:20px;padding-right:20px}.studio-page .studio-work-visual{min-height:250px}.studio-page .studio-work-visual img{width:100%;height:100%;max-width:none;max-height:none;object-fit:contain}.studio-page .studio-work-visual span{left:24px;bottom:20px}}
     </style>
 </head>
 <body>
@@ -102,95 +71,17 @@
         <button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button>
         <div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a class="active" href="./">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a href="../store/">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div>
     </nav>
-
     <main class="public-page studio-page">
-        <section class="page-hero studio-hero">
-            <p class="eyebrow">THE STUDIO</p>
-            <h1>Quiet confidence.<br><em>Useful beauty.</em></h1>
-            <p class="page-lead">Visual Tech Studio brings design, technology, and strategic thinking together to create digital work with clarity and character.</p>
-        </section>
-
-        <section class="studio-about">
-            <div class="studio-about-grid">
-                <div><p class="eyebrow">ABOUT VISUAL TECH STUDIO</p><h2>Design, technology, and thoughtful execution.</h2></div>
-                <div class="studio-about-copy">
-                    <p>Visual Tech Studio is a digital design and technology studio focused on creating work that looks considered and works properly.</p>
-                    <p>We believe good digital work should feel obvious after it is made, even when getting there required difficult thinking. Every choice should have a reason — from structure and hierarchy to typography, interaction, performance, and the details people notice without knowing why.</p>
-                    <p>Our work sits between creative direction and technology: expressive enough to be distinctive, disciplined enough to be useful.</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="studio-services">
-            <div class="studio-services-intro"><div><p class="eyebrow">WHAT WE DO</p><h2>Digital work with purpose.</h2></div><p>We bring together development, visual design, and useful digital products to help businesses and ideas present themselves with clarity and character.</p></div>
-            <div class="studio-service-list">
-                <article class="studio-service-item"><h3>Web Development</h3><ul><li>Business websites</li><li>E-commerce websites</li><li>Web applications</li><li>Customer dashboards</li><li>Custom digital experiences</li></ul></article>
-                <article class="studio-service-item"><h3>Graphic &amp; Visual Design</h3><ul><li>Brand identity</li><li>Marketing graphics</li><li>Social media designs</li><li>Promotional materials</li></ul></article>
-                <article class="studio-service-item"><h3>Digital Products</h3><ul><li>Templates</li><li>Guides</li><li>Resources</li><li>Other reliable digital products</li></ul></article>
-            </div>
-        </section>
-
-        <section class="studio-audience">
-            <div class="studio-audience-intro"><div><p class="eyebrow">WHO WE WORK WITH</p><h2>Built for people with something worth building.</h2></div><p>From established businesses to growing brands and new digital ideas, our work is designed around the people who need to communicate clearly, look credible, and give their audience a better experience.</p></div>
-            <div class="studio-audience-grid">
-                <article class="studio-audience-card"><h3>Growing Businesses</h3><p>Businesses ready for a stronger digital presence and a more professional customer experience.</p></article>
-                <article class="studio-audience-card"><h3>Startups &amp; New Ideas</h3><p>Early-stage products and ideas that need a clear identity and a useful digital foundation.</p></article>
-                <article class="studio-audience-card"><h3>Personal Brands</h3><p>Professionals and creators who want their online presence to reflect the quality of their work.</p></article>
-                <article class="studio-audience-card"><h3>Organizations</h3><p>Schools, hospitality, real estate, retail, professional services, and other organizations with a digital need.</p></article>
-            </div>
-        </section>
-
-        <section class="studio-approach">
-            <div class="studio-services-intro"><div><p class="eyebrow">OUR APPROACH</p><h2>Think first. Build with intent.</h2></div><p>A considered process keeps the work focused. We move from understanding the problem to shaping the experience, building it carefully, and refining what matters.</p></div>
-            <div class="studio-approach-grid">
-                <article class="studio-approach-card"><span class="studio-approach-label">Discover</span><h3>Understand</h3><p>Clarify the goal, audience, content, priorities, and practical requirements before decisions become expensive.</p></article>
-                <article class="studio-approach-card"><span class="studio-approach-label">Design</span><h3>Shape</h3><p>Develop the visual direction, structure, hierarchy, and interactions that give the work its character and purpose.</p></article>
-                <article class="studio-approach-card"><span class="studio-approach-label">Build</span><h3>Execute</h3><p>Turn the direction into a responsive, functional digital experience with attention to details and performance.</p></article>
-                <article class="studio-approach-card"><span class="studio-approach-label">Refine</span><h3>Finish</h3><p>Review the result, remove friction, polish the important details, and make sure the finished work feels complete.</p></article>
-            </div>
-        </section>
-
-        <section class="studio-why">
-            <div class="studio-why-grid">
-                <div class="studio-why-copy"><p class="eyebrow">WHY VISUAL TECH STUDIO</p><h2>Thoughtful by design. Practical by nature.</h2><p>Good work should not force you to choose between strong visual direction and dependable technology. We care about both.</p></div>
-                <div class="studio-why-list">
-                    <article class="studio-why-item"><h3>Premium presentation</h3><p>Clear hierarchy, considered typography, and a visual system designed to make the right impression.</p></article>
-                    <article class="studio-why-item"><h3>Purpose-driven design</h3><p>Design decisions are connected to what the experience needs to communicate or help someone do.</p></article>
-                    <article class="studio-why-item"><h3>Modern technology</h3><p>Digital experiences are built with practical, maintainable technologies suited to the project.</p></article>
-                    <article class="studio-why-item"><h3>Attention to detail</h3><p>Responsive behavior, spacing, interaction, content presentation, and the small finishing touches all matter.</p></article>
-                </div>
-            </div>
-        </section>
-
-        <section class="studio-values">
-            <div class="studio-values-intro"><div><p class="eyebrow">STUDIO VALUES</p><h2>The standard behind the work.</h2></div><p>These principles guide how we think about digital work, from the first idea to the final detail.</p></div>
-            <div class="studio-values-grid">
-                <article class="studio-value"><h3>Clarity</h3><p>Remove noise. Make the important thing unmistakable.</p></article>
-                <article class="studio-value"><h3>Character</h3><p>Build visual systems that feel specific, not interchangeable.</p></article>
-                <article class="studio-value"><h3>Precision</h3><p>Respect the small decisions that make a digital experience feel finished.</p></article>
-                <article class="studio-value"><h3>Utility</h3><p>Beautiful work still has a job to do, and it should do it well.</p></article>
-            </div>
-        </section>
-
-        <section class="studio-work">
-            <div class="studio-work-intro"><div><p class="eyebrow">SELECTED WORK / PROJECTS</p><h2>See the work in context.</h2></div><p>Explore projects across web development, digital experiences, and visual work. The Projects page contains the wider body of work.</p></div>
-            <div class="studio-work-panel">
-                <div class="studio-work-visual">
-                    <img src="../images/logo.jpg" alt="Visual Tech Studio logo">
-                    <span>Visual Tech Studio / Projects</span>
-                </div>
-                <div class="studio-work-content">
-                    <p class="eyebrow">THE WORK</p>
-                    <h3>Ideas made visible.</h3>
-                    <p>Browse the projects and see how strategy, design, and technology come together across different kinds of digital work.</p>
-                    <a class="btn-primary" href="../work/">Explore Projects</a>
-                </div>
-            </div>
-        </section>
-
+        <section class="page-hero studio-hero"><p class="eyebrow">THE STUDIO</p><h1>Quiet confidence.<br><em>Useful beauty.</em></h1><p class="page-lead">Visual Tech Studio brings design, technology, and strategic thinking together to create digital work with clarity and character.</p></section>
+        <section class="studio-about"><div class="studio-about-grid"><div><p class="eyebrow">ABOUT VISUAL TECH STUDIO</p><h2>Design, technology, and thoughtful execution.</h2></div><div class="studio-about-copy"><p>Visual Tech Studio is a digital design and technology studio focused on creating work that looks considered and works properly.</p><p>We believe good digital work should feel obvious after it is made, even when getting there required difficult thinking. Every choice should have a reason — from structure and hierarchy to typography, interaction, performance, and the details people notice without knowing why.</p><p>Our work sits between creative direction and technology: expressive enough to be distinctive, disciplined enough to be useful.</p></div></div></section>
+        <section class="studio-services"><div class="studio-services-intro"><div><p class="eyebrow">WHAT WE DO</p><h2>Digital work with purpose.</h2></div><p>We bring together development, visual design, and useful digital products to help businesses and ideas present themselves with clarity and character.</p></div><div class="studio-service-list"><article class="studio-service-item"><h3>Web Development</h3><ul><li>Business websites</li><li>E-commerce websites</li><li>Web applications</li><li>Customer dashboards</li><li>Custom digital experiences</li></ul></article><article class="studio-service-item"><h3>Graphic &amp; Visual Design</h3><ul><li>Brand identity</li><li>Marketing graphics</li><li>Social media designs</li><li>Promotional materials</li></ul></article><article class="studio-service-item"><h3>Digital Products</h3><ul><li>Templates</li><li>Guides</li><li>Resources</li><li>Other reliable digital products</li></ul></article></div></section>
+        <section class="studio-audience"><div class="studio-audience-intro"><div><p class="eyebrow">WHO WE WORK WITH</p><h2>Built for people with something worth building.</h2></div><p>From established businesses to growing brands and new digital ideas, our work is designed around the people who need to communicate clearly, look credible, and give their audience a better experience.</p></div><div class="studio-audience-grid"><article class="studio-audience-card"><h3>Growing Businesses</h3><p>Businesses ready for a stronger digital presence and a more professional customer experience.</p></article><article class="studio-audience-card"><h3>Startups &amp; New Ideas</h3><p>Early-stage products and ideas that need a clear identity and a useful digital foundation.</p></article><article class="studio-audience-card"><h3>Personal Brands</h3><p>Professionals and creators who want their online presence to reflect the quality of their work.</p></article><article class="studio-audience-card"><h3>Organizations</h3><p>Schools, hospitality, real estate, retail, professional services, and other organizations with a digital need.</p></article></div></section>
+        <section class="studio-approach"><div class="studio-services-intro"><div><p class="eyebrow">OUR APPROACH</p><h2>Think first. Build with intent.</h2></div><p>A considered process keeps the work focused. We move from understanding the problem to shaping the experience, building it carefully, and refining what matters.</p></div><div class="studio-approach-grid"><article class="studio-approach-card"><span class="studio-approach-label">Discover</span><h3>Understand</h3><p>Clarify the goal, audience, content, priorities, and practical requirements before decisions become expensive.</p></article><article class="studio-approach-card"><span class="studio-approach-label">Design</span><h3>Shape</h3><p>Develop the visual direction, structure, hierarchy, and interactions that give the work its character and purpose.</p></article><article class="studio-approach-card"><span class="studio-approach-label">Build</span><h3>Execute</h3><p>Turn the direction into a responsive, functional digital experience with attention to details and performance.</p></article><article class="studio-approach-card"><span class="studio-approach-label">Refine</span><h3>Finish</h3><p>Review the result, remove friction, polish the important details, and make sure the finished work feels complete.</p></article></div></section>
+        <section class="studio-why"><div class="studio-why-grid"><div class="studio-why-copy"><p class="eyebrow">WHY VISUAL TECH STUDIO</p><h2>Thoughtful by design. Practical by nature.</h2><p>Good work should not force you to choose between strong visual direction and dependable technology. We care about both.</p></div><div class="studio-why-list"><article class="studio-why-item"><h3>Premium presentation</h3><p>Clear hierarchy, considered typography, and a visual system designed to make the right impression.</p></article><article class="studio-why-item"><h3>Purpose-driven design</h3><p>Design decisions are connected to what the experience needs to communicate or help someone do.</p></article><article class="studio-why-item"><h3>Modern technology</h3><p>Digital experiences are built with practical, maintainable technologies suited to the project.</p></article><article class="studio-why-item"><h3>Attention to detail</h3><p>Responsive behavior, spacing, interaction, content presentation, and the small finishing touches all matter.</p></article></div></div></section>
+        <section class="studio-values"><div class="studio-values-intro"><div><p class="eyebrow">STUDIO VALUES</p><h2>The standard behind the work.</h2></div><p>These principles guide how we think about digital work, from the first idea to the final detail.</p></div><div class="studio-values-grid"><article class="studio-value"><h3>Clarity</h3><p>Remove noise. Make the important thing unmistakable.</p></article><article class="studio-value"><h3>Character</h3><p>Build visual systems that feel specific, not interchangeable.</p></article><article class="studio-value"><h3>Precision</h3><p>Respect the small decisions that make a digital experience feel finished.</p></article><article class="studio-value"><h3>Utility</h3><p>Beautiful work still has a job to do, and it should do it well.</p></article></div></section>
+        <section class="studio-work"><div class="studio-work-intro"><div><p class="eyebrow">SELECTED WORK / PROJECTS</p><h2>See the work in context.</h2></div><p>Explore projects across web development, digital experiences, and visual work. The Projects page contains the wider body of work.</p></div><div class="studio-work-panel"><div class="studio-work-visual"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio / Projects</span></div><div class="studio-work-content"><p class="eyebrow">THE WORK</p><h3>Ideas made visible.</h3><p>Browse the projects and see how strategy, design, and technology come together across different kinds of digital work.</p><a class="btn-primary" href="../work/">Explore Projects</a></div></div></section>
         <section class="page-cta"><p class="eyebrow">THE NEXT IDEA</p><h2>Let's make it considered.</h2><a class="btn-primary" href="../contact/">Start a Project</a></section>
     </main>
-
     <script src="../js/script.js"></script>
     <script src="../dashboard/supabase-config.js"></script>
     <script src="../js/auth-navigation.js"></script>
