@@ -26,8 +26,12 @@ body {
     content: none;
 }
 
+.services-page .services-hero {
+    position: relative;
+}
+
 .page-hero .orbital-visual,
-.services-hero .orbital-visual {
+.services-page .services-hero .orbital-visual {
     position: absolute;
     z-index: 0;
     right: 3%;
@@ -112,8 +116,8 @@ body {
 }
 
 @media (max-width: 768px) {
-    .page-hero .orbital-visual,
-    .services-hero .orbital-visual {
+     .page-hero .orbital-visual,
+    .services-page .services-hero .orbital-visual {
         right: 3%;
         top: 4%;
         width: min(72vw, 290px);
