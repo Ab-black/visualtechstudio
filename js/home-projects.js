@@ -87,50 +87,136 @@
                 return;
             }
 
-            // Re-initialize the existing slider behavior after replacing its cards.
+            // Initialize a continuous carousel with cloned boundary slides.
+            // The clones remove the visible jump when moving from the last project to the first.
+            const originalCards = Array.from(track.querySelectorAll(".card"));
+            if (originalCards.length < 2) {
+                originalCards.forEach((card, cardIndex) => card.classList.toggle("active", cardIndex === 0));
+                return;
+            }
+
+            const firstClone = originalCards[0].cloneNode(true);
+            const lastClone = originalCards[originalCards.length - 1].cloneNode(true);
+            firstClone.setAttribute("aria-hidden", "true");
+            lastClone.setAttribute("aria-hidden", "true");
+            firstClone.querySelectorAll("[id]").forEach((element) => element.removeAttribute("id"));
+            lastClone.querySelectorAll("[id]").forEach((element) => element.removeAttribute("id"));
+            track.insertBefore(lastClone, originalCards[0]);
+            track.appendChild(firstClone);
+
             const cards = Array.from(track.querySelectorAll(".card"));
-            let index = 0;
+            const realCount = originalCards.length;
+            let index = 1;
             let autoPlay = null;
             let startX = 0;
             let startY = 0;
+            let pointerStartX = 0;
+            let isPointerDown = false;
             const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+            const setTransition = (enabled = true) => {
+                track.style.transitionDuration = enabled && !reducedMotion.matches ? "" : "0ms";
+            };
 
             const updateSlider = (animate = true) => {
                 const width = slider.clientWidth;
-                track.style.transitionDuration = animate && !reducedMotion.matches ? "" : "0ms";
+                setTransition(animate);
                 track.style.transform = `translate3d(-${index * width}px, 0, 0)`;
-                cards.forEach((card, cardIndex) => card.classList.toggle("active", cardIndex === index));
+                cards.forEach((card, cardIndex) => {
+                    card.classList.toggle("active", cardIndex === index);
+                });
             };
 
+            const normalizeAfterClone = () => {
+                if (index === realCount + 1) {
+                    index = 1;
+                    updateSlider(false);
+                } else if (index === 0) {
+                    index = realCount;
+                    updateSlider(false);
+                }
+            };
+
+            track.addEventListener("transitionend", (event) => {
+                if (event.propertyName !== "transform") return;
+                normalizeAfterClone();
+            });
+
             const nextSlide = () => {
-                index = (index + 1) % cards.length;
+                index += 1;
                 updateSlider();
             };
+
             const prevSlide = () => {
-                index = (index - 1 + cards.length) % cards.length;
+                index -= 1;
                 updateSlider();
             };
+
             const startAuto = () => {
-                if (reducedMotion.matches || cards.length < 2) return;
+                if (reducedMotion.matches || realCount < 2) return;
                 autoPlay = window.setInterval(nextSlide, 6000);
             };
+
             const restartAuto = () => {
                 if (autoPlay) window.clearInterval(autoPlay);
                 startAuto();
             };
 
+            const pauseAuto = () => {
+                if (autoPlay) {
+                    window.clearInterval(autoPlay);
+                    autoPlay = null;
+                }
+            };
+
+            const resumeAuto = () => {
+                if (!reducedMotion.matches && realCount > 1 && !autoPlay) startAuto();
+            };
+
             nextBtn.onclick = () => { nextSlide(); restartAuto(); };
             prevBtn.onclick = () => { prevSlide(); restartAuto(); };
+
+            slider.addEventListener("mouseenter", () => {
+                slider.classList.add("is-interacting");
+                pauseAuto();
+            });
+            slider.addEventListener("mouseleave", () => {
+                slider.classList.remove("is-interacting");
+                resumeAuto();
+            });
+            slider.addEventListener("focusin", pauseAuto);
+            slider.addEventListener("focusout", (event) => {
+                if (!slider.contains(event.relatedTarget)) resumeAuto();
+            });
 
             track.ontouchstart = (event) => {
                 startX = event.touches[0].clientX;
                 startY = event.touches[0].clientY;
+                pauseAuto();
             };
             track.ontouchend = (event) => {
                 const deltaX = event.changedTouches[0].clientX - startX;
                 const deltaY = event.changedTouches[0].clientY - startY;
-                if (Math.abs(deltaX) < 50 || Math.abs(deltaX) < Math.abs(deltaY)) return;
-                deltaX < 0 ? nextSlide() : prevSlide();
+                if (Math.abs(deltaX) >= 50 && Math.abs(deltaX) >= Math.abs(deltaY)) {
+                    deltaX < 0 ? nextSlide() : prevSlide();
+                }
+                restartAuto();
+            };
+
+            track.onpointerdown = (event) => {
+                if (event.pointerType === "mouse") return;
+                pointerStartX = event.clientX;
+                isPointerDown = true;
+            };
+            track.onpointerup = (event) => {
+                if (!isPointerDown || event.pointerType === "mouse") return;
+                const deltaX = event.clientX - pointerStartX;
+                isPointerDown = false;
+                if (Math.abs(deltaX) >= 50) deltaX < 0 ? nextSlide() : prevSlide();
+                restartAuto();
+            };
+            track.onpointercancel = () => {
+                isPointerDown = false;
                 restartAuto();
             };
 
