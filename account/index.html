@@ -276,15 +276,11 @@
 .account-neumorphic-page .account-link{
     animation:account-content-in .45s ease both;
 }
-.account-neumorphic-page .account-panel{
-    transform-style:preserve-3d;
-    transform:perspective(1400px) rotateY(0deg);
-    transition:transform .64s ease-in-out;
-}
 .account-neumorphic-page .account-panel.is-flipping{
-    animation:none;
+    animation:account-card-flip .64s ease-in-out both;
+    transform-style:preserve-3d;
 }
-.account-neumorphic-page .account-panel::after{
+.account-neumorphic-page .account-panel.is-flipping::after{
     content:"";
     position:absolute;
     inset:0;
@@ -292,10 +288,20 @@
     background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(181,190,196,.16));
     opacity:0;
     pointer-events:none;
-    transition:opacity .64s ease-in-out;
+    animation:account-card-glint .64s ease-in-out both;
 }
-.account-neumorphic-page .account-panel.is-flipping::after{
-    opacity:.34;
+@keyframes account-card-flip{
+    0%{transform:perspective(1400px) rotateY(0deg)}
+    25%{transform:perspective(1400px) rotateY(90deg)}
+    50%{transform:perspective(1400px) rotateY(180deg)}
+    75%{transform:perspective(1400px) rotateY(270deg)}
+    100%{transform:perspective(1400px) rotateY(360deg)}
+}
+@keyframes account-card-glint{
+    0%,100%{opacity:0}
+    42%{opacity:.42}
+    50%{opacity:.58}
+    58%{opacity:.18}
 }
 @keyframes account-content-in{
     from{opacity:.72;transform:translateY(4px)}
@@ -339,24 +345,6 @@
     }
     .account-neumorphic-page .account-link{
         margin-top:16px;
-    }
-
-    .account-neumorphic-page .account-panel::after{
-        border-radius:32px;
-    }
-    .account-neumorphic-page .account-wrap{
-        align-items:flex-start;
-        padding-top:18px;
-        padding-bottom:18px;
-        min-height:calc(100svh - 36px);
-    }
-    .account-neumorphic-page .account-panel{
-        max-height:calc(100svh - 72px);
-        overflow-y:auto;
-        scrollbar-width:thin;
-    }
-    .account-neumorphic-page .account-footer{
-        padding-bottom:6px;
     }
 @media(max-width:500px){
     .account-neumorphic-page .account-wrap{
@@ -619,21 +607,15 @@
         setMode('forgot');
         $('email').focus();
     });
-    let authRotation = 0;
-
     const flipAuthCard = nextMode => {
         const panel = $('account-panel');
         if (!panel || panel.classList.contains('is-flipping')) return;
-        const targetRotation = nextMode === 'signup' ? 180 : 360;
         panel.classList.add('is-flipping');
-        panel.style.transform = `perspective(1400px) rotateY(${targetRotation}deg)`;
         window.setTimeout(() => {
             setMode(nextMode);
-        }, 320);
+        }, 310);
         window.setTimeout(() => {
-            authRotation = targetRotation;
             panel.classList.remove('is-flipping');
-            panel.style.transform = `perspective(1400px) rotateY(${authRotation}deg)`;
             $('email').focus();
         }, 640);
     };
