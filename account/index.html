@@ -451,13 +451,16 @@
         $('forgot-row').classList.toggle('is-hidden', next !== 'signin');
         $('submit-button').textContent = forgot ? 'Send reset link' : signup ? 'Create account' : reset ? 'Save new password' : 'Sign in';
         $('signup-button').textContent = signup || forgot || reset ? 'Back to sign in' : 'Create account';
-        $('form-note').textContent = reset
-            ? 'Use at least 8 characters. Your new password will replace the old one.'
-            : signup
-                ? 'After creating your account, check your email and confirm your address before signing in.'
-                : forgot
-                    ? 'For your security, we will not reveal whether an email is registered. If an account exists, a reset link will be sent.'
-                    : 'We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website\'s code.';
+        const formNote = $('form-note');
+        if (formNote) {
+            formNote.textContent = reset
+                ? 'Use at least 8 characters. Your new password will replace the old one.'
+                : signup
+                    ? 'After creating your account, check your email and confirm your address before signing in.'
+                    : forgot
+                        ? 'For your security, we will not reveal whether an email is registered. If an account exists, a reset link will be sent.'
+                        : '';
+        }
         $('email').disabled = reset;
         $('email').required = !reset;
         $('password').required = !forgot;
