@@ -278,6 +278,7 @@
 }
 .account-neumorphic-page .account-panel.is-flipping{
     animation:account-card-flip .64s ease-in-out both;
+    transform-style:preserve-3d;
 }
 .account-neumorphic-page .account-panel.is-flipping::after{
     content:"";
@@ -290,22 +291,23 @@
     animation:account-card-glint .64s ease-in-out both;
 }
 @keyframes account-card-flip{
-    0%{transform:perspective(1400px) rotateY(0deg) scale(1)}
-    45%{transform:perspective(1400px) rotateY(88deg) scale(.985)}
-    50%{transform:perspective(1400px) rotateY(90deg) scale(.98)}
-    55%{transform:perspective(1400px) rotateY(88deg) scale(.985)}
-    100%{transform:perspective(1400px) rotateY(0deg) scale(1)}
+    0%{transform:perspective(1400px) rotateY(0deg)}
+    25%{transform:perspective(1400px) rotateY(90deg)}
+    50%{transform:perspective(1400px) rotateY(180deg)}
+    75%{transform:perspective(1400px) rotateY(270deg)}
+    100%{transform:perspective(1400px) rotateY(360deg)}
 }
 @keyframes account-card-glint{
     0%,100%{opacity:0}
-    48%{opacity:.55}
-    52%{opacity:.15}
+    42%{opacity:.42}
+    50%{opacity:.58}
+    58%{opacity:.18}
 }
 @keyframes account-content-in{
     from{opacity:.72;transform:translateY(4px)}
     to{opacity:1;transform:translateY(0)}
 }
-@media(max-width:700px){\n    .account-neumorphic-page .account-panel{\n        width:min(100%,520px);\n        aspect-ratio:auto;\n        min-height:0;\n        padding:40px 25px 36px;\n        border-radius:32px;\n    }\n    .account-neumorphic-page .account-panel::before{\n        inset:10px;\n        border-radius:25px;\n    }\n    .account-neumorphic-page .account-panel.is-flipping::after{\n        border-radius:32px;\n    }
+@media(max-width:700px){\n    .account-neumorphic-page .account-panel{\n        width:min(100%,520px);\n        aspect-ratio:auto;\n        min-height:0;\n        padding:34px 22px 30px;\n        border-radius:32px;\n    }\n    .account-neumorphic-page .account-panel::before{\n        inset:10px;\n        border-radius:25px;\n    }\n    .account-neumorphic-page .account-panel.is-flipping::after{\n        border-radius:32px;\n    }
     .account-neumorphic-page .account-wrap{
         padding:55px 18px 72px;
         place-items:start center;
@@ -316,7 +318,7 @@
     .account-neumorphic-page .account-panel{
         width:min(100%,520px);
         min-height:0;
-        margin-top:28px;
+        margin-top:18px;
         padding:40px 25px 36px;
         border-radius:32px;
         box-shadow:
@@ -330,6 +332,20 @@
         border-radius:32px;
     }
 }
+
+    .account-neumorphic-page .account-form{
+        gap:13px;
+        margin-top:24px;
+    }
+    .account-neumorphic-page .account-form input{
+        height:50px;
+    }
+    .account-neumorphic-page .account-actions button{
+        min-height:48px;
+    }
+    .account-neumorphic-page .account-link{
+        margin-top:16px;
+    }
 @media(max-width:500px){
     .account-neumorphic-page .account-wrap{
         padding-left:14px;
