@@ -223,6 +223,7 @@
 <script src="../js/auth-navigation.js"></script>
 <script>
 (() => {
+    let activeFace = 'front';
     const $ = id => document.querySelector(`.account-face-${activeFace} [data-account-id="${id}"]`) || document.getElementById(id);
     const params = new URLSearchParams(window.location.search);
     const recoveryRequested = params.get('reset') === '1';
