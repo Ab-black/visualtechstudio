@@ -65,13 +65,13 @@
 .account-neumorphic-page .account-panel{
     position:relative;
     z-index:3;
-    width:min(100%,560px);
-    min-height:650px;
+    width:min(78vw,680px);
+    aspect-ratio:1;\n    min-height:0;
     box-sizing:border-box;
     margin:0 auto;
-    padding:clamp(42px,6vw,64px) clamp(26px,6vw,64px);
+    padding:clamp(78px,8vw,108px) clamp(92px,10vw,124px);
     border:0;
-    border-radius:42px;
+    border-radius:50%;
     background:#e7ebee;
     box-shadow:
         18px 18px 38px rgba(163,171,176,.62),
@@ -84,7 +84,7 @@
     content:"";
     position:absolute;
     inset:10px;
-    border-radius:34px;
+    border-radius:50%;
     border:1px solid rgba(255,255,255,.22);
     pointer-events:none;
 }
@@ -175,7 +175,7 @@
     grid-template-columns:1fr;
 }
 .account-neumorphic-page .account-actions button{
-    min-height:52px;
+    min-height:48px;
     border-radius:17px;
     padding:0 18px;
     font:700 .78rem/1 Inter,sans-serif;
@@ -283,7 +283,7 @@
     content:"";
     position:absolute;
     inset:0;
-    border-radius:42px;
+    border-radius:50%;
     background:linear-gradient(135deg,rgba(255,255,255,.28),rgba(181,190,196,.16));
     opacity:0;
     pointer-events:none;
@@ -305,7 +305,7 @@
     from{opacity:.72;transform:translateY(4px)}
     to{opacity:1;transform:translateY(0)}
 }
-@media(max-width:700px){
+@media(max-width:700px){\n    .account-neumorphic-page .account-panel{\n        width:min(100%,520px);\n        aspect-ratio:auto;\n        min-height:0;\n        padding:40px 25px 36px;\n        border-radius:32px;\n    }\n    .account-neumorphic-page .account-panel::before{\n        inset:10px;\n        border-radius:25px;\n    }\n    .account-neumorphic-page .account-panel.is-flipping::after{\n        border-radius:32px;\n    }
     .account-neumorphic-page .account-wrap{
         padding:55px 18px 72px;
         place-items:start center;
@@ -359,9 +359,9 @@
 </head>
 <body>
 <nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a href="../store/">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
-<main class="public-page account-neumorphic-page"><section class="page-hero account-wrap"><p class="eyebrow">CUSTOMER ACCOUNT</p><div class="account-panel" id="account-panel">
+<main class="public-page account-neumorphic-page"><section class="page-hero account-wrap"><div class="account-panel" id="account-panel">
 <h1 id="account-heading">Your account.</h1>
-<p class="page-lead" id="account-lead">Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.</p>
+<p class="page-lead" id="account-lead">Sign in to your account.</p>
 <div id="account-message" class="account-message is-hidden" role="alert" aria-live="polite"></div>
 <form id="account-form" class="account-form">
 <label><span>Email address</span><input id="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com"></label>
@@ -370,7 +370,7 @@
 <div id="forgot-row" class="account-secondary"><button id="forgot-button" type="button">Forgot password?</button></div>
 <div class="account-actions" id="auth-actions"><button class="btn-primary" id="submit-button" type="submit">Sign in</button><button class="btn-secondary" id="signup-button" type="button">Create account</button></div>
 <div id="confirmation-actions" class="account-secondary is-hidden"><button id="resend-confirmation-button" type="button">Resend confirmation email</button></div>
-<p class="account-note" id="form-note">We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website's code.</p>
+
 </form>
 <div id="signed-in-state" class="account-status is-hidden">
 <div class="account-status-card"><strong>Signed in</strong><span id="signed-in-email"></span></div>
@@ -438,14 +438,14 @@
         const signup = next === 'signup';
         const forgot = next === 'forgot';
         const reset = next === 'reset';
-        $('account-heading').textContent = reset ? 'Set a new password.' : forgot ? 'Reset your password.' : signup ? 'Create your account.' : 'Your account.';
+        $('account-heading').textContent = reset ? 'Set a new password.' : forgot ? 'Reset your password.' : signup ? 'Create your account.' : 'Login';
         $('account-lead').textContent = reset
             ? 'Choose a new password for your Visual Tech Studio account.'
             : forgot
                 ? 'Enter your account email and we will request a secure password reset link.'
                 : signup
                     ? 'Create an account so verified purchases can be securely connected to your personal library.'
-                    : 'Sign in to securely connect purchases to your account. Your purchased digital products will only become accessible after verified payment.';
+                    : 'Sign in to your account.';
         $('password-field').classList.toggle('is-hidden', forgot);
         $('confirm-password-field').classList.toggle('is-hidden', !signup && !reset);
         $('forgot-row').classList.toggle('is-hidden', next !== 'signin');
