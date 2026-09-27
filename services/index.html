@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/public-pages.css"><link rel="stylesheet" href="../css/desktop-overrides.css">
 <style>
 /* Services page — page-scoped styling only */
-.services-page{--svc-line:rgba(255,255,255,.12);--svc-line-soft:rgba(255,255,255,.07);--svc-muted:rgba(255,255,255,.62);overflow:hidden;padding-bottom:0}
+.services-page{--svc-line:rgba(244,245,242,.12);--svc-line-soft:rgba(244,245,242,.07);--svc-muted:rgba(244,245,242,.62);overflow:hidden;padding-bottom:0}
 .services-page .services-hero,.services-page .services-intro,.services-page .service-list,.services-page .process-section,.services-page .page-cta{width:100%;max-width:none;margin-left:auto;margin-right:auto;box-sizing:border-box}
 .services-page .services-hero{padding:120px 5vw 92px}
 .services-page .eyebrow{display:inline-block;margin:0 0 20px;color:var(--color-accent);font:600 .66rem/1 Inter,sans-serif;letter-spacing:.18em}
@@ -21,18 +21,18 @@
 .services-page .services-intro{display:grid;grid-template-columns:minmax(190px,.7fr) minmax(0,1.3fr);gap:70px;align-items:end;padding:0 5vw 30px}
 .services-page .services-intro>p{max-width:650px;margin:0;color:var(--svc-muted);font-size:.88rem;line-height:1.85}
 .services-page .service-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;padding:0 5vw;background:var(--svc-line-soft);border-top:1px solid var(--svc-line-soft);border-bottom:1px solid var(--svc-line-soft)}
-.services-page .service-card{position:relative;min-width:0;min-height:370px;box-sizing:border-box;padding:44px 42px 38px;background:rgba(0,0,0,.16);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:background .3s ease,transform .3s ease}
+.services-page .service-card{position:relative;min-width:0;min-height:370px;box-sizing:border-box;padding:44px 42px 38px;background:rgba(16,24,32,.16);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:background .3s ease,transform .3s ease}
 .services-page .service-card:nth-child(odd){border-right:1px solid var(--svc-line-soft)}
-.services-page .service-card::before{content:"";position:absolute;left:0;top:0;width:0;height:1px;background:rgba(255,255,255,.7);transition:width .4s ease}
-.services-page .service-card::after{content:"";position:absolute;right:-90px;top:-90px;width:230px;height:230px;border:1px solid rgba(255,255,255,.055);border-radius:50%;transition:transform .5s ease,opacity .3s ease}
-.services-page .service-card:hover{background:rgba(255,255,255,.035)}
+.services-page .service-card::before{content:"";position:absolute;left:0;top:0;width:0;height:1px;background:rgba(244,245,242,.7);transition:width .4s ease}
+.services-page .service-card::after{content:"";position:absolute;right:-90px;top:-90px;width:230px;height:230px;border:1px solid rgba(244,245,242,.055);border-radius:50%;transition:transform .5s ease,opacity .3s ease}
+.services-page .service-card:hover{background:rgba(244,245,242,.035)}
 .services-page .service-card:hover::before{width:100%}
 .services-page .service-card:hover::after{transform:scale(1.12);opacity:.8}
 .services-page .service-card>div:first-child{position:relative;z-index:1;width:100%;min-width:0;box-sizing:border-box}
 .services-page .service-card h2{position:relative;z-index:1;max-width:570px;margin:0 0 21px;font-size:clamp(1.85rem,3vw,2.55rem);line-height:1.02;letter-spacing:-.035em;font-weight:500}
 .services-page .service-card p{position:relative;z-index:1;width:100%;max-width:590px;margin:0;color:var(--svc-muted);font-size:.86rem;line-height:1.82;white-space:normal;overflow-wrap:break-word;word-break:normal}
 .services-page .service-footer{position:relative;z-index:1;margin-top:34px;display:flex;align-items:center}
-.services-page .text-link{font:600 .7rem/1 Inter,sans-serif;letter-spacing:.05em;text-decoration:none;color:inherit;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.38);transition:opacity .2s ease,border-color .2s ease}
+.services-page .text-link{font:600 .7rem/1 Inter,sans-serif;letter-spacing:.05em;text-decoration:none;color:inherit;padding-bottom:8px;border-bottom:1px solid rgba(244,245,242,.38);transition:opacity .2s ease,border-color .2s ease}
 .services-page .text-link:hover{opacity:.65;border-color:currentColor}
 .services-page .process-section{display:grid;grid-template-columns:minmax(280px,.82fr) minmax(0,1.5fr);gap:90px;margin-top:125px;padding:0 5vw}
 .services-page .process-section h2{max-width:480px;margin:0;font-size:clamp(2.9rem,5.5vw,5.4rem);line-height:.9;letter-spacing:-.05em;font-weight:500}
