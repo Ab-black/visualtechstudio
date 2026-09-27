@@ -34,7 +34,15 @@
     .product-modal-description{margin:0;white-space:pre-wrap;line-height:1.8}
     @media(max-width:900px){.store-page .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}
     @media(max-width:560px){.store-page .product-grid{grid-template-columns:1fr;gap:18px}.store-page .product-engagement{align-items:stretch;flex-direction:column;gap:10px}.store-page .reaction-group{width:100%;min-width:0}.store-page .reaction-button{flex:1;justify-content:center;min-width:0}.store-page .purchase-count{align-self:flex-start}.store-page .buy-button{width:100%;max-width:100%;min-width:0;margin-top:12px}.product-modal{padding:16px}.product-modal-panel{padding:28px 22px;max-height:82vh}.product-modal-title{margin-right:38px}}
-    </style>
+    
+/* Store grid alignment */
+.store-page .store-toolbar,
+.store-page .product-grid { box-sizing:border-box; margin-inline:auto; }
+.store-page .product-grid { align-items:stretch; }
+.store-page .product-card,
+.store-page .product-info,
+.store-page .product-bottom { min-width:0; }
+</style>
 </head>
 <body>
 <nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a class="active" href="./">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
