@@ -818,3 +818,48 @@ body {
         transform: none;
     }
 }
+
+/* Consistent type hierarchy across public pages */
+:root {
+    --type-h1: clamp(3rem, 6.2vw, 5.5rem);
+    --type-h2: clamp(2.25rem, 4vw, 3.5rem);
+    --type-h3: clamp(1.25rem, 2vw, 1.65rem);
+    --type-body: 1rem;
+    --type-small: .875rem;
+    --type-caption: .75rem;
+}
+body h1 {
+    font-family: var(--font-display);
+    font-size: var(--type-h1) !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+    letter-spacing: -.04em !important;
+}
+body h2 {
+    font-family: var(--font-display);
+    font-size: var(--type-h2) !important;
+    font-weight: 500 !important;
+    line-height: 1.08 !important;
+    letter-spacing: -.03em !important;
+}
+body h3 {
+    font-family: var(--font-display);
+    font-size: var(--type-h3) !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -.02em !important;
+}
+body p:not(.eyebrow) { line-height: 1.7; }
+body .page-lead { font-size: 1.125rem !important; line-height: 1.7 !important; }
+body .eyebrow,
+body .project-category,
+body .resource-type,
+body .resource-modal-type,
+body .library-kicker { font-size: var(--type-caption) !important; line-height: 1.35 !important; }
+body .service-list article > span,
+body .process-grid span,
+body .principles span { font-size: var(--type-caption) !important; line-height: 1.35 !important; }
+@media (max-width: 820px) {
+    body h1 { line-height: 1.04 !important; }
+    body h2 { line-height: 1.12 !important; }
+}
