@@ -265,9 +265,9 @@
         gap: 32px;
         overflow-y: auto;
         overflow-x: hidden;
-        background: linear-gradient(180deg, #0D1820 0%, #071016 100%);
-        border-left: 1px solid rgba(60, 200, 243, .22);
-        box-shadow: -24px 0 60px rgba(0, 0, 0, .34);
+        background: linear-gradient(180deg, #101820 0%, #101820 100%);
+        border-left: 1px solid rgba(63, 135, 145, .22);
+        box-shadow: -24px 0 60px rgba(16, 24, 32, .34);
         transform: translate3d(100%, 0, 0);
         visibility: hidden;
         opacity: 0;
@@ -294,7 +294,7 @@
     .site-nav .nav-menu ul li {
         margin: 0;
         padding: 0;
-        border-bottom: 1px solid rgba(255, 255, 255, .09);
+        border-bottom: 1px solid rgba(244, 245, 242, .09);
     }
 
     .site-nav .nav-menu ul li a {
@@ -302,7 +302,7 @@
         align-items: center;
         min-height: 64px;
         padding: 12px 4px;
-        color: #F3F8FB;
+        color: #F4F5F2;
         font-size: clamp(1.15rem, 5vw, 1.45rem);
         font-weight: 500;
         letter-spacing: -.02em;
@@ -314,14 +314,14 @@
         content: "↗";
         margin-left: auto;
         font-size: .8em;
-        color: #3CC8F3;
+        color: #3F8791;
         opacity: .8;
         transition: transform 220ms ease;
     }
 
     .site-nav .nav-menu ul li a:hover,
     .site-nav .nav-menu ul li a:focus-visible {
-        color: #3CC8F3;
+        color: #3F8791;
         transform: translateX(4px);
     }
 
@@ -337,19 +337,19 @@
         min-height: 56px;
         width: 100%;
         padding: 14px 20px;
-        background: #3CC8F3;
-        color: #061018;
-        border: 1px solid #3CC8F3;
+        background: #3F8791;
+        color: #101820;
+        border: 1px solid #3F8791;
         border-radius: 10px;
         font-weight: 700;
         text-decoration: none;
-        box-shadow: 0 10px 30px rgba(60, 200, 243, .16);
+        box-shadow: 0 10px 30px rgba(63, 135, 145, .16);
         transition: transform 220ms ease, background 220ms ease;
     }
 
     .site-nav .nav-menu .nav-cta:hover,
     .site-nav .nav-menu .nav-cta:focus-visible {
-        background: #65D7F8;
+        background: #A7B0B5;
         transform: translateY(-2px);
     }
 
