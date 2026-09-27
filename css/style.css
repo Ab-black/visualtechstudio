@@ -250,3 +250,17 @@ p { line-height: 1.7; }
     h1 { line-height: 1.02; }
     h2 { line-height: 1.1; }
 }
+
+/* Homepage shared alignment */
+.hero-content,
+.editorial-section > *,
+.services-section > *,
+.portfolio-section > *,
+.store-preview > *,
+.contact-section > * { min-width: 0; }
+.hero-content { margin-inline: auto; }
+.editorial-section,
+.services-section,
+.portfolio-section,
+.store-preview,
+.contact-section { box-sizing: border-box; }
