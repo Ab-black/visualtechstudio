@@ -379,3 +379,11 @@
         }
     }
 }
+
+/* Shared desktop content grid: consistent maximum width and gutters */
+@media (min-width: 1101px) {
+  :root {
+    --public-desktop-max: 1440px;
+    --public-desktop-gutter: clamp(32px, 4.5vw, 72px);
+  }
+}
