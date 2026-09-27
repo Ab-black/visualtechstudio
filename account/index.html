@@ -457,7 +457,7 @@
                 ? 'After creating your account, check your email and confirm your address before signing in.'
                 : forgot
                     ? 'For your security, we will not reveal whether an email is registered. If an account exists, a reset link will be sent.'
-                    : 'We use Supabase Auth for your account. Your password is handled by the authentication service and is never stored in this website\'s code.';
+                    : 'Your password is handled by the authentication service.';
         $('email').disabled = reset;
         $('email').required = !reset;
         $('password').required = !forgot;
