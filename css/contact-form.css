@@ -21,7 +21,7 @@
 .contact-upload.is-dragging,
 .contact-upload:focus-within {
     border-color: var(--color-accent);
-    background: rgba(60, 200, 243, .045);
+    background: rgba(63, 135, 145, .045);
 }
 
 .contact-upload.is-dragging {
@@ -99,7 +99,7 @@
 
 .contact-upload-error {
     margin-top: 10px;
-    color: #b42318;
+    color: #C3A46B;
     font-size: .76rem;
     line-height: 1.5;
 }
@@ -129,16 +129,16 @@
 }
 
 .contact-status.error {
-    color: #b42318;
+    color: #C3A46B;
 }
 
 .contact-success {
     grid-column: 1 / -1;
     display: none;
     padding: 22px 24px;
-    border: 1px solid rgba(60, 200, 243, .35);
+    border: 1px solid rgba(63, 135, 145, .35);
     border-radius: var(--radius-control);
-    background: rgba(60, 200, 243, .07);
+    background: rgba(63, 135, 145, .07);
 }
 
 .contact-success.is-visible {
