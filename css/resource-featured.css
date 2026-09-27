@@ -2,20 +2,20 @@
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    background: #111111;
+    background: #101820;
 }
 
 .resource-visual-image {
     position: relative;
     overflow: hidden;
-    background: #111111;
+    background: #101820;
 }
 
 .resource-visual-image::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(10, 10, 10, 0.02) 35%, rgba(10, 10, 10, 0.62) 100%);
+    background: linear-gradient(180deg, rgba(16, 24, 32, 0.02) 35%, rgba(16, 24, 32, 0.62) 100%);
     pointer-events: none;
 }
 
@@ -32,7 +32,7 @@
     left: 28px;
     bottom: 24px;
     z-index: 2;
-    color: #f5f5f2;
+    color: #F4F5F2;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.16em;
@@ -45,7 +45,7 @@
     align-items: center;
     align-self: flex-start;
     margin-top: 24px;
-    color: #3b82f6 !important;
+    color: #3F8791 !important;
 }
 
 .resource-modal[hidden] {
@@ -59,7 +59,7 @@
     display: grid;
     place-items: center;
     padding: 24px;
-    background: rgba(10, 10, 10, 0.74);
+    background: rgba(16, 24, 32, 0.74);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
@@ -68,11 +68,11 @@
     width: min(900px, 100%);
     max-height: min(820px, 90vh);
     overflow-y: auto;
-    background: #111111;
-    border: 1px solid #292929;
+    background: #101820;
+    border: 1px solid #1B2931;
     padding: clamp(30px, 5vw, 64px);
     position: relative;
-    box-shadow: 0 28px 100px rgba(0, 0, 0, 0.42);
+    box-shadow: 0 28px 100px rgba(16, 24, 32, 0.42);
 }
 
 .resource-modal-panel h2 {
@@ -90,34 +90,34 @@
     right: 18px;
     width: 42px;
     height: 42px;
-    border: 1px solid #292929;
+    border: 1px solid #1B2931;
     border-radius: 999px;
     background: transparent;
-    color: #f5f5f2;
+    color: #F4F5F2;
     font: inherit;
     font-size: 1.25rem;
     cursor: pointer;
 }
 
 .resource-modal-close:hover {
-    border-color: #d6b36a;
-    background: #171717;
+    border-color: #C3A46B;
+    background: #101820;
 }
 
 .resource-modal-close:focus-visible {
-    outline: 2px solid #d6b36a;
+    outline: 2px solid #C3A46B;
     outline-offset: 3px;
 }
 
 .resource-modal-type {
-    color: #d6b36a;
+    color: #C3A46B;
     font-size: 0.7rem;
     letter-spacing: 0.16em;
 }
 
 .resource-modal-summary {
     max-width: 720px;
-    color: #a3a3a0;
+    color: #A7B0B5;
     font-size: 1.08rem;
     line-height: 1.8;
 }
@@ -125,8 +125,8 @@
 .resource-modal-body {
     margin-top: 32px;
     padding-top: 30px;
-    border-top: 1px solid #292929;
-    color: #a3a3a0;
+    border-top: 1px solid #1B2931;
+    color: #A7B0B5;
     line-height: 1.85;
 }
 
@@ -138,7 +138,7 @@
 .resource-modal-body h3 {
     max-width: 760px;
     margin: 38px 0 14px;
-    color: #f5f5f2;
+    color: #F4F5F2;
     font-family: var(--font-display);
     font-size: clamp(1.8rem, 3vw, 2.8rem);
     font-weight: 500;
@@ -157,16 +157,16 @@
 }
 
 .resource-modal-body strong {
-    color: #f5f5f2;
+    color: #F4F5F2;
 }
 
 .resource-modal-body blockquote {
     max-width: 760px;
     margin: 30px 0;
     padding: 22px 24px;
-    border-left: 2px solid #d6b36a;
-    background: #171717;
-    color: #f5f5f2;
+    border-left: 2px solid #C3A46B;
+    background: #101820;
+    color: #F4F5F2;
     font-family: var(--font-display);
     font-size: clamp(1.35rem, 2.4vw, 2rem);
     line-height: 1.25;
@@ -176,14 +176,14 @@
     max-width: 760px;
     margin: 32px 0;
     padding: 20px 22px;
-    border: 1px solid #292929;
-    background: #151515;
+    border: 1px solid #1B2931;
+    background: #101820;
 }
 
 .resource-modal-body .article-note strong {
     display: block;
     margin-bottom: 8px;
-    color: #d6b36a;
+    color: #C3A46B;
     font-family: var(--font-body);
     font-size: 0.7rem;
     letter-spacing: 0.14em;
