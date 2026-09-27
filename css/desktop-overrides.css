@@ -2,8 +2,8 @@
 
 @media (min-width: 1101px) {
     :root {
-        --public-desktop-max: 1800px;
-        --public-desktop-gutter: clamp(32px, 3vw, 52px);
+        --public-desktop-max: 1440px;
+        --public-desktop-gutter: clamp(24px, 4vw, 64px);
     }
 
     .hero,
@@ -385,5 +385,82 @@
   :root {
     --public-desktop-max: 1440px;
     --public-desktop-gutter: clamp(32px, 4.5vw, 72px);
+  }
+}
+
+
+/* Shared alignment rails for public-page sections */
+@media (min-width: 821px) {
+  :root {
+    --public-content-max: 1440px;
+    --public-content-gutter: clamp(24px, 4vw, 64px);
+  }
+
+  .public-page .page-hero,
+  .public-page .service-list,
+  .public-page .process-section,
+  .public-page .studio-split,
+  .public-page .principles,
+  .public-page .featured-resource,
+  .public-page .resource-grid,
+  .public-page .store-toolbar,
+  .public-page .product-grid,
+  .public-page .brief-layout,
+  .public-page .consultation-strip,
+  .public-page .work-archive,
+  .hero,
+  .editorial-section,
+  .services-section,
+  .portfolio-section,
+  .store-preview,
+  .contact-section {
+    max-width: var(--public-content-max);
+    margin-inline: auto;
+  }
+
+  .public-page .page-hero,
+  .public-page .service-list,
+  .public-page .process-section,
+  .public-page .studio-split,
+  .public-page .principles,
+  .public-page .featured-resource,
+  .public-page .resource-grid,
+  .public-page .store-toolbar,
+  .public-page .product-grid,
+  .public-page .brief-layout,
+  .public-page .consultation-strip,
+  .public-page .work-archive {
+    padding-inline: var(--public-content-gutter);
+  }
+
+  .public-page .page-hero-inner,
+  .public-page .section-heading,
+  .public-page .work-grid,
+  .public-page .product-grid,
+  .public-page .resource-grid,
+  .public-page .brief-layout,
+  .public-page .studio-about-grid,
+  .public-page .studio-services-intro,
+  .public-page .studio-audience-intro,
+  .public-page .studio-why-intro,
+  .public-page .studio-values-intro,
+  .public-page .studio-work-intro {
+    min-width: 0;
+  }
+
+  .public-page .work-item,
+  .public-page .product-card,
+  .public-page .resource-card,
+  .public-page .studio-service-item,
+  .public-page .studio-audience-card,
+  .public-page .studio-approach-card,
+  .public-page .studio-value,
+  .public-page .service-card {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .public-page img {
+    max-width: 100%;
   }
 }
