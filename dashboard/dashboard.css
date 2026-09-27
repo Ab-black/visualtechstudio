@@ -180,3 +180,27 @@ td { color: var(--text); }
     .request-modal-card { max-height: calc(100vh - 24px); }
     .dashboard-footer { padding: 26px 18px 40px; }
 }
+
+/* Dashboard typography hierarchy */
+:root {
+    --dash-h1: 1.75rem;
+    --dash-h2: 1.375rem;
+    --dash-h3: 1.0625rem;
+    --dash-body: .875rem;
+    --dash-small: .75rem;
+    --dash-caption: .6875rem;
+}
+body { font-size: var(--dash-body); line-height: 1.6; }
+.topbar h1 { font-size: var(--dash-h1); line-height: 1.2; font-weight: 600; letter-spacing: -.035em; }
+.section-intro h2,
+.request-modal-header h2 { font-size: var(--dash-h2); line-height: 1.25; font-weight: 600; letter-spacing: -.025em; }
+.panel-header h3 { font-size: var(--dash-h3); line-height: 1.3; font-weight: 600; letter-spacing: -.015em; }
+.eyebrow, .nav-label, .breadcrumb, .request-detail-label { font-size: var(--dash-caption); line-height: 1.4; }
+.section-description { font-size: var(--dash-body); line-height: 1.65; }
+.metric-top, .metric-card p, .panel-label, .compact-panel p,
+.panel-header a, .pagination, .request-message { font-size: var(--dash-small); line-height: 1.5; }
+th, td { font-size: var(--dash-small); line-height: 1.5; }
+@media (max-width: 700px) {
+    .topbar h1 { font-size: 1.5rem; }
+    .section-intro h2, .request-modal-header h2 { font-size: 1.25rem; }
+}
