@@ -204,3 +204,18 @@ th, td { font-size: var(--dash-small); line-height: 1.5; }
     .topbar h1 { font-size: 1.5rem; }
     .section-intro h2, .request-modal-header h2 { font-size: 1.25rem; }
 }
+
+/* Dashboard content grid alignment */
+.dashboard-main { min-width: 0; }
+.dashboard-main > * { min-width: 0; }
+.dashboard-content,
+.dashboard-container,
+.dashboard-section,
+.dashboard-grid,
+.dashboard-header,
+.topbar,
+.page-content { box-sizing: border-box; }
+.dashboard-grid > *,
+.dashboard-content > *,
+.dashboard-container > *,
+.dashboard-section > * { min-width: 0; }
