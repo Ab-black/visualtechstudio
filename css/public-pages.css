@@ -863,3 +863,34 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
     body h1 { line-height: 1.04 !important; }
     body h2 { line-height: 1.12 !important; }
 }
+
+/* Shared content alignment for public-page sections */
+.public-page .page-hero,
+.public-page .service-list,
+.public-page .process-section,
+.public-page .studio-split,
+.public-page .principles,
+.public-page .featured-resource,
+.public-page .resource-grid,
+.public-page .store-toolbar,
+.public-page .product-grid,
+.public-page .brief-layout,
+.public-page .consultation-strip,
+.public-page .work-archive {
+  box-sizing: border-box;
+  margin-inline: auto;
+}
+.public-page .page-hero > *,
+.public-page .service-list > *,
+.public-page .process-section > *,
+.public-page .studio-split > *,
+.public-page .principles > *,
+.public-page .featured-resource > *,
+.public-page .resource-grid > *,
+.public-page .store-toolbar > *,
+.public-page .product-grid > *,
+.public-page .brief-layout > *,
+.public-page .consultation-strip > *,
+.public-page .work-archive > * {
+  min-width: 0;
+}
