@@ -1,6 +1,6 @@
 (() => {
     const config = window.VISUAL_TECH_SUPABASE;
-    const siteRoot = "/visualtechstudio/";
+    const siteRoot = "/";
 
     if (!config?.url || !config?.publishableKey) {
         return;
