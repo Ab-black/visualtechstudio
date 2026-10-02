@@ -92,7 +92,7 @@
             "@context": "https://schema.org",
             "@type": "Product",
             "name": product.title || "Digital Product",
-            "description": (product.description || "").replace(/\\s+/g, " ").trim(),
+            "description": (product.description || "").replace(/\s+/g, " ").trim(),
             "url": canonical,
             "image": product.cover_path ? coverUrl(product.cover_path) : "https://visualtechstudio.xyz/images/logo.jpg",
             "offers": {
