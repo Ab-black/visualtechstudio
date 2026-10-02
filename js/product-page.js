@@ -33,6 +33,51 @@
         return `${config.url}/storage/v1/object/public/public-assets/${path.split("/").map(encodeURIComponent).join("/")}`;
     };
 
+    const setMeta = (attribute, key, value) => {
+        let element = Array.from(document.head.querySelectorAll(`meta[${attribute}]`))
+            .find(meta => meta.getAttribute(attribute) === key);
+
+        if (!element) {
+            element = document.createElement("meta");
+            element.setAttribute(attribute, key);
+            document.head.appendChild(element);
+        }
+
+        element.setAttribute("content", value);
+    };
+
+    const updateProductSeo = product => {
+        const title = `${product.title || "Digital Product"} | Visual Tech Studio`;
+        const description = (product.description || `${product.title || "Digital product"} from Visual Tech Studio.`)
+            .replace(/\\s+/g, " ")
+            .trim()
+            .slice(0, 160);
+        const canonical = `https://visualtechstudio.xyz/store/${encodeURIComponent(product.slug || slug)}/`;
+        const image = coverUrl(product.cover_path) || "https://visualtechstudio.xyz/images/logo.jpg";
+
+        document.title = title;
+        setMeta("name", "description", description);
+        setMeta("property", "og:type", "product");
+        setMeta("property", "og:site_name", "Visual Tech Studio");
+        setMeta("property", "og:url", canonical);
+        setMeta("property", "og:title", title);
+        setMeta("property", "og:description", description);
+        setMeta("property", "og:image", image);
+        setMeta("property", "og:image:alt", product.title ? `${product.title} cover` : "Visual Tech Studio product");
+        setMeta("name", "twitter:card", "summary_large_image");
+        setMeta("name", "twitter:title", title);
+        setMeta("name", "twitter:description", description);
+        setMeta("name", "twitter:image", image);
+
+        let canonicalLink = document.head.querySelector('link[rel="canonical"]');
+        if (!canonicalLink) {
+            canonicalLink = document.createElement("link");
+            canonicalLink.rel = "canonical";
+            document.head.appendChild(canonicalLink);
+        }
+        canonicalLink.href = canonical;
+    };
+
     const showMessage = message => {
         if (productContent) productContent.hidden = true;
         if (statusEl) {
@@ -42,7 +87,7 @@
     };
 
     const renderProduct = product => {
-        document.title = `${product.title} | Visual Tech Studio`;
+        updateProductSeo(product);
         titleEl.textContent = product.title || "Digital Product";
         descriptionEl.textContent = product.description || "No description available.";
         priceEl.textContent = money(product.price, product.currency || "NGN");
