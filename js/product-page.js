@@ -78,6 +78,35 @@
         canonicalLink.href = canonical;
     };
 
+    const updateProductStructuredData = product => {
+        let script = document.getElementById("product-structured-data");
+        if (!script) {
+            script = document.createElement("script");
+            script.id = "product-structured-data";
+            script.type = "application/ld+json";
+            document.head.appendChild(script);
+        }
+
+        const canonical = `https://visualtechstudio.xyz/store/${encodeURIComponent(product.slug || slug)}/`;
+        const schema = {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": product.title || "Digital Product",
+            "description": (product.description || "").replace(/\\s+/g, " ").trim(),
+            "url": canonical,
+            "image": product.cover_path ? coverUrl(product.cover_path) : "https://visualtechstudio.xyz/images/logo.jpg",
+            "offers": {
+                "@type": "Offer",
+                "url": canonical,
+                "price": String(product.price ?? ""),
+                "priceCurrency": product.currency || "NGN",
+                "availability": "https://schema.org/InStock"
+            }
+        };
+
+        script.textContent = JSON.stringify(schema);
+    };
+
     const showMessage = message => {
         if (productContent) productContent.hidden = true;
         if (statusEl) {
@@ -88,6 +117,7 @@
 
     const renderProduct = product => {
         updateProductSeo(product);
+        updateProductStructuredData(product);
         titleEl.textContent = product.title || "Digital Product";
         descriptionEl.textContent = product.description || "No description available.";
         priceEl.textContent = money(product.price, product.currency || "NGN");
