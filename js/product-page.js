@@ -49,7 +49,7 @@
     const updateProductSeo = product => {
         const title = `${product.title || "Digital Product"} | Visual Tech Studio`;
         const description = (product.description || `${product.title || "Digital product"} from Visual Tech Studio.`)
-            .replace(/\\s+/g, " ")
+            .replace(/\s+/g, " ")
             .trim()
             .slice(0, 160);
         const canonical = `https://visualtechstudio.xyz/store/${encodeURIComponent(product.slug || slug)}/`;
