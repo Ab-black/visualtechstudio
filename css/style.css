@@ -134,7 +134,12 @@ p { color: var(--color-text-secondary); }
 .section-copy p, .store-preview p { max-width: 520px; font-size: var(--text-body-lg); line-height: 1.8; }
 .section-copy .text-link { margin-top: 28px; }
 
-.services-section { border-top: 1px solid var(--color-border); }
+.services-section {
+    border-top: 1px solid var(--color-border);
+    background:
+        linear-gradient(rgba(16, 24, 32, .48), rgba(16, 24, 32, .48)),
+        url('../images/capabilities-background.jpg') center center / cover no-repeat;
+}
 .services-section .section-heading { margin-bottom: var(--space-16); }
 .service-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1px; border: 1px solid var(--color-border); background: var(--color-border); }
 .service-card { min-height: 330px; grid-column: span 3; display: flex; flex-direction: column; align-items: flex-start; padding: 34px; background: var(--color-surface); transition: background var(--duration-standard) ease, transform var(--duration-standard) var(--ease-premium); }
