@@ -501,9 +501,31 @@
   .hero-copy, .page-lead { overflow-wrap:break-word; }
   .buttons { width:100%; }
   .buttons > * { min-width:0; max-width:100%; }
-  .service-grid, .product-grid, .resource-grid, .principles,
+  .service-grid {
+    width:100%;
+    min-width:0;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  .product-grid, .resource-grid, .principles,
   .process-grid, .work-grid, .project-form {
-    width:100%; min-width:0; grid-template-columns:minmax(0,1fr);
+    width:100%;
+    min-width:0;
+    grid-template-columns:minmax(0,1fr);
+  }
+
+  .service-card {
+    grid-column:auto;
+    min-height:260px;
+    padding:20px;
+  }
+
+  .service-number {
+    margin-bottom:36px;
+  }
+
+  .service-card h3 {
+    max-width:none;
   }
   .service-card, .product-card, .resource-grid article,
   .principles article, .process-grid article, .work-item {
