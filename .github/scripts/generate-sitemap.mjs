@@ -18,7 +18,7 @@ const supabaseUrl = urlMatch[1];
 const publishableKey = keyMatch[1];
 
 const endpoint = new URL("/rest/v1/products", supabaseUrl);
-endpoint.searchParams.set("select", "slug");
+endpoint.searchParams.set("select", "id,title,description,price,currency,format,cover_path,slug,status,created_at");
 endpoint.searchParams.set("status", "eq.published");
 endpoint.searchParams.set("order", "created_at.desc");
 
