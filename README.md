@@ -2,15 +2,15 @@
 
 A premium digital studio website built to showcase Visual Tech Studio's web development, graphic design, digital products, and selected projects.
 
-## Live Website
+## Official Website
 
-[Visit Visual Tech Studio](https://ab-black.github.io/visualtechstudio/index.html)
+[Visit Visual Tech Studio](https://visualtechstudio.xyz/)
 
-## About
+## Brand
+
+**Visual Tech Studio** is the official brand name used across the website and public studio identity.
 
 Visual Tech Studio is a modern digital studio focused on creating polished websites, web applications, visual designs, and digital products for businesses, organizations, startups, and personal brands.
-
-The website is designed as both a studio portfolio and a functional digital platform, with customer authentication, a product store, checkout, customer accounts, and a private digital library.
 
 ## Main Features
 
@@ -99,4 +99,4 @@ Changes are developed and committed through GitHub. The main branch is used for 
 
 Web Developer & Graphic Designer
 
-Visual Tech Studio
+**Visual Tech Studio**
