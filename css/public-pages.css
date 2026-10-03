@@ -35,7 +35,7 @@ body {
 .services-page .services-hero {
     position: relative;
     background:
-        linear-gradient(rgba(16, 24, 32, .7), rgba(16, 24, 32, .7)),
+        linear-gradient(rgba(16, 24, 32, .9), rgba(16, 24, 32, .9)),
         url('../images/services-hero.jpg') center center / cover no-repeat;
 }
 
