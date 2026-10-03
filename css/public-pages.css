@@ -34,6 +34,9 @@ body {
 
 .services-page .services-hero {
     position: relative;
+    background:
+        linear-gradient(rgba(16, 24, 32, .7), rgba(16, 24, 32, .7)),
+        url('../images/services-hero.jpg') center center / cover no-repeat;
 }
 
 .page-hero .orbital-visual,
