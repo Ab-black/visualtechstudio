@@ -52,7 +52,6 @@ body {
     border-radius: 50%;
     transform: translate(-50%, -50%) rotate(0deg);
     transform-origin: center;
-    animation: visual-tech-orbit-one 18s linear infinite;
     box-shadow: 0 0 12px rgba(63, 135, 145, .025);
 }
 
@@ -61,8 +60,6 @@ body {
     height: 50%;
     border-color: rgba(63, 135, 145, .18);
     transform: translate(-50%, -50%) rotate(58deg);
-    animation-name: visual-tech-orbit-two;
-    animation-duration: 14s;
 }
 
 .orbital-visual .orbit-three {
@@ -70,8 +67,6 @@ body {
     height: 58%;
     border-color: rgba(63, 135, 145, .14);
     transform: translate(-50%, -50%) rotate(-55deg);
-    animation-name: visual-tech-orbit-three;
-    animation-duration: 22s;
 }
 
 .orbital-visual .orbital-core {
@@ -101,33 +96,12 @@ body {
     filter: brightness(0.68) blur(0.4px);
 }
 
-@keyframes visual-tech-orbit-one {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes visual-tech-orbit-two {
-    from { transform: translate(-50%, -50%) rotate(58deg); }
-    to { transform: translate(-50%, -50%) rotate(-302deg); }
-}
-
-@keyframes visual-tech-orbit-three {
-    from { transform: translate(-50%, -50%) rotate(-55deg); }
-    to { transform: translate(-50%, -50%) rotate(305deg); }
-}
-
 @media (max-width: 768px) {
      .page-hero .orbital-visual,
     .services-page .services-hero .orbital-visual {
         right: 3%;
         top: 4%;
         width: min(72vw, 290px);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .orbital-visual .orbit {
-        animation-play-state: paused;
     }
 }
 
