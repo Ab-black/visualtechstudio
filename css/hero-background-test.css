@@ -7,7 +7,7 @@
 
 .hero-content {
     width: min(100%, 820px);
-    transform: translateY(12%);
+    transform: translateY(14%);
 }
 
 .hero h1 {
@@ -52,7 +52,7 @@
 @media (max-width: 520px) {
     .hero-content {
         width: 100%;
-        transform: translateY(7%);
+        transform: translateY(9%);
     }
 
     .hero .eyebrow {
