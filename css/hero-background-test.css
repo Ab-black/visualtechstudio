@@ -1,7 +1,7 @@
 .hero {
     background:
         linear-gradient(rgba(16, 24, 32, 0.56), rgba(16, 24, 32, 0.56)),
-        url('../images/hero-background-test.jpg') center center / 100% auto no-repeat;
+        url('../images/imageshero-background-test.jpg') center center / 100% auto no-repeat;
     background-color: #101820;
 }
 
@@ -51,15 +51,27 @@
 @media (max-width: 520px) {
     .hero-content {
         width: 100%;
+        transform: translateY(7%);
+    }
+
+    .hero .eyebrow {
+        font-size: 0.6975rem;
     }
 
     .hero h1 {
         max-width: 360px;
         margin-inline: auto;
         line-height: 0.98;
+        font-size: clamp(2.4645rem, 11.625vw, 3.348rem);
     }
 
     .hero-copy {
         max-width: 330px;
+        font-size: 0.93rem;
+    }
+
+    .hero .btn-primary,
+    .hero .btn-secondary {
+        font-size: 0.81375rem;
     }
 }
