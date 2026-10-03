@@ -7,8 +7,8 @@
     --color-text-muted: #3F8791;
     --color-border: #1B2931;
     --color-accent: #3F8791;
-    --color-accent-hover: #63F5FF;
-    --color-accent-soft: rgba(63, 135, 145, 0.14);
+    --color-accent-hover: #A7B0B5;
+    --color-accent-soft: rgba(63, 135, 145, 0.12);
     --color-editorial: #F4F5F2;
     --color-editorial-text: #101820;
 
@@ -55,19 +55,8 @@
     --duration-standard: 350ms;
     --duration-slow: 700ms;
     --duration-major: 850ms;
-    --color-cyan: #63F5FF;
-    --color-violet: #A78BFA;
-    --color-amber: #FFB86B;
-    --color-cyan-soft: rgba(99, 245, 255, 0.12);
-    --color-violet-soft: rgba(167, 139, 250, 0.12);
-    --color-amber-soft: rgba(255, 184, 107, 0.12);
-    --border-subtle: rgba(244, 245, 242, 0.09);
-    --border-medium: rgba(244, 245, 242, 0.14);
-    --border-accent: rgba(63, 135, 145, 0.30);
-    --focus-ring: 0 0 0 3px rgba(99, 245, 255, 0.28), 0 0 0 6px rgba(167, 139, 250, 0.10);
-    --shadow-soft: 0 18px 60px rgba(4, 10, 15, 0.34);
-    --shadow-card: 0 24px 70px rgba(4, 10, 15, 0.26);
-    --shadow-accent: 0 18px 60px rgba(63, 135, 145, 0.12);
+    --focus-ring: 0 0 0 3px rgba(63, 135, 145, 0.28);
+    --shadow-soft: 0 18px 60px rgba(16, 24, 32, 0.24);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
