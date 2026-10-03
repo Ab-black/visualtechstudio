@@ -67,7 +67,7 @@ const htmlEscape = value =>
 
 const productDescription = product =>
   String(product.description || `${product.title || "Digital product"} from Visual Tech Studio.`)
-    .replace(/\\s+/g, " ")
+    .replace(/\s+/g, " ")
     .trim()
     .slice(0, 160);
 
