@@ -48,35 +48,36 @@
 @media(min-width:901px){
 .services-page .service-card{
     min-height:430px;
-    padding:46px 48px 42px;
+    padding:44px 48px 40px;
     display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(300px,42%);
+    grid-template-columns:minmax(0,360px) minmax(300px,1fr);
     grid-template-rows:auto 1fr auto;
-    column-gap:54px;
+    column-gap:68px;
     row-gap:0;
 }
 .services-page .service-card>div:first-child{
     width:100%;
-    max-width:500px;
+    max-width:360px;
     align-self:start;
     grid-column:1;
     grid-row:1 / span 2;
-    padding-top:112px;
+    padding-top:106px;
 }
 .services-page .service-card h2{
-    max-width:390px;
-    margin:0 0 22px;
-    font-size:clamp(2rem,2.65vw,2.8rem);
-    line-height:.98;
+    max-width:340px;
+    margin:0 0 20px;
+    font-size:clamp(1.95rem,2.45vw,2.55rem);
+    line-height:1;
+    letter-spacing:-.04em;
 }
 .services-page .service-card p{
-    max-width:500px;
-    font-size:.92rem;
-    line-height:1.82;
+    max-width:360px;
+    font-size:.86rem;
+    line-height:1.8;
 }
 .services-page .service-image-grid{
-    width:min(100%,390px);
-    max-width:390px;
+    width:min(100%,360px);
+    max-width:360px;
     aspect-ratio:1 / .78;
     align-self:start;
     justify-self:end;
@@ -85,7 +86,7 @@
     grid-row:1 / span 2;
 }
 .services-page .service-image-grid span{
-    border-color:rgba(244,245,242,.13);
+    border-color:rgba(244,245,242,.15);
     background:
         linear-gradient(90deg,transparent 32.9%,rgba(244,245,242,.09) 33%,rgba(244,245,242,.09) 33.25%,transparent 33.35%,transparent 66.55%,rgba(244,245,242,.09) 66.65%,rgba(244,245,242,.09) 66.9%,transparent 67%),
         linear-gradient(0deg,transparent 49.85%,rgba(244,245,242,.09) 50%,rgba(244,245,242,.09) 50.2%,transparent 50.35%),
@@ -101,19 +102,22 @@
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    min-height:46px;
+    min-height:48px;
     box-sizing:border-box;
-    padding:0 20px;
-    border:1px solid rgba(244,245,242,.38);
-    background:rgba(244,245,242,.045);
-    font-size:.68rem;
-    letter-spacing:.06em;
-    transition:background .2s ease,border-color .2s ease,opacity .2s ease;
+    padding:0 22px;
+    border:1px solid rgba(244,245,242,.42);
+    background:rgba(244,245,242,.055);
+    color:var(--color-editorial-text,var(--color-editorial));
+    font:600 .67rem/1 Inter,sans-serif;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    transition:background .22s ease,border-color .22s ease,transform .22s ease;
 }
 .services-page .service-footer .text-link:hover{
-    opacity:1;
-    background:rgba(244,245,242,.1);
-    border-color:rgba(244,245,242,.7);
+    background:rgba(244,245,242,.12);
+    border-color:rgba(244,245,242,.72);
+    transform:translateY(-2px);
 }
 }
 .services-page .service-card h2{position:relative;z-index:1;max-width:570px;margin:0 0 21px;font-size:clamp(1.85rem,3vw,2.55rem);line-height:1.02;letter-spacing:-.035em;font-weight:500}
