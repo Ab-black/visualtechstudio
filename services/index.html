@@ -46,8 +46,15 @@
 .services-page .service-image-grid span{display:block;width:100%;height:100%;min-width:0;min-height:0;border:1px solid rgba(244,245,242,.09);background:linear-gradient(135deg,rgba(63,135,145,.18),rgba(244,245,242,.035) 55%,rgba(16,24,32,.2));box-shadow:inset 0 0 24px rgba(16,24,32,.16);transition:transform .3s ease,background .3s ease}
 .services-page .service-card:hover .service-image-grid span{transform:scale(1.015)}
 @media(min-width:901px){
-.services-page .service-card>div:first-child{max-width:280px}
-.services-page .service-card h2,.services-page .service-card p{max-width:280px}
+.services-page .service-card>div:first-child{
+    width:320px;
+    max-width:320px;
+    align-self:center;
+}
+.services-page .service-card h2,
+.services-page .service-card p{
+    max-width:320px;
+}
 }
 .services-page .service-card h2{position:relative;z-index:1;max-width:570px;margin:0 0 21px;font-size:clamp(1.85rem,3vw,2.55rem);line-height:1.02;letter-spacing:-.035em;font-weight:500}
 .services-page .service-card p{position:relative;z-index:1;width:100%;max-width:590px;margin:0;color:var(--svc-muted);font-size:.86rem;line-height:1.82;white-space:normal;overflow-wrap:break-word;word-break:normal}
