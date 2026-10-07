@@ -97,7 +97,24 @@
 .studio-page .studio-value,
 .studio-page .studio-work-panel > * { min-width:0; }
 
-        /* Desktop heading refinement for the requested Studio sections */
+        /* Non-clickable Studio hero label */
+        .studio-page .studio-hero > .eyebrow {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            min-height:40px;
+            box-sizing:border-box;
+            padding:9px 16px;
+            border:1px solid rgba(63,135,145,.55);
+            border-radius:999px;
+            background:rgba(63,135,145,.10);
+            color:#67B6C0;
+            letter-spacing:.18em;
+            line-height:1;
+            user-select:none;
+        }
+
+/* Desktop heading refinement for the requested Studio sections */
         @media (min-width:901px) {
             .studio-page .studio-about-grid {
                 grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);
