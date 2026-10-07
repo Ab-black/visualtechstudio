@@ -547,6 +547,33 @@
 
 /* Second service grid image */
 /* Third service grid image */
+/* Desktop process heading refinement */
+@media (min-width:901px) {
+    .services-page .process-section {
+        grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);
+        column-gap:clamp(56px,7vw,120px);
+        align-items:center;
+    }
+
+    .services-page .process-section > div:first-child {
+        width:100%;
+        max-width:820px;
+        align-self:center;
+    }
+
+    .services-page .process-section > div:first-child .eyebrow {
+        margin-bottom:clamp(18px,2vw,28px);
+    }
+
+    .services-page .process-section > div:first-child h2 {
+        max-width:780px;
+        margin:0;
+        font-size:clamp(2.65rem,4.6vw,5.2rem);
+        line-height:.93;
+        letter-spacing:-.05em;
+    }
+}
+
 /* Desktop editorial-section refinement */
 @media (min-width:901px) {
     .services-page .editorial-section {
