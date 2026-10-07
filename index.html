@@ -112,6 +112,40 @@
     }
 }
 </style>
+<style>
+/* Targeted layout refinement for the two homepage editorial sections */
+@media (min-width:901px) {
+    section[aria-labelledby="approach-content-title"],
+    section[aria-labelledby="geographic-identity-title"] {
+        grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);
+        column-gap:clamp(48px,6vw,96px);
+        align-items:center;
+    }
+
+    section[aria-labelledby="approach-content-title"] .section-heading,
+    section[aria-labelledby="geographic-identity-title"] .section-heading {
+        grid-column:1;
+        width:100%;
+        max-width:780px;
+        align-self:center;
+    }
+
+    section[aria-labelledby="approach-content-title"] .section-copy,
+    section[aria-labelledby="geographic-identity-title"] .section-copy {
+        grid-column:2;
+        width:100%;
+        max-width:620px;
+        justify-self:end;
+        align-self:center;
+    }
+
+    section[aria-labelledby="approach-content-title"] .section-copy p,
+    section[aria-labelledby="geographic-identity-title"] .section-copy p {
+        max-width:620px;
+        line-height:1.78;
+    }
+}
+</style>
 </head>
 <body>
     <nav class="site-nav" aria-label="Primary navigation">
