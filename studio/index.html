@@ -96,6 +96,73 @@
 .studio-page .studio-approach-card,
 .studio-page .studio-value,
 .studio-page .studio-work-panel > * { min-width:0; }
+
+        /* Desktop heading refinement for the requested Studio sections */
+        @media (min-width:901px) {
+            .studio-page .studio-about-grid {
+                grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);
+                column-gap:clamp(56px,7vw,120px);
+                align-items:center;
+            }
+
+            .studio-page .studio-about-grid > div:first-child {
+                width:100%;
+                max-width:820px;
+                align-self:center;
+            }
+
+            .studio-page .studio-about-grid > div:first-child .eyebrow {
+                margin-bottom:clamp(18px,2vw,28px);
+            }
+
+            .studio-page .studio-about-grid > div:first-child h2 {
+                max-width:780px;
+                margin:0;
+                font-size:clamp(2.65rem,4.6vw,5.2rem);
+                line-height:.93;
+                letter-spacing:-.05em;
+            }
+
+            .studio-page .studio-about-copy {
+                width:100%;
+                max-width:620px;
+                justify-self:end;
+            }
+
+            .studio-page .editorial-section {
+                grid-template-columns:minmax(0,1.12fr) minmax(360px,.88fr);
+                column-gap:clamp(56px,7vw,120px);
+                align-items:center;
+            }
+
+            .studio-page .editorial-section .section-heading {
+                grid-column:1;
+                width:100%;
+                max-width:820px;
+                align-self:center;
+            }
+
+            .studio-page .editorial-section .section-heading .eyebrow {
+                margin-bottom:clamp(18px,2vw,28px);
+            }
+
+            .studio-page .editorial-section .section-heading h2 {
+                max-width:780px;
+                margin:0;
+                font-size:clamp(2.65rem,4.6vw,5.2rem);
+                line-height:.93;
+                letter-spacing:-.05em;
+            }
+
+            .studio-page .editorial-section .section-copy {
+                grid-column:2;
+                width:100%;
+                max-width:620px;
+                justify-self:end;
+                align-self:center;
+            }
+        }
+
 </style>
 </head>
 <body>
