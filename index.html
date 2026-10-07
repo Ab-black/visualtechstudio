@@ -146,6 +146,87 @@
     }
 }
 </style>
+<style>
+/* Distinctive treatment for the Digital Work body copy */
+section[aria-labelledby="approach-content-title"] .section-copy {
+    position:relative;
+    box-sizing:border-box;
+    padding:32px 34px 34px 36px;
+    border:1px solid rgba(214,179,106,.28);
+    background:
+        linear-gradient(135deg,rgba(214,179,106,.075),rgba(63,135,145,.035) 52%,rgba(16,24,32,.08));
+    box-shadow:
+        inset 0 1px 0 rgba(244,245,242,.035),
+        0 18px 42px rgba(0,0,0,.08);
+}
+
+section[aria-labelledby="approach-content-title"] .section-copy::before {
+    content:"";
+    position:absolute;
+    top:24px;
+    bottom:24px;
+    left:-1px;
+    width:3px;
+    background:linear-gradient(180deg,#D6B36A,#67B6C0);
+}
+
+section[aria-labelledby="approach-content-title"] .section-copy::after {
+    content:"";
+    position:absolute;
+    width:54px;
+    height:54px;
+    right:18px;
+    bottom:18px;
+    border-right:1px solid rgba(214,179,106,.3);
+    border-bottom:1px solid rgba(214,179,106,.3);
+    pointer-events:none;
+}
+
+section[aria-labelledby="approach-content-title"] .section-copy p {
+    position:relative;
+    z-index:1;
+}
+
+section[aria-labelledby="approach-content-title"] .section-copy p:first-child {
+    color:var(--color-text-primary);
+    font-size:clamp(1rem,1.15vw,1.16rem);
+    line-height:1.75;
+}
+
+section[aria-labelledby="approach-content-title"] .section-copy p + p {
+    margin-top:26px;
+    padding-top:24px;
+    border-top:1px solid rgba(244,245,242,.1);
+}
+
+@media (max-width:900px) {
+    section[aria-labelledby="approach-content-title"] .section-copy {
+        padding:26px 24px 28px 27px;
+    }
+
+    section[aria-labelledby="approach-content-title"] .section-copy::before {
+        top:20px;
+        bottom:20px;
+    }
+
+    section[aria-labelledby="approach-content-title"] .section-copy::after {
+        width:40px;
+        height:40px;
+        right:14px;
+        bottom:14px;
+    }
+
+    section[aria-labelledby="approach-content-title"] .section-copy p:first-child {
+        font-size:1rem;
+        line-height:1.75;
+    }
+
+    section[aria-labelledby="approach-content-title"] .section-copy p + p {
+        margin-top:22px;
+        padding-top:20px;
+    }
+}
+</style>
 </head>
 <body>
     <nav class="site-nav" aria-label="Primary navigation">
