@@ -1,7 +1,7 @@
 .hero {
     background:
-        linear-gradient(rgba(16, 24, 32, 0.56), rgba(16, 24, 32, 0.56)),
-        url('../images/imageshero-background-test.jpg') center center / 100% auto no-repeat;
+        linear-gradient(rgba(16, 24, 32, 0.8), rgba(16, 24, 32, 0.8)),
+        url('../images/web-design-&-development_grid-1.jpg') center center / 100% auto no-repeat;
     background-color: #101820;
 }
 
@@ -28,8 +28,8 @@
 @media (max-width: 820px) {
     .hero {
         background-image:
-            linear-gradient(rgba(16, 24, 32, 0.56), rgba(16, 24, 32, 0.56)),
-            url('../images/mobile-homepage-hero.jpg');
+            linear-gradient(rgba(16, 24, 32, 0.8), rgba(16, 24, 32, 0.8)),
+            url('../images/web-design-&-development_grid-1.jpg');
         background-position: center center;
         background-size: cover;
         background-repeat: no-repeat;
