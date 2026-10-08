@@ -335,4 +335,53 @@
         padding-top: 24px;
         border-top: 1px solid var(--color-border);
     }
+
+    /* Studio guide articles — non-functional 3D button treatment */
+    .resources-page .editorial-section[aria-labelledby="studio-guides-title"] .section-copy article {
+        position: relative;
+        box-sizing: border-box;
+        padding: clamp(24px, 2.4vw, 34px);
+        border: 1px solid rgba(195, 164, 107, .58);
+        border-radius: 12px;
+        background: linear-gradient(145deg, rgba(195, 164, 107, .12), rgba(16, 24, 32, .98) 58%);
+        box-shadow: 0 10px 0 rgba(110, 87, 42, .28), 0 18px 36px rgba(0, 0, 0, .18), inset 0 1px 0 rgba(244, 245, 242, .08);
+    }
+
+    .resources-page .editorial-section[aria-labelledby="studio-guides-title"] .section-copy article + article {
+        margin-top: clamp(18px, 2vw, 28px);
+        padding-top: clamp(24px, 2.4vw, 34px);
+        border-top: 1px solid rgba(195, 164, 107, .58);
+    }
+
+    .resources-page .editorial-section[aria-labelledby="studio-guides-title"] .section-copy article::before {
+        content: "";
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        top: 7px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(214, 179, 106, .72), transparent);
+        pointer-events: none;
+    }
+
+    .resources-page .editorial-section[aria-labelledby="studio-guides-title"] .section-copy article h3 {
+        color: #F4F5F2;
+    }
+
+    .resources-page .editorial-section[aria-labelledby="studio-guides-title"] .section-copy article p {
+        color: var(--color-text-secondary);
+    }
+
+    .resources-page .editorial-section[aria-labelledby="studio-guides-title"] .section-copy article:hover {
+        border-color: rgba(214, 179, 106, .88);
+        background: linear-gradient(145deg, rgba(214, 179, 106, .17), rgba(16, 24, 32, .98) 58%);
+        box-shadow: 0 12px 0 rgba(110, 87, 42, .34), 0 22px 42px rgba(0, 0, 0, .22), inset 0 1px 0 rgba(244, 245, 242, .11);
+        transform: translateY(-2px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .resources-page .editorial-section[aria-labelledby="studio-guides-title"] .section-copy article {
+            transition: none;
+        }
+    }
 }
