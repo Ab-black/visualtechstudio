@@ -425,3 +425,27 @@
         transform: translateY(-1px);
     }
 }
+
+/* Resources page hero — responsive dark technology background */
+.resources-page .page-hero {
+    position: relative;
+    isolation: isolate;
+    background-color: #101820;
+    background-image:
+        linear-gradient(90deg, rgba(16, 24, 32, .91) 0%, rgba(16, 24, 32, .82) 48%, rgba(16, 24, 32, .76) 100%),
+        linear-gradient(180deg, rgba(16, 24, 32, .28) 0%, rgba(16, 24, 32, .52) 100%),
+        url("https://images.unsplash.com/photo-1782015941315-c879b97866de?auto=format&fit=crop&w=2400&q=85");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+    .resources-page .page-hero {
+        background-image:
+            linear-gradient(180deg, rgba(16, 24, 32, .86) 0%, rgba(16, 24, 32, .82) 55%, rgba(16, 24, 32, .9) 100%),
+            url("https://images.unsplash.com/photo-1782015941315-c879b97866de?auto=format&fit=crop&w=1200&q=85");
+        background-position: 58% center;
+    }
+}
+
