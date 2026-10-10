@@ -877,3 +877,25 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
 .public-page .work-archive > * {
   min-width: 0;
 }
+
+
+/* Store hero — locally hosted digital product artwork */
+.store-page .page-hero {
+    background-color: #101820;
+    background-image:
+        linear-gradient(90deg, rgba(16, 24, 32, .93) 0%, rgba(16, 24, 32, .82) 45%, rgba(16, 24, 32, .42) 100%),
+        linear-gradient(180deg, rgba(16, 24, 32, .12) 0%, rgba(16, 24, 32, .4) 100%),
+        url("../images/store-hero.svg");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+    .store-page .page-hero {
+        background-image:
+            linear-gradient(180deg, rgba(16, 24, 32, .88) 0%, rgba(16, 24, 32, .74) 55%, rgba(16, 24, 32, .9) 100%),
+            url("../images/store-hero.svg");
+        background-position: 62% center;
+    }
+}
