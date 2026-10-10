@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+<defs>
+ <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#101820"/><stop offset="1" stop-color="#080d12"/></linearGradient>
+ <linearGradient id="screen" x2="1" y2="1"><stop stop-color="#15343b"/><stop offset="1" stop-color="#0c1319"/></linearGradient>
+ <linearGradient id="gold" x2="1" y2="1"><stop stop-color="#e8cc8f"/><stop offset="1" stop-color="#9c7438"/></linearGradient>
+ <radialGradient id="light"><stop stop-color="#c3a46b" stop-opacity=".22"/><stop offset="1" stop-color="#c3a46b" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="1600" height="900" fill="url(#bg)"/><ellipse cx="1150" cy="430" rx="550" ry="480" fill="url(#light)"/>
+<path d="M0 720Q390 655 850 720T1600 675V900H0Z" fill="#090f14"/>
+<!-- soft window -->
+<rect x="1120" y="0" width="480" height="470" fill="#172a2e" opacity=".7"/><path d="M1360 0V470M1120 240H1600" stroke="#71817d" stroke-opacity=".22" stroke-width="10"/>
+<g opacity=".35"><path d="M1140 150Q1250 60 1330 165T1540 110" fill="none" stroke="#67b6c0" stroke-width="4"/><path d="M1130 285Q1240 200 1340 305T1560 260" fill="none" stroke="#3f8791" stroke-width="3"/></g>
+<!-- lamp -->
+<path d="M1435 130L1460 350" stroke="#c3a46b" stroke-width="8"/><path d="M1375 145Q1445 50 1515 145L1487 185H1403Z" fill="#1b262a" stroke="#c3a46b" stroke-width="4"/><ellipse cx="1445" cy="182" rx="50" ry="12" fill="#e4b96c" opacity=".3"/>
+<!-- laptop -->
+<g transform="translate(820 260) rotate(-2)">
+ <rect width="560" height="350" rx="18" fill="#080c10" stroke="#66757a" stroke-width="4"/><rect x="18" y="18" width="524" height="312" rx="8" fill="url(#screen)"/>
+ <path d="M18 18H542V62H18Z" fill="#0b151b"/><circle cx="38" cy="40" r="4" fill="#c3a46b"/><rect x="65" y="36" width="110" height="7" rx="3" fill="#a7b0b5" opacity=".6"/>
+ <rect x="46" y="90" width="210" height="14" rx="7" fill="#f4f5f2" opacity=".8"/><rect x="46" y="118" width="165" height="7" rx="3" fill="#a7b0b5" opacity=".6"/>
+ <path d="M45 215Q125 125 220 205T500 168" fill="none" stroke="#3f8791" stroke-width="5"/><path d="M45 245Q135 178 225 240T500 205" fill="none" stroke="url(#gold)" stroke-width="4"/>
+ <g transform="translate(46 270)"><rect width="125" height="42" rx="5" fill="#17343a" stroke="#3f8791"/><rect x="15" y="13" width="92" height="5" rx="2" fill="#f4f5f2" opacity=".75"/><rect x="15" y="25" width="70" height="4" rx="2" fill="#a7b0b5"/></g>
+ <g transform="translate(184 270)"><rect width="125" height="42" rx="5" fill="#30271c" stroke="#c3a46b"/><rect x="15" y="13" width="92" height="5" rx="2" fill="#f4f5f2" opacity=".75"/><rect x="15" y="25" width="70" height="4" rx="2" fill="#a7b0b5"/></g>
+ <g transform="translate(322 270)"><rect width="125" height="42" rx="5" fill="#17343a" stroke="#3f8791"/><rect x="15" y="13" width="92" height="5" rx="2" fill="#f4f5f2" opacity=".75"/><rect x="15" y="25" width="70" height="4" rx="2" fill="#a7b0b5"/></g>
+ <path d="M-40 352H600L550 384H10Z" fill="#56636a" stroke="#8e9a9c" stroke-width="2"/><path d="M190 358H360L345 370H205Z" fill="#101820"/>
+</g>
+<!-- notebook and pages -->
+<g transform="translate(700 650) rotate(-7)"><rect width="260" height="150" rx="7" fill="#14262c" stroke="#3f8791" stroke-width="3"/><path d="M28 25V126M44 25V126" stroke="#c3a46b" stroke-width="2" opacity=".8"/><rect x="65" y="32" width="155" height="7" rx="3" fill="#f4f5f2" opacity=".8"/><rect x="65" y="52" width="130" height="5" rx="2" fill="#a7b0b5" opacity=".65"/><rect x="65" y="70" width="155" height="5" rx="2" fill="#a7b0b5" opacity=".45"/><path d="M65 100h140" stroke="#3f8791" stroke-width="4"/></g>
+<g transform="translate(1020 670) rotate(5)"><rect width="230" height="132" rx="5" fill="#e4e0d4"/><rect x="16" y="15" width="198" height="102" fill="#f4f5f2"/><rect x="32" y="32" width="112" height="7" rx="3" fill="#101820"/><rect x="32" y="51" width="165" height="5" rx="2" fill="#a7b0b5"/><rect x="32" y="65" width="143" height="5" rx="2" fill="#a7b0b5"/><rect x="32" y="86" width="80" height="19" rx="3" fill="#3f8791"/></g>
+<!-- books and plant -->
+<g transform="translate(1270 620)"><rect x="0" y="120" width="245" height="24" rx="4" fill="#15272c" stroke="#c3a46b" stroke-width="2"/><rect x="20" y="85" width="220" height="30" rx="4" fill="#30271c" stroke="#c3a46b" stroke-width="2"/><rect x="5" y="47" width="235" height="32" rx="4" fill="#132a31" stroke="#3f8791" stroke-width="2"/><path d="M175 48V78M188 48V78M201 48V78" stroke="#c3a46b" stroke-width="2"/></g>
+<g transform="translate(1460 380)"><path d="M45 220V70M45 140Q-15 110 2 50Q55 78 45 140M45 120Q100 70 105 18Q48 38 45 120M45 180Q-5 175 -8 125Q40 130 45 180" fill="#24565a" stroke="#3f8791" stroke-width="3"/><path d="M12 220H78L69 245H21Z" fill="#172a2f" stroke="#c3a46b" stroke-width="2"/></g>
+<text x="88" y="765" fill="#f4f5f2" font-family="Inter,Arial,sans-serif" font-size="22" letter-spacing="7" opacity=".72">GUIDES • INSIGHTS • PRACTICAL RESOURCES</text>
+</svg>
