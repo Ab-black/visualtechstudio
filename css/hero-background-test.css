@@ -1,78 +1,57 @@
+/* CSS-only premium abstract hero background for desktop and mobile */
 .hero {
-    background:
-        linear-gradient(rgba(16, 24, 32, 0.56), rgba(16, 24, 32, 0.56)),
-        url('../images/imageshero-background-test.jpg') center center / 100% auto no-repeat;
-    background-color: #101820;
+    background-color: #17211f;
+    background-image:
+        radial-gradient(ellipse at 78% 22%, rgba(185, 227, 106, .17), transparent 34%),
+        radial-gradient(ellipse at 18% 84%, rgba(185, 227, 106, .07), transparent 36%),
+        linear-gradient(118deg, #17211f 0%, #1b2925 52%, #101715 100%);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-bottom: 1px solid rgba(185, 227, 106, .14);
 }
-
 .hero-content {
     width: min(100%, 820px);
     transform: translateY(16%);
 }
-
 .hero h1 {
     max-width: 820px;
     margin-inline: auto;
     line-height: 0.94;
 }
-
 .hero-copy {
     max-width: 600px;
     margin-inline: auto;
 }
-
 .hero::before {
-    border-color: rgba(63, 135, 145, 0.08);
+    border-color: rgba(185, 227, 106, .13);
 }
-
 @media (max-width: 820px) {
     .hero {
         background-image:
-            linear-gradient(rgba(16, 24, 32, 0.56), rgba(16, 24, 32, 0.56)),
-            url('../images/mobile-homepage-hero.jpg');
-        background-position: center center;
+            radial-gradient(ellipse at 82% 16%, rgba(185, 227, 106, .15), transparent 40%),
+            radial-gradient(ellipse at 10% 88%, rgba(185, 227, 106, .06), transparent 38%),
+            linear-gradient(145deg, #17211f 0%, #1b2925 58%, #101715 100%);
+        background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
     }
-
-    .hero-content {
-        width: min(100%, 680px);
-    }
-
-    .hero h1 {
-        max-width: 680px;
-        line-height: 0.96;
-    }
-
-    .hero-copy {
-        max-width: 560px;
-    }
+    .hero-content { width: min(100%, 680px); }
+    .hero h1 { max-width: 680px; line-height: 0.96; }
+    .hero-copy { max-width: 560px; }
 }
-
 @media (max-width: 520px) {
     .hero-content {
         width: 100%;
         transform: translateY(11%);
     }
-
-    .hero .eyebrow {
-        font-size: 0.6975rem;
-    }
-
+    .hero .eyebrow { font-size: 0.6975rem; }
     .hero h1 {
         max-width: 360px;
         margin-inline: auto;
         line-height: 0.98;
         font-size: clamp(2.4645rem, 11.625vw, 3.348rem);
     }
-
-    .hero-copy {
-        max-width: 330px;
-        font-size: 0.93rem;
-    }
-
-    .hero .btn-primary,
-    .hero .btn-secondary {
-        font-size: 0.81375rem;
-    }
+    .hero-copy { max-width: 330px; font-size: 0.93rem; }
+    .hero .btn-primary, .hero .btn-secondary { font-size: 0.81375rem; }
 }
