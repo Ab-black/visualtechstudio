@@ -451,6 +451,8 @@ p { line-height: 1.7; }
 }
 
 
+/* Scope the new action styling to the homepage without editing HTML. */
+body:has(main#top > .hero) {
 /* Homepage action styling: Store-inspired charcoal, ivory and lime */
 .site-nav .nav-menu ul li a{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:9px 13px;border:1px solid transparent;border-radius:999px;color:#f5f5ef;transition:color .22s ease,background .22s ease,border-color .22s ease}
 .site-nav .nav-menu ul li a:hover,.site-nav .nav-menu ul li a:focus-visible{color:#b9e36a;background:rgba(185,227,106,.08);border-color:rgba(185,227,106,.24)}
@@ -467,3 +469,5 @@ p { line-height: 1.7; }
 .site-nav a:focus-visible,.hero a:focus-visible,.editorial-section a:focus-visible,.services-section a:focus-visible,.portfolio-section a:focus-visible,.store-preview a:focus-visible,.contact-section a:focus-visible{outline:2px solid #b9e36a;outline-offset:3px;box-shadow:none}
 @media(max-width:820px){.site-nav .nav-menu ul li a{display:flex;justify-content:flex-start;min-height:56px;padding:12px 14px;margin:5px 0;border-color:rgba(245,245,239,.08);border-radius:12px}.site-nav .nav-menu .nav-cta{min-height:50px}.editorial-section .text-link,.services-section .text-link,.portfolio-section .text-link{min-height:42px;padding:10px 15px}}
 @media(prefers-reduced-motion:reduce){.site-nav .nav-menu ul li a,.site-nav .nav-menu .nav-cta,.editorial-section .text-link,.services-section .text-link,.portfolio-section .text-link,.hero .btn-primary,.editorial-section .btn-primary,.services-section .btn-primary,.portfolio-section .btn-primary,.store-preview .btn-primary,.contact-section .btn-primary,.hero .btn-secondary{transition:none}}
+
+}
