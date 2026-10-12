@@ -471,3 +471,10 @@ body:has(main#top > .hero) {
 @media(prefers-reduced-motion:reduce){.site-nav .nav-menu ul li a,.site-nav .nav-menu .nav-cta,.editorial-section .text-link,.services-section .text-link,.portfolio-section .text-link,.hero .btn-primary,.editorial-section .btn-primary,.services-section .btn-primary,.portfolio-section .btn-primary,.store-preview .btn-primary,.contact-section .btn-primary,.hero .btn-secondary{transition:none}}
 
 }
+
+
+/* Remove the decorative outlined circle from the homepage hero */
+body:has(main#top > .hero) .hero::before {
+    content: none;
+    display: none;
+}
