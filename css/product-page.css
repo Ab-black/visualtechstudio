@@ -41,3 +41,205 @@
 .product-page .product-status {
     color: #68736e;
 }
+
+
+/* Phase 2: premium product-detail layout and store-return button.
+   These rules are scoped to individual product pages only. */
+.product-page .product-layout {
+    max-width: 1160px;
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+    gap: clamp(28px, 5vw, 64px);
+    align-items: stretch;
+    padding: 0 clamp(20px, 3vw, 32px) 96px;
+}
+
+.product-page .product-cover-wrap {
+    position: relative;
+    min-height: 380px;
+    padding: clamp(18px, 2.8vw, 34px);
+    border: 1px solid rgba(185, 227, 106, .18);
+    border-radius: 20px;
+    background:
+        radial-gradient(ellipse at 50% 18%, rgba(185, 227, 106, .09), transparent 55%),
+        linear-gradient(145deg, #fdfdf8, #f1f3eb);
+    box-shadow: 0 22px 52px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .8);
+}
+
+.product-page .product-cover {
+    max-height: 560px;
+    border-radius: 10px;
+    transition: transform 420ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.product-page .product-cover-wrap:hover .product-cover {
+    transform: scale(1.018);
+}
+
+.product-page .product-details {
+    padding: clamp(24px, 3.2vw, 42px);
+    border: 1px solid rgba(185, 227, 106, .16);
+    border-radius: 20px;
+    background: linear-gradient(150deg, rgba(32, 45, 40, .96), rgba(23, 33, 31, .98));
+    box-shadow: 0 22px 52px rgba(0, 0, 0, .13), inset 0 1px 0 rgba(245, 245, 239, .035);
+}
+
+.product-page .product-title {
+    margin-bottom: 20px;
+    line-height: 1.04;
+    text-wrap: balance;
+}
+
+.product-page .product-description {
+    max-width: 68ch;
+    color: #c1c9c1;
+    font-size: .98rem;
+    line-height: 1.85;
+    text-wrap: pretty;
+}
+
+.product-page .product-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 28px 0 0;
+}
+
+.product-page .product-meta-item {
+    min-width: 0;
+    padding: 16px 18px;
+    border: 1px solid rgba(185, 227, 106, .13);
+    border-radius: 13px;
+    background: rgba(13, 21, 18, .28);
+    gap: 8px;
+}
+
+.product-page .product-meta-label {
+    color: #9aa69a;
+    letter-spacing: .1em;
+}
+
+.product-page .product-meta-value {
+    overflow-wrap: anywhere;
+    color: #f5f5ef;
+}
+
+.product-page .product-price {
+    color: #b9e36a;
+    font-size: 1.45rem;
+}
+
+.product-page .product-actions {
+    margin-top: 28px;
+    gap: 12px;
+}
+
+.product-page .product-actions .btn-primary {
+    min-height: 48px;
+    padding: 12px 24px;
+    transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.product-page .product-actions .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(185, 227, 106, .14);
+}
+
+.product-page .product-back {
+    margin-top: 14px;
+}
+
+.product-page .product-back a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
+    border: 1px solid rgba(185, 227, 106, .32);
+    border-radius: 999px;
+    background: rgba(185, 227, 106, .06);
+    color: #dce6d4;
+    font: 600 .9rem/1.2 Inter, Arial, sans-serif;
+    text-decoration: none;
+    transition: transform 220ms ease, background-color 220ms ease, border-color 220ms ease, color 220ms ease;
+}
+
+.product-page .product-back a:hover,
+.product-page .product-back a:focus-visible {
+    transform: translateY(-2px);
+    border-color: #b9e36a;
+    background: rgba(185, 227, 106, .13);
+    color: #f5f5ef;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .product-page #product-content:not([hidden]) {
+        animation: vts-product-content-enter 680ms cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes vts-product-content-enter {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+}
+
+@media (max-width: 800px) {
+    .product-page .product-layout {
+        gap: 22px;
+        padding: 0 20px 72px;
+    }
+
+    .product-page .product-cover-wrap {
+        min-height: 260px;
+        padding: 18px;
+        border-radius: 16px;
+    }
+
+    .product-page .product-details {
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    .product-page .product-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+        line-height: 1.05;
+    }
+
+    .product-page .product-description {
+        font-size: .94rem;
+        line-height: 1.78;
+    }
+
+    .product-page .product-meta {
+        gap: 10px;
+    }
+
+    .product-page .product-meta-item {
+        padding: 14px;
+    }
+
+    .product-page .product-back a {
+        width: 100%;
+    }
+}
+
+@media (max-width: 420px) {
+    .product-page .product-meta {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .product-page .product-actions .btn-primary {
+        width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .product-page .product-cover,
+    .product-page .product-actions .btn-primary,
+    .product-page .product-back a {
+        transition: none !important;
+    }
+
+    .product-page #product-content:not([hidden]) {
+        animation: none !important;
+    }
+}
