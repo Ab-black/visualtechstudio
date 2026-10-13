@@ -219,3 +219,32 @@ th, td { font-size: var(--dash-small); line-height: 1.5; }
 .dashboard-content > *,
 .dashboard-container > *,
 .dashboard-section > * { min-width: 0; }
+
+
+/* Dashboard brand palette: retain the light admin workspace and dark sidebar */
+:root {
+    --bg: #f5f5ef;
+    --sidebar: #17211f;
+    --surface: #fffefa;
+    --border: #e5e7df;
+    --text: #17211f;
+    --muted: #68736e;
+    --accent: #b9e36a;
+    --success: #566d35;
+    --success-bg: #edf3e4;
+    --warning: #95652f;
+    --warning-bg: #f8f0df;
+    --info: #566d35;
+    --info-bg: #edf3e4;
+    --danger: #9a4e43;
+    --danger-bg: #f8e9e5;
+    --draft: #68736e;
+    --draft-bg: #edf0e8;
+}
+.nav-label, .breadcrumb, .eyebrow, .section-description { color: #68736e; }
+.nav-item.active { background: #202d28; color: #f5f5ef; }
+.nav-item:hover { background: rgba(185,227,106,.12); color: #17211f; }
+.sidebar .nav-item:hover { color: #f5f5ef; }
+.button, button, input[type="submit"] {
+    accent-color: #b9e36a;
+}
