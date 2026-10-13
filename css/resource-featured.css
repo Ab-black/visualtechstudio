@@ -470,3 +470,25 @@
 .resource-modal-body { color: #c1c9c1; }
 .resource-modal-body h3,
 .resource-modal-body strong { color: #f5f5ef; }
+
+
+/* Replace legacy gold/teal accents in featured resource artwork with brand lime */
+.featured-resource-content .resource-featured-trigger,
+.resource-featured-trigger,
+.resource-featured-label,
+.resource-visual-featured .resource-category,
+.resource-modal-type {
+    color: #b9e36a !important;
+}
+.resource-featured-trigger:hover,
+.resource-featured-trigger:focus-visible {
+    color: #d0f28f !important;
+}
+.resource-visual-featured {
+    border-color: rgba(185,227,106,.18);
+}
+.resource-modal-close:hover,
+.resource-modal-close:focus-visible {
+    border-color: #b9e36a;
+    color: #b9e36a;
+}
