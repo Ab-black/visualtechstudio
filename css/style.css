@@ -478,3 +478,20 @@ body:has(main#top > .hero) .hero::before {
     content: none;
     display: none;
 }
+
+
+/* Align service-card actions along a shared baseline on desktop */
+@media (min-width: 821px) {
+    body:has(main#top > .hero) .services-section .service-grid {
+        align-items: stretch;
+    }
+    body:has(main#top > .hero) .services-section .service-card {
+        height: 100%;
+        min-height: 330px;
+        box-sizing: border-box;
+    }
+    body:has(main#top > .hero) .services-section .service-card .text-link {
+        margin-top: auto;
+        padding-top: 28px;
+    }
+}
