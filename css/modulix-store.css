@@ -254,3 +254,15 @@
   .store-page .product-cover img,
   .store-page .buy-button { transition: none; }
 }
+
+
+/* Keep the Store glow within the charcoal-and-lime palette */
+.store-page .page-hero {
+  background:
+    radial-gradient(ellipse at 82% 35%, rgba(185,227,106,.24), transparent 32%),
+    radial-gradient(ellipse at 100% 100%, rgba(185,227,106,.08), transparent 38%),
+    #17211f;
+}
+.store-page .product-card:focus-within {
+  outline-color: #b9e36a;
+}
