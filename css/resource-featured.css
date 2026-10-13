@@ -449,3 +449,24 @@
     }
 }
 
+
+
+/* Resource feature and modal colors aligned with the Visual Tech Studio palette */
+.resource-visual-featured,
+.resource-visual-image { background-color: #17211f; }
+.featured-resource-content .resource-featured-trigger {
+    color: #566d35 !important;
+}
+.resource-modal { background: rgba(23,33,31,.78); }
+.resource-modal-panel {
+    background: #17211f;
+    border-color: rgba(185,227,106,.18);
+}
+.resource-modal-close:hover {
+    border-color: #b9e36a;
+}
+.resource-modal-type { color: #b9e36a; }
+.resource-modal-summary,
+.resource-modal-body { color: #c1c9c1; }
+.resource-modal-body h3,
+.resource-modal-body strong { color: #f5f5ef; }
