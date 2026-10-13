@@ -899,3 +899,176 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
         background-position: 62% center;
     }
 }
+
+
+/* Unified public-page design language */
+:root {
+    --page-ink: #17211f;
+    --page-paper: #f5f5ef;
+    --page-card: #fffefa;
+    --page-accent: #b9e36a;
+    --page-muted: #68736e;
+}
+.public-page:not(.store-page) {
+    --color-bg: #17211f;
+    --color-surface: #17211f;
+    --color-surface-elevated: #202d28;
+    --color-text-primary: #f5f5ef;
+    --color-text-secondary: #c1c9c1;
+    --color-text-muted: #9aa69a;
+    --color-border: rgba(185,227,106,.18);
+    --color-accent: #b9e36a;
+    --color-accent-hover: #d0f28f;
+    --color-accent-soft: rgba(185,227,106,.12);
+}
+.public-page:not(.store-page) .page-hero,
+.public-page:not(.store-page) .page-cta,
+.public-page:not(.store-page) .consultation-strip {
+    border-color: rgba(185,227,106,.18);
+}
+.studio-page .studio-hero,
+.services-page .services-hero {
+    background-color: #17211f;
+    background-image:
+        radial-gradient(ellipse at 82% 24%, rgba(185,227,106,.13), transparent 36%),
+        linear-gradient(105deg, rgba(23,33,31,.91), rgba(23,33,31,.76)),
+        url('../images/studio-background.jpg');
+    background-position: center;
+    background-size: cover;
+}
+.services-page .services-hero {
+    background-image:
+        radial-gradient(ellipse at 82% 24%, rgba(185,227,106,.13), transparent 36%),
+        linear-gradient(105deg, rgba(23,33,31,.91), rgba(23,33,31,.76)),
+        url('../images/services-hero.jpg');
+}
+.work-page .page-hero,
+.contact-page .page-hero,
+.product-page .page-hero,
+.account-neumorphic-page .account-wrap {
+    background-color: #17211f;
+    background-image:
+        radial-gradient(ellipse at 82% 20%, rgba(185,227,106,.13), transparent 36%),
+        linear-gradient(125deg, #17211f 0%, #202d28 58%, #101715 100%);
+}
+.public-page:not(.store-page) .page-hero .eyebrow,
+.public-page:not(.store-page) .page-hero h1 em,
+.public-page:not(.store-page) .page-hero .accent,
+.public-page:not(.store-page) .service-list article > span,
+.public-page:not(.store-page) .process-grid span,
+.public-page:not(.store-page) .principles span {
+    color: #b9e36a;
+}
+.public-page:not(.store-page) .page-hero .btn-primary,
+.public-page:not(.store-page) .page-cta .btn-primary,
+.public-page:not(.store-page) .consultation-strip .btn-primary,
+.public-page:not(.store-page) .product-actions .btn-primary {
+    min-height: 42px;
+    padding: 10px 18px;
+    border: 1px solid #b9e36a;
+    border-radius: 999px;
+    background: #b9e36a;
+    color: #17211f;
+    font-size: .9rem;
+    box-shadow: none;
+}
+.public-page:not(.store-page) .page-hero .btn-primary:hover,
+.public-page:not(.store-page) .page-cta .btn-primary:hover,
+.public-page:not(.store-page) .consultation-strip .btn-primary:hover,
+.public-page:not(.store-page) .product-actions .btn-primary:hover {
+    background: #d0f28f;
+    border-color: #d0f28f;
+    color: #17211f;
+}
+.public-page:not(.store-page) .text-link,
+.public-page:not(.store-page) .page-cta a:not(.btn-primary) {
+    color: #b9e36a;
+}
+.public-page:not(.store-page) .text-link:hover,
+.public-page:not(.store-page) .page-cta a:not(.btn-primary):hover {
+    color: #d0f28f;
+}
+.public-page:not(.store-page) .service-list article,
+.public-page:not(.store-page) .resource-grid > *,
+.public-page:not(.store-page) .work-archive > *,
+.public-page:not(.store-page) .studio-services > *,
+.public-page:not(.store-page) .studio-values > * {
+    border-color: rgba(185,227,106,.16);
+}
+.public-page:not(.store-page) .product-cover-wrap {
+    background: #fffefa;
+    border-color: #e5e7df;
+    border-radius: 18px;
+}
+.public-page:not(.store-page) .product-description,
+.public-page:not(.store-page) .product-meta-label,
+.public-page:not(.store-page) .product-status {
+    color: #68736e;
+}
+.public-page:not(.store-page) .product-page .product-back {
+    color: #68736e;
+}
+@media (max-width: 700px) {
+    .public-page:not(.store-page) .page-hero .btn-primary,
+    .public-page:not(.store-page) .page-cta .btn-primary,
+    .public-page:not(.store-page) .consultation-strip .btn-primary,
+    .public-page:not(.store-page) .product-actions .btn-primary {
+        min-height: 42px;
+        padding: 10px 15px;
+    }
+}
+
+/* Authentication page: recolor only. Preserve its 3D card, shadows, layout and animations. */
+.account-neumorphic-page {
+    background: #f5f5ef !important;
+    color: #17211f !important;
+}
+.account-neumorphic-page .account-wrap {
+    background-color: #f5f5ef !important;
+}
+.account-neumorphic-page .eyebrow,
+.account-neumorphic-page .page-lead,
+.account-neumorphic-page .account-form label,
+.account-neumorphic-page .account-note,
+.account-neumorphic-page .account-link,
+.account-neumorphic-page .account-message,
+.account-neumorphic-page .account-status-card {
+    color: #68736e !important;
+}
+.account-neumorphic-page .account-panel,
+.account-neumorphic-page .account-form input,
+.account-neumorphic-page .account-actions .btn-secondary,
+.account-neumorphic-page .account-message,
+.account-neumorphic-page .account-status-card {
+    background-color: #fffefa !important;
+}
+.account-neumorphic-page .account-panel h1,
+.account-neumorphic-page .account-status-card strong,
+.account-neumorphic-page .account-form input {
+    color: #17211f !important;
+}
+.account-neumorphic-page .account-form input::placeholder {
+    color: #89958b !important;
+}
+.account-neumorphic-page .account-form input:focus {
+    border-color: rgba(185,227,106,.75) !important;
+}
+.account-neumorphic-page .account-secondary button,
+.account-neumorphic-page .account-secondary a,
+.account-neumorphic-page .account-link:hover {
+    color: #566d35 !important;
+}
+.account-neumorphic-page .account-actions .btn-primary {
+    background: #b9e36a !important;
+    border-color: #b9e36a !important;
+    color: #17211f !important;
+}
+.account-neumorphic-page .account-actions .btn-secondary {
+    color: #566d35 !important;
+}
+.account-neumorphic-page .account-message.error {
+    color: #9a633b !important;
+}
+.account-neumorphic-page .account-message.success {
+    color: #566d35 !important;
+}
