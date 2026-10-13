@@ -243,3 +243,127 @@
         animation: none !important;
     }
 }
+
+
+/* Mobile refinement: individual product detail pages only. */
+@media (max-width: 800px) {
+    .product-page .page-hero {
+        padding: 44px 20px 30px;
+    }
+
+    .product-page .product-layout {
+        width: 100%;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+        padding: 0 16px 56px;
+        box-sizing: border-box;
+    }
+
+    .product-page .product-cover-wrap {
+        width: 100%;
+        min-width: 0;
+        min-height: 0;
+        max-height: 380px;
+        padding: clamp(12px, 4vw, 20px);
+        box-sizing: border-box;
+        border-radius: 16px;
+    }
+
+    .product-page .product-cover {
+        width: 100%;
+        max-width: 100%;
+        max-height: min(68vw, 340px);
+        object-fit: contain;
+    }
+
+    .product-page .product-details {
+        width: 100%;
+        min-width: 0;
+        padding: clamp(18px, 5vw, 24px);
+        box-sizing: border-box;
+        border-radius: 16px;
+    }
+
+    .product-page #product-title {
+        max-width: 100%;
+        font-size: clamp(1.85rem, 7.2vw, 2.7rem);
+        line-height: 1.08;
+        overflow-wrap: anywhere;
+        hyphens: auto;
+    }
+
+    .product-page .product-description {
+        max-width: 100%;
+        font-size: 1rem;
+        line-height: 1.75;
+        overflow-wrap: anywhere;
+    }
+
+    .product-page .product-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .product-page .product-meta-item {
+        min-width: 0;
+        padding: 13px;
+        overflow-wrap: anywhere;
+    }
+
+    .product-page .product-meta-value {
+        min-width: 0;
+        overflow-wrap: anywhere;
+        word-break: normal;
+    }
+
+    .product-page .product-actions {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        width: 100%;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .product-page .product-actions .btn-primary,
+    .product-page .product-back a {
+        width: 100%;
+        min-width: 0;
+        min-height: 48px;
+        box-sizing: border-box;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .product-page .product-back {
+        margin-top: 10px;
+    }
+
+    .product-page .product-status {
+        padding: 0 20px 56px;
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 380px) {
+    .product-page .product-layout {
+        padding-right: 12px;
+        padding-left: 12px;
+    }
+
+    .product-page .product-meta {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .product-page .product-meta-item {
+        padding: 12px 14px;
+    }
+
+    .product-page .product-details {
+        padding: 18px;
+    }
+
+    .product-page #product-title {
+        font-size: clamp(1.7rem, 8vw, 2.1rem);
+    }
+}
