@@ -111,3 +111,10 @@
         transition: none;
     }
 }
+
+
+/* Shared modal accent colors */
+.resource-modal { background: rgba(23,33,31,.78); }
+.resource-modal-panel { background: #17211f; border-color: rgba(185,227,106,.18); }
+.resource-modal-close:hover { border-color: #b9e36a; }
+.resource-modal-type { color: #b9e36a; }
