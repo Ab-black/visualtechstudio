@@ -170,3 +170,35 @@
         width: 100%;
     }
 }
+
+
+/* Contact form palette alignment */
+.contact-upload:hover,
+.contact-upload.is-dragging,
+.contact-upload:focus-within {
+    border-color: #b9e36a;
+    background: rgba(185,227,106,.07);
+}
+.contact-upload-icon { border-color: rgba(185,227,106,.24); color: #566d35; }
+.contact-upload span,
+.contact-file-size { color: #68736e; }
+.contact-upload-error,
+.contact-status.error { color: #9a633b; }
+.contact-success {
+    border-color: rgba(185,227,106,.4);
+    background: rgba(185,227,106,.1);
+}
+.contact-success strong { color: #17211f; }
+.contact-success p { color: #68736e; }
+.contact-submit-row .btn-primary {
+    min-height: 42px;
+    padding: 10px 18px;
+    border: 1px solid #b9e36a;
+    border-radius: 999px;
+    background: #b9e36a;
+    color: #17211f;
+}
+.contact-submit-row .btn-primary:hover {
+    background: #d0f28f;
+    border-color: #d0f28f;
+}
