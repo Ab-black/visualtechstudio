@@ -909,7 +909,7 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
     --page-accent: #b9e36a;
     --page-muted: #68736e;
 }
-.public-page:not(.store-page) {
+.public-page:not(.store-page):not(.account-neumorphic-page) {
     --color-bg: #17211f;
     --color-surface: #17211f;
     --color-surface-elevated: #202d28;
@@ -921,9 +921,9 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
     --color-accent-hover: #d0f28f;
     --color-accent-soft: rgba(185,227,106,.12);
 }
-.public-page:not(.store-page) .page-hero,
-.public-page:not(.store-page) .page-cta,
-.public-page:not(.store-page) .consultation-strip {
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero,
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-cta,
+.public-page:not(.store-page):not(.account-neumorphic-page) .consultation-strip {
     border-color: rgba(185,227,106,.18);
 }
 .studio-page .studio-hero,
@@ -951,18 +951,18 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
         radial-gradient(ellipse at 82% 20%, rgba(185,227,106,.13), transparent 36%),
         linear-gradient(125deg, #17211f 0%, #202d28 58%, #101715 100%);
 }
-.public-page:not(.store-page) .page-hero .eyebrow,
-.public-page:not(.store-page) .page-hero h1 em,
-.public-page:not(.store-page) .page-hero .accent,
-.public-page:not(.store-page) .service-list article > span,
-.public-page:not(.store-page) .process-grid span,
-.public-page:not(.store-page) .principles span {
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero .eyebrow,
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero h1 em,
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero .accent,
+.public-page:not(.store-page):not(.account-neumorphic-page) .service-list article > span,
+.public-page:not(.store-page):not(.account-neumorphic-page) .process-grid span,
+.public-page:not(.store-page):not(.account-neumorphic-page) .principles span {
     color: #b9e36a;
 }
-.public-page:not(.store-page) .page-hero .btn-primary,
-.public-page:not(.store-page) .page-cta .btn-primary,
-.public-page:not(.store-page) .consultation-strip .btn-primary,
-.public-page:not(.store-page) .product-actions .btn-primary {
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero .btn-primary,
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-cta .btn-primary,
+.public-page:not(.store-page):not(.account-neumorphic-page) .consultation-strip .btn-primary,
+.public-page:not(.store-page):not(.account-neumorphic-page) .product-actions .btn-primary {
     min-height: 42px;
     padding: 10px 18px;
     border: 1px solid #b9e36a;
@@ -972,47 +972,47 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
     font-size: .9rem;
     box-shadow: none;
 }
-.public-page:not(.store-page) .page-hero .btn-primary:hover,
-.public-page:not(.store-page) .page-cta .btn-primary:hover,
-.public-page:not(.store-page) .consultation-strip .btn-primary:hover,
-.public-page:not(.store-page) .product-actions .btn-primary:hover {
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero .btn-primary:hover,
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-cta .btn-primary:hover,
+.public-page:not(.store-page):not(.account-neumorphic-page) .consultation-strip .btn-primary:hover,
+.public-page:not(.store-page):not(.account-neumorphic-page) .product-actions .btn-primary:hover {
     background: #d0f28f;
     border-color: #d0f28f;
     color: #17211f;
 }
-.public-page:not(.store-page) .text-link,
-.public-page:not(.store-page) .page-cta a:not(.btn-primary) {
+.public-page:not(.store-page):not(.account-neumorphic-page) .text-link,
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-cta a:not(.btn-primary) {
     color: #b9e36a;
 }
-.public-page:not(.store-page) .text-link:hover,
-.public-page:not(.store-page) .page-cta a:not(.btn-primary):hover {
+.public-page:not(.store-page):not(.account-neumorphic-page) .text-link:hover,
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-cta a:not(.btn-primary):hover {
     color: #d0f28f;
 }
-.public-page:not(.store-page) .service-list article,
-.public-page:not(.store-page) .resource-grid > *,
-.public-page:not(.store-page) .work-archive > *,
-.public-page:not(.store-page) .studio-services > *,
-.public-page:not(.store-page) .studio-values > * {
+.public-page:not(.store-page):not(.account-neumorphic-page) .service-list article,
+.public-page:not(.store-page):not(.account-neumorphic-page) .resource-grid > *,
+.public-page:not(.store-page):not(.account-neumorphic-page) .work-archive > *,
+.public-page:not(.store-page):not(.account-neumorphic-page) .studio-services > *,
+.public-page:not(.store-page):not(.account-neumorphic-page) .studio-values > * {
     border-color: rgba(185,227,106,.16);
 }
-.public-page:not(.store-page) .product-cover-wrap {
+.public-page:not(.store-page):not(.account-neumorphic-page) .product-cover-wrap {
     background: #fffefa;
     border-color: #e5e7df;
     border-radius: 18px;
 }
-.public-page:not(.store-page) .product-description,
-.public-page:not(.store-page) .product-meta-label,
-.public-page:not(.store-page) .product-status {
+.public-page:not(.store-page):not(.account-neumorphic-page) .product-description,
+.public-page:not(.store-page):not(.account-neumorphic-page) .product-meta-label,
+.public-page:not(.store-page):not(.account-neumorphic-page) .product-status {
     color: #68736e;
 }
-.public-page:not(.store-page) .product-page .product-back {
+.public-page:not(.store-page):not(.account-neumorphic-page) .product-page .product-back {
     color: #68736e;
 }
 @media (max-width: 700px) {
-    .public-page:not(.store-page) .page-hero .btn-primary,
-    .public-page:not(.store-page) .page-cta .btn-primary,
-    .public-page:not(.store-page) .consultation-strip .btn-primary,
-    .public-page:not(.store-page) .product-actions .btn-primary {
+    .public-page:not(.store-page):not(.account-neumorphic-page) .page-hero .btn-primary,
+    .public-page:not(.store-page):not(.account-neumorphic-page) .page-cta .btn-primary,
+    .public-page:not(.store-page):not(.account-neumorphic-page) .consultation-strip .btn-primary,
+    .public-page:not(.store-page):not(.account-neumorphic-page) .product-actions .btn-primary {
         min-height: 42px;
         padding: 10px 15px;
     }
@@ -1075,7 +1075,7 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
 
 
 /* Shared hero treatment for public pages without a dedicated hero image */
-.public-page:not(.store-page) > .page-hero {
+.public-page:not(.store-page):not(.account-neumorphic-page) > .page-hero {
     background-color: #17211f;
     background-image:
         radial-gradient(ellipse at 84% 20%, rgba(185,227,106,.13), transparent 36%),
@@ -1083,11 +1083,11 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
         linear-gradient(125deg, #17211f 0%, #202d28 58%, #101715 100%);
     border-bottom: 1px solid rgba(185,227,106,.14);
 }
-.public-page:not(.store-page) .page-hero .page-lead,
-.public-page:not(.store-page) .page-hero p:not(.eyebrow) {
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero .page-lead,
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero p:not(.eyebrow) {
     color: rgba(245,245,239,.76);
 }
-.public-page:not(.store-page) .page-hero .btn-secondary {
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero .btn-secondary {
     min-height: 42px;
     padding: 10px 18px;
     border-color: rgba(245,245,239,.32);
@@ -1095,7 +1095,7 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
     background: rgba(245,245,239,.045);
     color: #f5f5ef;
 }
-.public-page:not(.store-page) .page-hero .btn-secondary:hover {
+.public-page:not(.store-page):not(.account-neumorphic-page) .page-hero .btn-secondary:hover {
     border-color: #b9e36a;
     background: rgba(185,227,106,.1);
 }
