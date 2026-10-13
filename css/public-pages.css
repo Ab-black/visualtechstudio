@@ -1072,3 +1072,30 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
 .account-neumorphic-page .account-message.success {
     color: #566d35 !important;
 }
+
+
+/* Shared hero treatment for public pages without a dedicated hero image */
+.public-page:not(.store-page) > .page-hero {
+    background-color: #17211f;
+    background-image:
+        radial-gradient(ellipse at 84% 20%, rgba(185,227,106,.13), transparent 36%),
+        radial-gradient(ellipse at 12% 92%, rgba(185,227,106,.06), transparent 38%),
+        linear-gradient(125deg, #17211f 0%, #202d28 58%, #101715 100%);
+    border-bottom: 1px solid rgba(185,227,106,.14);
+}
+.public-page:not(.store-page) .page-hero .page-lead,
+.public-page:not(.store-page) .page-hero p:not(.eyebrow) {
+    color: rgba(245,245,239,.76);
+}
+.public-page:not(.store-page) .page-hero .btn-secondary {
+    min-height: 42px;
+    padding: 10px 18px;
+    border-color: rgba(245,245,239,.32);
+    border-radius: 999px;
+    background: rgba(245,245,239,.045);
+    color: #f5f5ef;
+}
+.public-page:not(.store-page) .page-hero .btn-secondary:hover {
+    border-color: #b9e36a;
+    background: rgba(185,227,106,.1);
+}
