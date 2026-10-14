@@ -1272,12 +1272,15 @@ body .principles span { font-size: var(--type-caption) !important; line-height: 
 @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
         .public-page.services-page .service-list .service-card {
-            animation-name: vts-service-card-scroll-in;
-            animation-duration: 1s;
-            animation-timing-function: linear;
-            animation-fill-mode: both;
-            animation-timeline: view();
-            animation-range: entry 0% entry 42%;
+            animation-name: vts-service-card-scroll-in !important;
+            animation-duration: 1s !important;
+            animation-delay: 0s !important;
+            animation-timing-function: linear !important;
+            animation-fill-mode: both !important;
+            /* The page's inline CSS has an animation shorthand that resets these
+               timeline longhands; !important keeps the scroll timeline active. */
+            animation-timeline: view() !important;
+            animation-range: entry 0% entry 42% !important;
         }
         @keyframes vts-service-card-scroll-in {
             from { opacity: .08; transform: translateY(34px); }
