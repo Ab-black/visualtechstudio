@@ -807,3 +807,24 @@
         transition: none !important;
     }
 }
+
+
+
+/* Desktop CTA sizing fix: keep the full label on one line. */
+@media (min-width: 821px) {
+    .site-nav .nav-menu .nav-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        width: max-content;
+        min-width: 154px;
+        white-space: nowrap;
+        text-align: center;
+        line-height: 1;
+        padding: 15px 24px;
+        font-size: .86rem;
+        letter-spacing: .005em;
+        border-radius: 999px;
+    }
+}
