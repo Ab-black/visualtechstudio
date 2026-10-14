@@ -267,6 +267,79 @@
     }
 }
 
+
+/* Button alignment and label-visibility fix: keep actions anchored to card bottoms. */
+/* Keep actions at the bottom of each content panel. */
+.account-header-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+.account-header-copy .account-actions {
+    margin-top: auto;
+    padding-top: 22px;
+    width: 100%;
+}
+.account-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.account-panel h3 {
+    margin-top: clamp(28px, 3vw, 42px);
+}
+.account-panel p {
+    margin-bottom: 0;
+}
+.account-panel .text-link {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    margin-top: auto !important;
+    padding: 11px 18px !important;
+    color: #17211f !important;
+    background: #b9e36a !important;
+    border: 1px solid #b9e36a !important;
+    border-radius: 999px !important;
+    font-family: inherit;
+    font-size: .82rem !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    letter-spacing: normal !important;
+    text-align: center;
+    text-indent: 0 !important;
+    text-decoration: none !important;
+    text-transform: none !important;
+    white-space: normal;
+    overflow: visible;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+.account-panel .text-link:hover {
+    color: #17211f !important;
+    background: #d0f28f !important;
+    border-color: #d0f28f !important;
+    transform: translateY(-2px);
+}
+.account-panel .text-link::before,
+.account-panel .text-link::after {
+    content: none !important;
+    display: none !important;
+}
+@media (max-width: 560px) {
+    .account-panel .text-link {
+        width: 100%;
+        align-self: stretch;
+    }
+}
+
 </style>
 </head>
 <body>
