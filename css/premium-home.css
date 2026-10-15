@@ -27,6 +27,18 @@
     linear-gradient(180deg,rgba(16,24,32,.55) 0%,rgba(16,24,32,.35) 40%,var(--vts-navy) 100%),
     linear-gradient(90deg,rgba(16,24,32,.85) 0%,rgba(16,24,32,0) 70%);
 }
+/* Mobile: smaller image file (faster), shifted focal point, a little dimmer so text stays readable */
+@media (max-width:700px){
+  .hero::before{
+    background:
+      url("../images/hero.jpg") 62% center/cover no-repeat,
+      url("https://images.pexels.com/photos/30231780/pexels-photo-30231780/free-photo-of-moody-workspace-with-laptop-and-lamp.jpeg?auto=compress&cs=tinysrgb&w=900") 62% center/cover no-repeat;
+    opacity:.42;
+  }
+  .hero::after{
+    background:linear-gradient(180deg,rgba(16,24,32,.6) 0%,rgba(16,24,32,.5) 50%,var(--vts-navy) 100%);
+  }
+}
 
 /* ---------- IMAGE SLOTS (wide banners inside editorial sections) ---------- */
 .media-slot{
