@@ -294,11 +294,20 @@ main > .page-cta > .eyebrow {
     user-select:none;
 }
 
-/* Projects hero background */
+/* Projects hero background — pure CSS (no photo), so it never crops badly on mobile.
+   Teal + gold glows over navy with a faint design grid. */
 main > .page-hero {
     background:
-        linear-gradient(rgba(16,24,32,.8),rgba(16,24,32,.8)),
-        url('../images/web-design-&-development_grid-1.jpg') center center / cover no-repeat;
+        radial-gradient(60% 90% at 88% 8%, rgba(63,135,145,.30), transparent 70%),
+        radial-gradient(55% 80% at 4% 100%, rgba(214,179,106,.17), transparent 70%),
+        linear-gradient(rgba(244,245,242,.045) 1px, transparent 1px) 0 0 / 56px 56px,
+        linear-gradient(90deg, rgba(244,245,242,.045) 1px, transparent 1px) 0 0 / 56px 56px,
+        #101820;
+}
+@media (max-width: 640px) {
+    main > .page-hero {
+        background-size: auto, auto, 40px 40px, 40px 40px;
+    }
 }
 </style>
 </head>
