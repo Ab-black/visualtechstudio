@@ -1,0 +1,122 @@
+/* Visual Tech Studio — premium homepage layer + footer
+   Load AFTER style.css, desktop-overrides.css and hero-background-test.css.
+   Uses only your existing palette: gold #D6B36A, teal #67B6C0 / #3F8791, navy #101820, off-white #F4F5F2. */
+
+:root{
+  --vts-gold:#D6B36A;
+  --vts-teal:#67B6C0;
+  --vts-teal-deep:#3F8791;
+  --vts-navy:#101820;
+  --vts-ink:#F4F5F2;
+}
+
+/* ---------- HERO: image layer with fallback ---------- */
+/* Drop your image at images/hero.jpg (min 2000px wide, dark/moody works best) */
+.hero{position:relative;isolation:isolate;overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:url("../images/hero.jpg") center/cover no-repeat;
+  opacity:.55;
+}
+.hero::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(180deg,rgba(16,24,32,.55) 0%,rgba(16,24,32,.35) 40%,var(--vts-navy) 100%),
+    linear-gradient(90deg,rgba(16,24,32,.85) 0%,rgba(16,24,32,0) 70%);
+}
+
+/* ---------- IMAGE SLOTS (wide banners inside editorial sections) ---------- */
+.media-slot{
+  grid-column:1 / -1;
+  position:relative;margin:clamp(32px,5vw,64px) 0 0;
+  aspect-ratio:21/9;overflow:hidden;
+  border:1px solid rgba(214,179,106,.28);
+  background:
+    linear-gradient(135deg,rgba(214,179,106,.10),rgba(63,135,145,.10) 55%,rgba(16,24,32,.4));
+}
+.media-slot img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.92) contrast(1.03)}
+.media-slot::after{ /* gold corner mark, matches the existing text-block detail */
+  content:"";position:absolute;right:16px;bottom:16px;width:44px;height:44px;
+  border-right:1px solid rgba(214,179,106,.55);border-bottom:1px solid rgba(214,179,106,.55);
+  pointer-events:none;
+}
+@media (max-width:900px){.media-slot{aspect-ratio:4/3}}
+/* Hide a slot entirely until its image file exists */
+.media-slot:not(:has(img)){display:none}
+
+/* ---------- SERVICES: quieter, more refined cards ---------- */
+.service-card{
+  position:relative;
+  border:1px solid rgba(244,245,242,.10);
+  transition:border-color .3s ease,transform .3s ease;
+}
+.service-card::before{
+  content:"";position:absolute;left:-1px;top:24px;bottom:24px;width:2px;
+  background:linear-gradient(180deg,var(--vts-gold),var(--vts-teal));
+  opacity:0;transition:opacity .3s ease;
+}
+.service-card:hover,.service-card:focus-within{border-color:rgba(214,179,106,.45);transform:translateY(-3px)}
+.service-card:hover::before,.service-card:focus-within::before{opacity:1}
+
+/* ---------- PROJECT SLIDER: framed, gallery feel ---------- */
+.portfolio-section .card{
+  position:relative;overflow:hidden;
+  border:1px solid rgba(244,245,242,.12);
+  box-shadow:0 24px 60px rgba(0,0,0,.28);
+}
+.portfolio-section .card img{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.portfolio-section .card:hover img{transform:scale(1.035)}
+
+/* ---------- STORE PREVIEW: room for product mockups ---------- */
+.store-preview .store-visual{
+  aspect-ratio:4/3;overflow:hidden;
+  border:1px solid rgba(214,179,106,.28);
+  background:linear-gradient(135deg,rgba(214,179,106,.10),rgba(63,135,145,.10));
+}
+.store-preview .store-visual img{width:100%;height:100%;object-fit:cover;display:block}
+.store-preview .store-visual:not(:has(img)){display:none}
+
+/* ---------- LINKS + FOCUS ---------- */
+.text-link{text-decoration:none;border-bottom:1px solid rgba(214,179,106,.5);padding-bottom:2px;transition:border-color .2s}
+.text-link:hover{border-color:var(--vts-gold)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--vts-gold);outline-offset:3px}
+
+/* ---------- FOOTER ---------- */
+.site-footer{
+  background:var(--vts-navy);color:rgba(244,245,242,.78);
+  border-top:1px solid rgba(214,179,106,.28);
+  padding:clamp(48px,7vw,88px) clamp(20px,5vw,72px) 28px;
+  font-family:Inter,system-ui,sans-serif;font-size:.95rem;line-height:1.7;
+}
+.footer-grid{
+  display:grid;gap:clamp(32px,5vw,72px);
+  grid-template-columns:1.4fr 1fr 1fr 1.2fr;
+  max-width:1280px;margin:0 auto;
+}
+.footer-brand img{width:44px;height:44px;object-fit:cover;border-radius:50%;margin-bottom:14px}
+.footer-brand .footer-name{font-family:"Cormorant Garamond",Georgia,serif;font-size:1.6rem;color:var(--vts-ink);margin:0 0 8px}
+.footer-brand p{margin:0;max-width:36ch}
+.site-footer h3{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--vts-gold);margin:0 0 16px;font-weight:600}
+.site-footer ul{list-style:none;margin:0;padding:0}
+.site-footer li+li{margin-top:10px}
+.site-footer a{color:inherit;text-decoration:none;transition:color .2s}
+.site-footer a:hover{color:var(--vts-teal)}
+.footer-whatsapp{
+  display:inline-flex;align-items:center;gap:10px;margin-top:6px;
+  padding:12px 20px;border:1px solid var(--vts-gold);color:var(--vts-gold)!important;
+  transition:background .2s,color .2s;
+}
+.footer-whatsapp:hover{background:var(--vts-gold);color:var(--vts-navy)!important}
+.footer-bottom{
+  max-width:1280px;margin:clamp(36px,5vw,64px) auto 0;padding-top:22px;
+  border-top:1px solid rgba(244,245,242,.12);
+  display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;
+  font-size:.85rem;color:rgba(244,245,242,.55);
+}
+@media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1 / -1}}
+@media (max-width:560px){.footer-grid{grid-template-columns:1fr}}
+
+@media (prefers-reduced-motion:reduce){
+  .service-card,.service-card::before,.portfolio-section .card img{transition:none}
+  .service-card:hover{transform:none}
+}
