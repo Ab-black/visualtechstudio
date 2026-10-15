@@ -11,11 +11,14 @@
 }
 
 /* ---------- HERO: image layer with fallback ---------- */
-/* Drop your image at images/hero.jpg (min 2000px wide, dark/moody works best) */
+/* Your own file at images/hero.jpg (if it exists) is shown on top.
+   Until then the free Pexels photo below is used (Pexels licence: free for commercial use, no attribution required). */
 .hero{position:relative;isolation:isolate;overflow:hidden}
 .hero::before{
   content:"";position:absolute;inset:0;z-index:-2;
-  background:url("../images/hero.jpg") center/cover no-repeat;
+  background:
+    url("../images/hero.jpg") center/cover no-repeat,
+    url("https://images.pexels.com/photos/30231780/pexels-photo-30231780/free-photo-of-moody-workspace-with-laptop-and-lamp.jpeg?auto=compress&cs=tinysrgb&w=1920") center/cover no-repeat;
   opacity:.55;
 }
 .hero::after{
@@ -41,8 +44,16 @@
   pointer-events:none;
 }
 @media (max-width:900px){.media-slot{aspect-ratio:4/3}}
-/* Hide a slot entirely until its image file exists */
+/* Hide a slot entirely until it has an image */
 .media-slot:not(:has(img)){display:none}
+
+/* "Digital Work" slot: free Pexels photo as a fallback behind images/slots/process.jpg */
+section[aria-labelledby="approach-content-title"] .media-slot{
+  display:block;
+  background:
+    linear-gradient(180deg,rgba(16,24,32,.25),rgba(16,24,32,.55)),
+    url("https://images.pexels.com/photos/1279109/pexels-photo-1279109.jpeg?auto=compress&cs=tinysrgb&w=1600") center/cover no-repeat;
+}
 
 /* ---------- SERVICES: quieter, more refined cards ---------- */
 .service-card{
