@@ -17,49 +17,12 @@
     <meta name="twitter:description" content="Explore Visual Tech Studio digital products, AI prompt packs, website development resources, guides, and practical tools.">
     <meta name="twitter:image" content="https://visualtechstudio.xyz/images/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css"><link rel="stylesheet" href="../css/public-pages.css"><link rel="stylesheet" href="../css/desktop-overrides.css"><link rel="stylesheet" href="../css/modulix-store.css">
-    <style>
-    .store-page .product-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
-    .store-page .product-card{min-width:0;height:100%;display:flex;flex-direction:column;box-sizing:border-box}
-    .store-page .product-cover{aspect-ratio:16/10;display:flex;align-items:center;justify-content:center;background:var(--color-surface-elevated);overflow:hidden;flex:0 0 auto}
-    .store-page .product-cover img{width:100%;height:100%;object-fit:contain;display:block}
-    .store-page .product-info{display:flex;flex-direction:column;min-width:0;flex:1;height:auto;box-sizing:border-box}
-    .store-page .product-info>div:first-child{flex:0 1 auto;min-height:0}
-    .store-page .product-description{margin-bottom:0}
-    .store-page .product-description.is-clamped{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
-    .store-page .read-more-button{appearance:none;border:0;background:none;color:inherit;padding:0;margin-top:9px;font:600 .82rem/1.4 Inter,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
-    .store-page .read-more-button:hover{opacity:.75}
-    .store-page .read-more-button:focus-visible{outline:2px solid currentColor;outline-offset:3px}
-    .store-page .product-bottom{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-end;gap:0;min-width:0;margin-top:auto;padding-top:22px}
-    .store-page .product-price{display:block;font-size:1.1rem}
-    .store-page .product-engagement{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:18px;padding-top:14px;border-top:1px solid rgba(167,176,181,.22);min-width:0}
-    .store-page .reaction-group{display:flex;align-items:center;gap:8px;min-width:0}.store-page .reaction-button{appearance:none;border:1px solid rgba(167,176,181,.28);background:rgba(167,176,181,.055);color:inherit;border-radius:999px;min-height:38px;padding:7px 11px;display:inline-flex;align-items:center;gap:7px;font:600 .82rem/1 Inter,sans-serif;cursor:pointer;transition:transform .2s ease,background .2s ease,border-color .2s ease,color .2s ease}.store-page .reaction-button:hover{transform:translateY(-1px);background:rgba(167,176,181,.1)}.store-page .reaction-button:focus-visible{outline:2px solid currentColor;outline-offset:3px}.store-page .reaction-button .reaction-icon{font-size:1.1rem;line-height:1}.store-page .reaction-button.is-like{color:#3F8791;border-color:rgba(63,135,145,.35);background:rgba(63,135,145,.08)}.store-page .reaction-button.is-dislike{color:#A7B0B5;border-color:rgba(167,176,181,.35);background:rgba(167,176,181,.08)}.store-page .reaction-button[disabled]{opacity:.55;cursor:wait;transform:none}.store-page .purchase-count{font:600 .76rem/1 Inter,sans-serif;color:#A7B0B5;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}.store-page .purchase-count::before{content:'✓';display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(63,135,145,.1);color:#3F8791;font-size:.68rem}.store-page .reaction-count{min-width:10px;text-align:center}.store-page .buy-button{display:flex;width:100%;max-width:100%;min-width:0;box-sizing:border-box;justify-content:center;margin-top:14px;white-space:normal}
-    .product-modal{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(16,24,32,.76);backdrop-filter:blur(8px)}
-    .product-modal[hidden]{display:none}
-    .product-modal-panel{position:relative;width:min(680px,100%);max-height:min(78vh,720px);overflow:auto;padding:34px;background:var(--color-surface-elevated);border:1px solid rgba(167,176,181,.28);box-shadow:0 24px 70px rgba(16,24,32,.35)}
-    .product-modal-close{position:absolute;top:14px;right:16px;width:38px;height:38px;border:1px solid rgba(167,176,181,.28);border-radius:50%;background:transparent;color:inherit;font:400 1.5rem/1 Inter,sans-serif;cursor:pointer}
-    .product-modal-close:hover{background:rgba(167,176,181,.08)}
-    .product-modal-close:focus-visible{outline:2px solid currentColor;outline-offset:3px}
-    .product-modal-type{display:block;margin-bottom:10px}
-    .product-modal-title{margin:0 48px 14px 0}
-    .product-modal-description{margin:0;white-space:pre-wrap;line-height:1.8}
-    @media(max-width:900px){.store-page .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}}
-    @media(max-width:560px){.store-page .product-grid{grid-template-columns:1fr;gap:18px}.store-page .product-engagement{align-items:stretch;flex-direction:column;gap:10px}.store-page .reaction-group{width:100%;min-width:0}.store-page .reaction-button{flex:1;justify-content:center;min-width:0}.store-page .purchase-count{align-self:flex-start}.store-page .buy-button{width:100%;max-width:100%;min-width:0;margin-top:12px}.product-modal{padding:16px}.product-modal-panel{padding:28px 22px;max-height:82vh}.product-modal-title{margin-right:38px}}
-    
-/* Store grid alignment */
-.store-page .store-toolbar,
-.store-page .product-grid { box-sizing:border-box; margin-inline:auto; }
-.store-page .product-grid { align-items:stretch; }
-.store-page .product-card,
-.store-page .product-info,
-.store-page .product-bottom { min-width:0; }
-</style>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/vts.css"><link rel="stylesheet" href="../css/vts-pages.css"><link rel="stylesheet" href="../css/vts-store.css">
 </head>
 <body>
-<nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a class="active" href="./">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
-<main class="public-page store-page"><section class="page-hero">
-</div><p class="eyebrow">DIGITAL STORE</p><h1>Digital Products &amp; AI Prompt Packs</h1><p class="page-lead">Practical digital products, AI prompt packs, guides, and website development resources designed to help you move from idea to execution.</p></section>
+<nav class="site-nav"><a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a class="active" href="./">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div></nav>
+<main class="public-page store-page"><section class="page-hero"><p class="eyebrow">DIGITAL STORE</p><h1>Digital Products &amp; AI Prompt Packs</h1><p class="page-lead">Practical digital products, AI prompt packs, guides, and website development resources designed to help you move from idea to execution.</p></section>
 <section class="store-toolbar"><p>Studio releases</p><div><button class="filter active" data-filter="all" type="button">All</button></div></section>
 <section class="product-grid" id="store-products"><p class="page-lead">Loading products…</p></section>
 <section class="editorial-section" aria-labelledby="digital-products-title">
@@ -72,7 +35,7 @@
                 <p>Our prompt packs focus on specific tasks rather than generic AI advice. For example, a website functionality prompt pack can help you plan or implement features such as forms, WhatsApp actions, bookings, search, filters, reviews, validation, and other useful website functions without starting a redesign.</p>
             </div>
         </section>
-<section class="editorial-section" aria-labelledby="product-resource-links-title">
+<section class="editorial-section editorial-light" aria-labelledby="product-resource-links-title">
             <div class="section-heading">
                 <p class="eyebrow">LEARN + BUILD</p>
                 <h2 id="product-resource-links-title">Learn more about the problems these products solve.</h2>
@@ -83,7 +46,18 @@
             </div>
         </section>
 <section class="store-note"><p class="eyebrow">AFTER PURCHASE</p><h2>Your products live in your account.</h2><p>After payment, purchased digital products become available in your library.</p></section></main>
+<footer class="site-footer">
+    <div class="footer-grid">
+        <div class="footer-brand"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><p class="footer-name">Visual Tech Studio</p><p>Digital design and development studio based in Port Harcourt, Nigeria. Working worldwide.</p></div>
+        <nav aria-label="Footer navigation"><h3>Explore</h3><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="../studio/">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a href="../store/">Store</a></li></ul></nav>
+        <div><h3>Follow</h3><ul><li><a href="https://www.tiktok.com/@visual_tech_studio" target="_blank" rel="noopener">TikTok</a></li><li><a href="https://www.linkedin.com/in/abraham-gift-5b293a307/" target="_blank" rel="noopener">LinkedIn</a></li></ul></div>
+        <div><h3>Contact</h3><ul><li><a href="mailto:visualtechstudio001@gmail.com">visualtechstudio001@gmail.com</a></li><li><a href="https://wa.me/2347026865570" target="_blank" rel="noopener">+234 702 686 5570</a></li><li>Port Harcourt, Rivers State, Nigeria</li></ul><a class="footer-whatsapp" href="https://wa.me/2347026865570?text=Hello%20Visual%20Tech%20Studio%2C%20I%27d%20like%20to%20start%20a%20project." target="_blank" rel="noopener">Chat on WhatsApp</a></div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">Visual Tech Studio</div>
+    <div class="footer-bottom"><span>&copy; <span id="vts-year">2026</span> Visual Tech Studio. All rights reserved.</span><span>Designed and built by Abraham Gift</span></div>
+</footer>
 <div class="product-modal" id="product-description-modal" hidden><div class="product-modal-panel" role="dialog" aria-modal="true" aria-labelledby="product-modal-title"><button class="product-modal-close" id="product-modal-close" type="button" aria-label="Close product description">×</button><span class="eyebrow product-modal-type" id="product-modal-type"></span><h2 class="product-modal-title" id="product-modal-title"></h2><p class="product-modal-description" id="product-modal-description"></p></div></div>
+<script>document.getElementById('vts-year').textContent=new Date().getFullYear();</script>
 <script src="../js/script.js"></script><script src="../dashboard/supabase-config.js"></script><script src="../js/auth-navigation.js"></script>
 <script>
 (()=>{
