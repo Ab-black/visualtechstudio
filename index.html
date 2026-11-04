@@ -22,6 +22,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/home-mockup.css">
+    <style>
+    /* Phone layout for the two hero cards: big artwork on the right, text column on the left (matches the approved mockup) */
+    @media (max-width: 899px) {
+        .audience-card { display: block; min-height: 206px; padding: 22px 20px; }
+        .audience-copy { position: relative; z-index: 2; max-width: 57%; }
+        .audience-title { font-size: clamp(1.15rem, 5vw, 1.7rem); margin-bottom: 16px; }
+        .audience-card .btn-primary { min-height: 46px; padding: 10px 24px; font-size: .95rem; }
+        .audience-art { position: absolute; right: -8%; top: 50%; width: 60%; display: block; transform: translateY(-46%); }
+        .audience-art svg { width: 100%; max-width: none; margin: 0; }
+    }
+    </style>
 
     <script type="application/ld+json">
     {
@@ -64,19 +75,33 @@
                     <a href="contact/" class="btn-primary">Contact Us</a>
                 </div>
                 <div class="audience-art" aria-hidden="true">
-                    <svg viewBox="0 0 320 220" fill="none">
+                    <svg viewBox="0 0 380 250" fill="none">
                         <defs>
-                            <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b4d1e"/><stop offset=".55" stop-color="#38c24a"/><stop offset="1" stop-color="#d6ff7a"/></linearGradient>
-                            <radialGradient id="glow1" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#b6f23a" stop-opacity=".45"/><stop offset="1" stop-color="#b6f23a" stop-opacity="0"/></radialGradient>
+                            <linearGradient id="lap-lid" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef1ef"/><stop offset=".5" stop-color="#9fa8a2"/><stop offset="1" stop-color="#5d6661"/></linearGradient>
+                            <linearGradient id="lap-deck" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0f3f1"/><stop offset="1" stop-color="#a9b1ac"/></linearGradient>
+                            <linearGradient id="lap-scr" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#03200d"/><stop offset=".45" stop-color="#1d9a3d"/><stop offset="1" stop-color="#c9f76a"/></linearGradient>
+                            <radialGradient id="lap-glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#b6f23a" stop-opacity=".55"/><stop offset="1" stop-color="#b6f23a" stop-opacity="0"/></radialGradient>
+                            <clipPath id="lap-clip"><path d="M140 26 L338 18 L348 150 L148 162 Z"/></clipPath>
                         </defs>
-                        <ellipse cx="170" cy="182" rx="140" ry="26" fill="url(#glow1)"/>
-                        <path d="M92 24 L268 10 L284 140 L104 152 Z" fill="#0a0f0c" stroke="#a9b4ad" stroke-width="3" stroke-linejoin="round"/>
-                        <path d="M102 34 L258 22 L272 130 L112 141 Z" fill="url(#scr)"/>
-                        <path d="M102 112c34-52 70-8 104-42s48-30 62-46" stroke="#eaffc0" stroke-opacity=".55" stroke-width="6" stroke-linecap="round"/>
-                        <path d="M108 134c40-34 66-4 102-30s44-22 60-38" stroke="#0b4d1e" stroke-opacity=".5" stroke-width="8" stroke-linecap="round"/>
-                        <path d="M52 168 L286 150 L304 168 L66 190 Z" fill="#cdd3cf"/>
-                        <path d="M66 190 L304 168 L304 175 L72 198 Z" fill="#6c746f"/>
-                        <path d="M150 174 L214 168 L212 176 L152 181 Z" fill="#9aa39e"/>
+                        <ellipse cx="228" cy="226" rx="170" ry="22" fill="url(#lap-glow)"/>
+                        <path d="M128 14 L346 4 L358 156 L136 172 Z" fill="url(#lap-lid)"/>
+                        <path d="M136 22 L340 13 L350 150 L143 164 Z" fill="#070b09"/>
+                        <g clip-path="url(#lap-clip)">
+                            <path d="M140 26 L338 18 L348 150 L148 162 Z" fill="url(#lap-scr)"/>
+                            <path d="M140 150 C190 92 236 140 282 82 S334 40 352 30" stroke="#eaffb8" stroke-opacity=".55" stroke-width="12" stroke-linecap="round"/>
+                            <path d="M146 162 C200 108 244 156 292 100 S338 62 356 50" stroke="#04210e" stroke-opacity=".45" stroke-width="16" stroke-linecap="round"/>
+                            <path d="M140 96 C176 60 214 92 250 54" stroke="#ffffff" stroke-opacity=".2" stroke-width="6" stroke-linecap="round"/>
+                            <path d="M300 40 C316 70 322 96 318 140" stroke="#ffffff" stroke-opacity=".12" stroke-width="10" stroke-linecap="round"/>
+                        </g>
+                        <path d="M136 172 L358 156 L378 208 L74 230 Z" fill="url(#lap-deck)"/>
+                        <g stroke="#7b837e" stroke-opacity=".65" stroke-width="2.2" stroke-dasharray="9 5">
+                            <path d="M134 183.6 L352 167.4"/>
+                            <path d="M123 194 L356 176.5"/>
+                            <path d="M112 204.5 L359 186"/>
+                        </g>
+                        <path d="M198 206 L266 201 L270 210.5 L187 216.5 Z" fill="#c4cbc6" stroke="#8f9792"/>
+                        <path d="M74 230 L378 208 L378 215 L80 238 Z" fill="#6b736e"/>
+                        <path d="M136 172 L358 156" stroke="#4b524e" stroke-width="2"/>
                     </svg>
                 </div>
             </article>
