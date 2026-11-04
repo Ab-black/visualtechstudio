@@ -1,15 +1,15 @@
 /* Visual Tech Studio — homepage "Best-Selling Prompts".
-   Reads real published products from the same Supabase `products` table the Store page uses.
-   Nothing is invented: a requested product that is not found is shown as "Not yet available" with no price or link. */
+   Loads the three featured prompt packs from the same Supabase `products` table the Store page uses.
+   Nothing is invented: a featured product that is not found is shown as "Not yet available" with no price or link. */
 (() => {
     const grid = document.querySelector('#featured-prompts');
     if (!grid) return;
     const config = window.VISUAL_TECH_SUPABASE;
 
     const wanted = [
-        { label: 'E-commerce Website Prompts Pack', test: (p) => /e-?commerce|online[\s-]?store/i.test(`${p.title} ${p.slug}`) },
-        { label: 'Portfolio Website Prompts', test: (p) => /portfolio/i.test(`${p.title} ${p.slug}`) },
-        { label: 'Business Website Copy Prompts', test: (p) => /(business|website)[\s-]*(website[\s-]*)?copy|copy[\s-]*prompts?/i.test(`${p.title} ${p.slug}`) }
+        { label: 'Reliable Web Builder Prompts', test: (p) => /reliable[\s-]*web[\s-]*builder/i.test(`${p.title} ${p.slug}`) },
+        { label: 'Website Styling Prompt Pack', test: (p) => /website[\s-]*styling/i.test(`${p.title} ${p.slug}`) },
+        { label: 'Website Functionality Prompt Pack', test: (p) => /website[\s-]*functionality/i.test(`${p.title} ${p.slug}`) }
     ];
 
     const esc = (v = '') => String(v).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
