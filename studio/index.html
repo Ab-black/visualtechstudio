@@ -20,115 +20,183 @@
     <meta name="twitter:image" content="https://visualtechstudio.xyz/images/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/public-pages.css">
-    <link rel="stylesheet" href="../css/desktop-overrides.css">
-    <link rel="stylesheet" href="../css/home-positioning.css">
-    <link rel="stylesheet" href="../css/about-page.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/home-mockup.css">
+    <link rel="stylesheet" href="../css/studio-mockup.css">
 </head>
 <body>
-    <nav class="site-nav">
-        <a class="logo" href="../index.html"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a>
-        <button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation menu"><span></span><span></span></button>
-        <div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a class="active" href="./">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a href="../store/">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a class="logo" href="../index.html" aria-label="Visual Tech Studio home"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech <b>Studio</b></span></a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation menu"><span></span><span></span></button>
+        <div class="nav-menu" id="primary-menu"><ul><li><a href="../work/">Projects</a></li><li><a href="../services/">Services</a></li><li><a href="./" aria-current="page">Studio</a></li><li><a href="../resources/">Resources</a></li><li><a href="../store/">Store</a></li></ul><a href="../contact/" class="nav-cta">Start a Project</a></div>
     </nav>
-    <main class="public-page studio-page">
-        <section class="page-hero studio-hero"><p class="eyebrow">THE STUDIO</p><h1>Web Design, Development<br><em>&amp; Digital Solutions</em></h1><p class="page-lead">Visual Tech Studio brings web design, development, UI/UX, branding, graphic design, digital products, and practical digital solutions together under one creative direction.</p></section>
 
-        <section class="about-section about-snippet about-intro" aria-labelledby="about-intro-title">
-            <figure class="portrait" role="img" aria-label="Portrait of Abraham Gift"><img src="../images/abraham-gift.jpg" alt="Abraham Gift, web developer and founder of Visual Tech Studio" width="600" height="750" loading="lazy" onerror="this.remove()"><span class="portrait-label">Portrait &middot; add images/abraham-gift.jpg</span></figure>
-            <div>
-                <p class="eyebrow">ABOUT</p>
-                <h2 class="intro-quote" id="about-intro-title">I'm Abraham Gift, web developer behind Visual Tech Studio. I build professional websites for businesses and create tools for developers.</h2>
-                <div class="about-actions"><a class="btn-primary" href="../contact/">Start a Project</a><a class="btn-secondary" href="../store/">Shop Prompts</a></div>
+    <header class="s-hero">
+        <div class="s-hero-inner">
+            <div class="s-hero-copy">
+                <p class="s-pill">About Our Studio</p>
+                <h1>Meet the Mind Behind <span class="accent">Visual Tech Studio</span></h1>
+                <span class="s-rule" aria-hidden="true"></span>
+                <p class="s-kicker">Web Design, Development &amp; Digital Solutions</p>
+                <p class="s-hero-text">I'm Abraham Gift, web developer behind Visual Tech Studio. I build professional websites for businesses and create tools for developers.</p>
+                <div class="s-actions"><a class="btn-primary" href="../contact/">Work With Me</a><a class="btn-secondary" href="../store/">Explore Prompts</a></div>
+            </div>
+            <figure class="s-photo" role="img" aria-label="Portrait of Abraham Gift">
+                <img src="../images/abraham-gift.jpg" alt="Abraham Gift, web developer and founder of Visual Tech Studio" width="600" height="800" onerror="this.remove()">
+                <svg viewBox="0 0 100 80" fill="currentColor" aria-hidden="true"><circle cx="50" cy="26" r="15"/><path d="M14 80c2-22 16-30 36-30s34 8 36 30z"/></svg>
+            </figure>
+        </div>
+    </header>
+
+    <main class="studio-main">
+        <section class="s-statement" aria-labelledby="about-studio-title">
+            <div><p class="s-pill">About Visual Tech Studio</p><h2 class="s-title" id="about-studio-title">Design, technology, and <span class="accent">thoughtful execution.</span></h2></div>
+            <div><p>Visual Tech Studio is a digital design and technology studio focused on creating work that looks considered and works properly.</p><p>We believe good digital work should feel obvious after it is made, even when getting there required difficult thinking. Every choice should have a reason — from structure and hierarchy to typography, interaction, performance, and the details people notice without knowing why.</p><p>Our work sits between creative direction and technology: expressive enough to be distinctive, disciplined enough to be useful.</p></div>
+        </section>
+
+        <section class="s-section" aria-labelledby="about-services-title">
+            <div class="s-head">
+                <p class="s-pill">What We Do</p>
+                <h2 class="s-title" id="about-services-title">Building Digital Solutions for <span class="accent">Everyone</span></h2>
+                <p class="s-sub">At Visual Tech Studio, we design and develop professional websites, create stunning graphics, and build useful digital products for businesses and developers.</p>
+                <p class="s-sub">We bring together development, visual design, and useful digital products to help businesses and ideas present themselves with clarity and character.</p>
+            </div>
+            <div class="s-grid s-grid-2">
+                <article class="s-card"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="10" rx="1.5"/><path d="M2.5 19h19"/></svg></span><h3>Web Development &amp; Design</h3><p>Modern, responsive websites for businesses of all sizes.</p><ul class="s-chips"><li>Business websites</li><li>E-commerce websites</li><li>Web applications</li><li>Customer dashboards</li><li>Custom digital experiences</li></ul></article>
+                <article class="s-card"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0 0 18c1.4 0 2-1 2-2 0-.8-.5-1.3-.5-2.1 0-1 .8-1.9 1.9-1.9H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg></span><h3>Graphic &amp; Visual Design</h3><p>Eye-catching designs that make your brand stand out.</p><ul class="s-chips"><li>Brand identity</li><li>Marketing graphics</li><li>Social media designs</li><li>Promotional materials</li></ul></article>
+                <article class="s-card"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><h3>Digital Documentation</h3><p>Professional documents, reports and data services.</p></article>
+                <article class="s-card"><span class="s-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></svg></span><h3>Prompt Packs &amp; Digital Products</h3><p>High-quality prompts and digital resources.</p><ul class="s-chips"><li>Templates</li><li>Guides</li><li>Resources</li><li>Other reliable digital products</li></ul></article>
             </div>
         </section>
 
-        <section class="about-section" aria-labelledby="about-studio-title">
-            <div class="about-statement">
-                <div><p class="eyebrow">ABOUT VISUAL TECH STUDIO</p><h2 id="about-studio-title">Design, technology, and thoughtful execution.</h2></div>
-                <div class="about-prose"><p>Visual Tech Studio is a digital design and technology studio focused on creating work that looks considered and works properly.</p><p>We believe good digital work should feel obvious after it is made, even when getting there required difficult thinking. Every choice should have a reason — from structure and hierarchy to typography, interaction, performance, and the details people notice without knowing why.</p><p>Our work sits between creative direction and technology: expressive enough to be distinctive, disciplined enough to be useful.</p></div>
+        <section class="s-section" aria-labelledby="about-audience-title">
+            <div class="s-head">
+                <p class="s-pill">Who We Work With</p>
+                <h2 class="s-title" id="about-audience-title">Built for people with something <span class="accent">worth building.</span></h2>
+                <p class="s-sub">From established businesses to growing brands and new digital ideas, our work is designed around the people who need to communicate clearly, look credible, and give their audience a better experience.</p>
+            </div>
+            <div class="s-grid s-grid-4">
+                <article class="s-card"><h3>Growing Businesses</h3><p>Businesses ready for a stronger digital presence and a more professional customer experience.</p></article>
+                <article class="s-card"><h3>Startups &amp; New Ideas</h3><p>Early-stage products and ideas that need a clear identity and a useful digital foundation.</p></article>
+                <article class="s-card"><h3>Personal Brands</h3><p>Professionals and creators who want their online presence to reflect the quality of their work.</p></article>
+                <article class="s-card"><h3>Organizations</h3><p>Schools, hospitality, real estate, retail, professional services, and other organizations with a digital need.</p></article>
             </div>
         </section>
 
-        <section class="about-section" aria-labelledby="about-services-title">
-            <div class="about-head"><div><p class="eyebrow">WHAT WE DO</p><h2 id="about-services-title">Digital work with purpose.</h2></div><p>We bring together development, visual design, and useful digital products to help businesses and ideas present themselves with clarity and character.</p></div>
-            <div class="about-grid about-grid--3">
-                <article class="about-card"><h3>Web Development</h3><ul><li>Business websites</li><li>E-commerce websites</li><li>Web applications</li><li>Customer dashboards</li><li>Custom digital experiences</li></ul></article>
-                <article class="about-card"><h3>Graphic &amp; Visual Design</h3><ul><li>Brand identity</li><li>Marketing graphics</li><li>Social media designs</li><li>Promotional materials</li></ul></article>
-                <article class="about-card"><h3>Digital Products</h3><ul><li>Templates</li><li>Guides</li><li>Resources</li><li>Other reliable digital products</li></ul></article>
+        <section class="s-section" aria-labelledby="about-approach-title">
+            <div class="s-head">
+                <p class="s-pill">Our Approach</p>
+                <h2 class="s-title" id="about-approach-title">Simple. Professional. <span class="accent">Effective.</span></h2>
+                <p class="s-sub">We focus on quality, creativity and results. Think first, build with intent, and deliver solutions that work.</p>
+                <p class="s-sub">A considered process keeps the work focused. We move from understanding the problem to shaping the experience, building it carefully, and refining what matters.</p>
+            </div>
+            <div class="s-flow">
+                <div class="s-step"><span class="s-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.3 1 2.1h5c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></span><span class="s-tag">Discover</span><h3>Understand</h3><p>Clarify the goal, audience, content, priorities, and practical requirements before decisions become expensive.</p></div>
+                <div class="s-step"><span class="s-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l4-1 10-10a2.1 2.1 0 0 0-3-3L5 16z"/><path d="M13.5 7.5l3 3"/></svg></span><span class="s-tag">Design</span><h3>Shape</h3><p>Develop the visual direction, structure, hierarchy, and interactions that give the work its character and purpose.</p></div>
+                <div class="s-step"><span class="s-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></span><span class="s-tag">Build</span><h3>Execute</h3><p>Turn the direction into a responsive, functional digital experience with attention to details and performance.</p></div>
+                <div class="s-step"><span class="s-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg></span><span class="s-tag">Refine</span><h3>Finish</h3><p>Review the result, remove friction, polish the important details, and make sure the finished work feels complete.</p></div>
             </div>
         </section>
 
-        <section class="about-section" aria-labelledby="about-audience-title">
-            <div class="about-head"><div><p class="eyebrow">WHO WE WORK WITH</p><h2 id="about-audience-title">Built for people with something worth building.</h2></div><p>From established businesses to growing brands and new digital ideas, our work is designed around the people who need to communicate clearly, look credible, and give their audience a better experience.</p></div>
-            <div class="about-grid about-grid--4">
-                <article class="about-card"><h3>Growing Businesses</h3><p>Businesses ready for a stronger digital presence and a more professional customer experience.</p></article>
-                <article class="about-card"><h3>Startups &amp; New Ideas</h3><p>Early-stage products and ideas that need a clear identity and a useful digital foundation.</p></article>
-                <article class="about-card"><h3>Personal Brands</h3><p>Professionals and creators who want their online presence to reflect the quality of their work.</p></article>
-                <article class="about-card"><h3>Organizations</h3><p>Schools, hospitality, real estate, retail, professional services, and other organizations with a digital need.</p></article>
+        <section class="s-section" aria-labelledby="about-why-title">
+            <div class="s-why">
+                <div><p class="s-pill">Why Choose Visual Tech Studio?</p><h2 class="s-title" id="about-why-title">Thoughtful by design.<br><span class="accent">Practical by nature.</span></h2><p class="s-sub">Good work should not force you to choose between strong visual direction and dependable technology. We care about both.</p></div>
+                <span class="s-why-line" aria-hidden="true"></span>
+                <ul class="s-checks">
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg><div><strong>Premium presentation</strong><span>Clear hierarchy, considered typography, and a visual system designed to make the right impression.</span></div></li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg><div><strong>Purpose-driven design</strong><span>Design decisions are connected to what the experience needs to communicate or help someone do.</span></div></li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg><div><strong>Modern technology</strong><span>Digital experiences are built with practical, maintainable technologies suited to the project.</span></div></li>
+                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/></svg><div><strong>Attention to detail</strong><span>Responsive behavior, spacing, interaction, content presentation, and the small finishing touches all matter.</span></div></li>
+                </ul>
             </div>
         </section>
 
-        <section class="about-section" aria-labelledby="about-approach-title">
-            <div class="about-head"><div><p class="eyebrow">OUR APPROACH</p><h2 id="about-approach-title">Think first. Build with intent.</h2></div><p>A considered process keeps the work focused. We move from understanding the problem to shaping the experience, building it carefully, and refining what matters.</p></div>
-            <div class="about-grid about-grid--4">
-                <article class="about-card"><span class="about-label">Discover</span><h3>Understand</h3><p>Clarify the goal, audience, content, priorities, and practical requirements before decisions become expensive.</p></article>
-                <article class="about-card"><span class="about-label">Design</span><h3>Shape</h3><p>Develop the visual direction, structure, hierarchy, and interactions that give the work its character and purpose.</p></article>
-                <article class="about-card"><span class="about-label">Build</span><h3>Execute</h3><p>Turn the direction into a responsive, functional digital experience with attention to details and performance.</p></article>
-                <article class="about-card"><span class="about-label">Refine</span><h3>Finish</h3><p>Review the result, remove friction, polish the important details, and make sure the finished work feels complete.</p></article>
+        <section class="s-section" aria-labelledby="about-values-title">
+            <div class="s-head">
+                <p class="s-pill">Studio Values</p>
+                <h2 class="s-title" id="about-values-title">The standard behind <span class="accent">the work.</span></h2>
+                <p class="s-sub">These principles guide how we think about digital work, from the first idea to the final detail.</p>
+            </div>
+            <div class="s-grid s-grid-4">
+                <article class="s-card"><h3>Clarity</h3><p>Remove noise. Make the important thing unmistakable.</p></article>
+                <article class="s-card"><h3>Character</h3><p>Build visual systems that feel specific, not interchangeable.</p></article>
+                <article class="s-card"><h3>Precision</h3><p>Respect the small decisions that make a digital experience feel finished.</p></article>
+                <article class="s-card"><h3>Utility</h3><p>Beautiful work still has a job to do, and it should do it well.</p></article>
             </div>
         </section>
 
-        <section class="about-section" aria-labelledby="about-why-title">
-            <div class="about-why">
-                <div class="about-why-copy"><p class="eyebrow">WHY VISUAL TECH STUDIO</p><h2 id="about-why-title">Thoughtful by design. Practical by nature.</h2><p>Good work should not force you to choose between strong visual direction and dependable technology. We care about both.</p></div>
-                <div class="about-why-list">
-                    <article class="about-why-item"><h3>Premium presentation</h3><p>Clear hierarchy, considered typography, and a visual system designed to make the right impression.</p></article>
-                    <article class="about-why-item"><h3>Purpose-driven design</h3><p>Design decisions are connected to what the experience needs to communicate or help someone do.</p></article>
-                    <article class="about-why-item"><h3>Modern technology</h3><p>Digital experiences are built with practical, maintainable technologies suited to the project.</p></article>
-                    <article class="about-why-item"><h3>Attention to detail</h3><p>Responsive behavior, spacing, interaction, content presentation, and the small finishing touches all matter.</p></article>
-                </div>
+        <section class="s-section" aria-labelledby="about-work-title">
+            <div class="s-head">
+                <p class="s-pill">Selected Work</p>
+                <h2 class="s-title" id="about-work-title">Our Creative <span class="accent">Work</span></h2>
+                <p class="s-sub">A glimpse of some projects we've worked on. Explore projects across web development, digital experiences, and visual work. The Projects page contains the wider body of work.</p>
+            </div>
+            <div class="s-work-grid" id="studio-work">
+                <a class="s-work" href="../work/"><img src="../images/Design 4.jpeg" alt="Visual Tech Studio selected project design" loading="lazy"><span class="s-work-text"><strong>Brand &amp; Digital</strong><span>Selected project</span></span></a>
+                <a class="s-work" href="../work/"><img src="../images/Design 5.jpg" alt="Visual Tech Studio selected project design" loading="lazy"><span class="s-work-text"><strong>Visual Design</strong><span>Selected project</span></span></a>
+                <a class="s-work" href="../work/"><img src="../images/Design 6.jpg" alt="Visual Tech Studio selected project design" loading="lazy"><span class="s-work-text"><strong>Digital Experience</strong><span>Selected project</span></span></a>
+            </div>
+            <div class="s-more"><a class="btn-secondary" href="../work/">Explore Projects</a></div>
+        </section>
+
+        <section class="s-section" aria-label="Studio location and workflow">
+            <div class="s-info">
+                <article aria-labelledby="studio-location-title"><p class="s-pill">Studio Location</p><h2 id="studio-location-title">Based in Port Harcourt. <span class="accent">Open to the world.</span></h2><p>Visual Tech Studio is based in Port Harcourt, Nigeria, while the studio works with businesses, organizations, startups, and personal brands worldwide.</p><p>Projects can be local or international. What matters is having a clear brief, a useful goal, and a shared understanding of what the finished digital experience needs to achieve.</p></article>
+                <article aria-labelledby="technology-workflow-title"><p class="s-pill">How We Build</p><h2 id="technology-workflow-title">AI-assisted development, <span class="accent">with design direction.</span></h2><p>Modern web development can involve AI tools for generating ideas, exploring implementations, writing or reviewing code, and speeding up repetitive work. Used well, that can shorten the distance between a concept and a working prototype.</p><p>Visual Tech Studio treats AI as part of the workflow rather than the final decision-maker. The project still needs a clear brief, deliberate design, functional testing, responsive behavior, and human review before it is ready to represent a business or product.</p></article>
             </div>
         </section>
 
-        <section class="about-section" aria-labelledby="about-values-title">
-            <div class="about-head"><div><p class="eyebrow">STUDIO VALUES</p><h2 id="about-values-title">The standard behind the work.</h2></div><p>These principles guide how we think about digital work, from the first idea to the final detail.</p></div>
-            <div class="about-grid about-grid--4">
-                <article class="about-card"><h3>Clarity</h3><p>Remove noise. Make the important thing unmistakable.</p></article>
-                <article class="about-card"><h3>Character</h3><p>Build visual systems that feel specific, not interchangeable.</p></article>
-                <article class="about-card"><h3>Precision</h3><p>Respect the small decisions that make a digital experience feel finished.</p></article>
-                <article class="about-card"><h3>Utility</h3><p>Beautiful work still has a job to do, and it should do it well.</p></article>
-            </div>
+        <section class="s-cta" aria-labelledby="studio-cta-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 17 2 2a1 1 0 1 0 3-3"/><path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/><path d="m21 3 1 11h-2"/><path d="M3 3 2 14l6.5 6.5a1 1 0 1 0 3-3"/><path d="M3 4h8"/></svg>
+            <span class="s-cta-line" aria-hidden="true"></span>
+            <div><h2 id="studio-cta-title">Let's Work Together</h2><p>Turn your ideas into reality with Visual Tech Studio.</p></div>
+            <a class="btn-primary" href="../contact/">Contact Us</a>
         </section>
-
-        <section class="about-section" aria-labelledby="about-work-title">
-            <div class="about-head"><div><p class="eyebrow">SELECTED WORK / PROJECTS</p><h2 id="about-work-title">See the work in context.</h2></div><p>Explore projects across web development, digital experiences, and visual work. The Projects page contains the wider body of work.</p></div>
-            <div class="about-work">
-                <div class="about-work-visual"><img src="../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio / Projects</span></div>
-                <div class="about-work-content"><p class="eyebrow">THE WORK</p><h3>Ideas made visible.</h3><p>Browse the projects and see how strategy, design, and technology come together across different kinds of digital work.</p><a class="btn-primary" href="../work/">Explore Projects</a></div>
-            </div>
-        </section>
-
-        <section class="about-section" aria-labelledby="studio-location-title">
-            <div class="about-split">
-                <div><p class="eyebrow">STUDIO LOCATION</p><h2 id="studio-location-title">Based in Port Harcourt. Open to the world.</h2></div>
-                <div class="about-prose"><p>Visual Tech Studio is based in Port Harcourt, Nigeria, while the studio works with businesses, organizations, startups, and personal brands worldwide.</p><p>Projects can be local or international. What matters is having a clear brief, a useful goal, and a shared understanding of what the finished digital experience needs to achieve.</p></div>
-            </div>
-        </section>
-
-        <section class="about-section" aria-labelledby="technology-workflow-title">
-            <div class="about-split">
-                <div><p class="eyebrow">HOW WE BUILD</p><h2 id="technology-workflow-title">AI-assisted development, with design direction.</h2></div>
-                <div class="about-prose"><p>Modern web development can involve AI tools for generating ideas, exploring implementations, writing or reviewing code, and speeding up repetitive work. Used well, that can shorten the distance between a concept and a working prototype.</p><p>Visual Tech Studio treats AI as part of the workflow rather than the final decision-maker. The project still needs a clear brief, deliberate design, functional testing, responsive behavior, and human review before it is ready to represent a business or product.</p></div>
-            </div>
-        </section>
-
-        <section class="page-cta"><p class="eyebrow">THE NEXT IDEA</p><h2>Let's make it considered.</h2><a class="btn-primary" href="../contact/">Start a Project</a></section>
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <img src="../images/logo.jpg" alt="Visual Tech Studio logo">
+                <p class="footer-name">Visual Tech Studio</p>
+                <p>Digital design and development studio based in Port Harcourt, Nigeria. Working worldwide.</p>
+            </div>
+            <nav aria-label="Footer navigation">
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="../work/">Projects</a></li>
+                    <li><a href="../services/">Services</a></li>
+                    <li><a href="./">Studio</a></li>
+                    <li><a href="../resources/">Resources</a></li>
+                    <li><a href="../store/">Store</a></li>
+                </ul>
+            </nav>
+            <div>
+                <h3>Follow</h3>
+                <ul>
+                    <li><a href="https://www.tiktok.com/@visual_tech_studio" target="_blank" rel="noopener">TikTok</a></li>
+                    <li><a href="https://www.linkedin.com/in/abraham-gift-5b293a307/" target="_blank" rel="noopener">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:visualtechstudio001@gmail.com">visualtechstudio001@gmail.com</a></li>
+                    <li><a href="https://wa.me/2347026865570" target="_blank" rel="noopener">+234 702 686 5570</a></li>
+                    <li>Port Harcourt, Rivers State, Nigeria</li>
+                </ul>
+                <a class="footer-whatsapp" href="https://wa.me/2347026865570?text=Hello%20Visual%20Tech%20Studio%2C%20I%27d%20like%20to%20start%20a%20project." target="_blank" rel="noopener">Chat on WhatsApp</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; <span id="vts-year">2026</span> Visual Tech Studio. All rights reserved.</span>
+            <span>Designed and built by Abraham Gift</span>
+        </div>
+    </footer>
+    <script>document.getElementById('vts-year').textContent=new Date().getFullYear();</script>
     <script src="../js/script.js"></script>
     <script src="../dashboard/supabase-config.js"></script>
     <script src="../js/auth-navigation.js"></script>
+    <script src="../js/studio-projects.js"></script>
 </body>
 </html>
