@@ -27,8 +27,11 @@ main{width:min(100%,var(--max));margin:0 auto;padding:0 var(--pad) 28px}
 .btn-secondary{background:transparent;color:var(--text)}
 .btn-secondary:hover{background:rgba(182,242,58,.12)}
 
-/* ---------- header (.site-nav / .nav-menu / .menu-toggle kept for JS) ---------- */
-.site-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px var(--pad);background:rgba(2,10,5,.86);backdrop-filter:blur(10px);border-bottom:1px solid rgba(182,242,58,.12)}
+/* ---------- header (.site-nav / .nav-menu / .menu-toggle kept for JS) ----------
+   The blurred background lives on ::before. A backdrop-filter on .site-nav itself would make the
+   full-screen mobile menu (position:fixed) size to the 76px bar instead of the screen. */
+.site-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px var(--pad);border-bottom:1px solid rgba(182,242,58,.12)}
+.site-nav::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(2,10,5,.88);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .logo{display:flex;align-items:center;gap:12px;min-width:0}
 .logo img{width:50px;height:50px;border-radius:12px;object-fit:cover;flex:none}
 .logo span{display:block;font:800 1.2rem/1.1 var(--font);letter-spacing:-.01em}
@@ -37,7 +40,7 @@ main{width:min(100%,var(--max));margin:0 auto;padding:0 var(--pad) 28px}
 .menu-toggle span{display:block;width:26px;height:3px;border-radius:3px;background:#fff;transition:transform .3s var(--ease-premium)}
 .menu-toggle[aria-expanded="true"] span:first-child{transform:translateY(4.5px) rotate(45deg)}
 .menu-toggle[aria-expanded="true"] span:last-child{transform:translateY(-4.5px) rotate(-45deg)}
-.nav-menu{display:none;position:fixed;inset:76px 0 0 0;z-index:49;flex-direction:column;gap:22px;padding:22px var(--pad) 40px;overflow-y:auto;background:rgba(2,10,5,.98)}
+.nav-menu{display:none;position:fixed;top:76px;right:0;bottom:0;left:0;z-index:49;flex-direction:column;gap:22px;padding:22px var(--pad) 40px;overflow-y:auto;background:#020a05}
 .nav-menu.is-open{display:flex}
 .nav-menu ul{display:flex;flex-direction:column;list-style:none;margin:0;padding:0}
 .nav-menu li{border-bottom:1px solid rgba(182,242,58,.15)}
