@@ -18,6 +18,22 @@
 .s-photo:has(img) svg{display:none}
 @media (min-width:900px){.s-hero h1{font-size:clamp(2.6rem,4.4vw,4rem)}.s-photo{max-width:440px;justify-self:end;width:100%}.s-actions .btn-primary,.s-actions .btn-secondary{min-height:50px;padding:12px 28px;font-size:1rem}}
 
+/* Phones: heading + photo side by side at the top, intro text and buttons full width underneath */
+@media (max-width:899px){
+  .s-hero-inner{grid-template-columns:minmax(0,1fr) 42%;column-gap:14px;row-gap:0;align-items:start;padding-top:22px;padding-bottom:30px}
+  .s-hero-copy{display:contents}
+  .s-pill,.s-hero h1,.s-rule,.s-kicker{grid-column:1}
+  .s-pill{justify-self:start;margin-bottom:12px;font-size:.7rem}
+  .s-hero h1{font-size:clamp(1.35rem,6.4vw,2.2rem)}
+  .s-rule{width:44px;margin:12px 0}
+  .s-kicker{margin-bottom:0;font-size:.64rem;letter-spacing:.05em}
+  .s-photo{grid-column:2;grid-row:1 / span 4;align-self:stretch;aspect-ratio:auto;min-height:230px;border-radius:22px;border:1.5px solid rgba(182,242,58,.35)}
+  .s-photo img{object-position:center 30%}
+  .s-hero-text{grid-column:1 / -1;max-width:none;margin-top:22px;font-size:.95rem}
+  .s-actions{grid-column:1 / -1;flex-wrap:nowrap;margin-top:18px}
+  .s-actions .btn-primary,.s-actions .btn-secondary{flex:1 1 0;min-width:0;padding:10px 12px;font-size:.88rem;white-space:nowrap}
+}
+
 /* ---------- generic section ---------- */
 .s-section{padding:clamp(34px,6vw,72px) 0 0;text-align:center}
 .s-head{max-width:760px;margin:0 auto clamp(20px,3vw,34px)}
