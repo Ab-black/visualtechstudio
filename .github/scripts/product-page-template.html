@@ -18,13 +18,15 @@
 <meta name="twitter:title" content="__PRODUCT_TITLE__ | Visual Tech Studio">
 <meta name="twitter:description" content="__PRODUCT_DESCRIPTION__">
 <meta name="twitter:image" content="__PRODUCT_IMAGE__">
-<link rel="stylesheet" href="../../../css/style.css">
-<link rel="stylesheet" href="../../../css/public-pages.css">
-<link rel="stylesheet" href="../../../css/desktop-overrides.css">
-<link rel="stylesheet" href="../../../css/product-page.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/home-mockup.css">
+<link rel="stylesheet" href="../../../css/inner-pages.css">
+<link rel="stylesheet" href="../../../css/app-pages.css">
 </head>
 <body>
-<nav class="site-nav"><a class="logo" href="../../../"><img src="../../../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech Studio</span></a><button class="menu-toggle" aria-expanded="false" aria-controls="primary-menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../../../work/">Projects</a></li><li><a href="../../../services/">Services</a></li><li><a href="../../../studio/">Studio</a></li><li><a href="../../../resources/">Resources</a></li><li><a class="active" href="../../">Store</a></li></ul><a href="../../../contact/" class="nav-cta">Start a Project</a></div></nav>
+<nav class="site-nav" aria-label="Primary navigation"><a class="logo" href="../../../" aria-label="Visual Tech Studio home"><img src="../../../images/logo.jpg" alt="Visual Tech Studio logo"><span>Visual Tech <b>Studio</b></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-menu" aria-label="Open navigation menu"><span></span><span></span></button><div class="nav-menu" id="primary-menu"><ul><li><a href="../../../work/">Projects</a></li><li><a href="../../../services/">Services</a></li><li><a href="../../../studio/">Studio</a></li><li><a href="../../../resources/">Resources</a></li><li><a class="active" href="../../">Store</a></li></ul><a href="../../../contact/" class="nav-cta">Start a Project</a></div></nav>
 <main class="public-page product-page" data-product-page data-product-slug="__PRODUCT_SLUG__">
 <section class="page-hero"><p class="eyebrow">DIGITAL PRODUCT</p><h1 id="product-title">Loading product…</h1></section>
 <section class="product-layout" id="product-content" hidden>
@@ -41,6 +43,16 @@
 </section>
 <p class="product-status" id="product-status">Loading product…</p>
 </main>
+<footer class="site-footer">
+<div class="footer-grid">
+<div class="footer-brand"><img src="../../../images/logo.jpg" alt="Visual Tech Studio logo"><p class="footer-name">Visual Tech Studio</p><p>Digital design and development studio based in Port Harcourt, Nigeria. Working worldwide.</p></div>
+<nav aria-label="Footer navigation"><h3>Explore</h3><ul><li><a href="../../../work/">Projects</a></li><li><a href="../../../services/">Services</a></li><li><a href="../../../studio/">Studio</a></li><li><a href="../../../resources/">Resources</a></li><li><a href="../../">Store</a></li></ul></nav>
+<div><h3>Follow</h3><ul><li><a href="https://www.tiktok.com/@visual_tech_studio" target="_blank" rel="noopener">TikTok</a></li><li><a href="https://www.linkedin.com/in/abraham-gift-5b293a307/" target="_blank" rel="noopener">LinkedIn</a></li></ul></div>
+<div><h3>Contact</h3><ul><li><a href="mailto:visualtechstudio001@gmail.com">visualtechstudio001@gmail.com</a></li><li><a href="https://wa.me/2347026865570" target="_blank" rel="noopener">+234 702 686 5570</a></li><li>Port Harcourt, Rivers State, Nigeria</li></ul><a class="footer-whatsapp" href="https://wa.me/2347026865570?text=Hello%20Visual%20Tech%20Studio%2C%20I%27d%20like%20to%20start%20a%20project." target="_blank" rel="noopener">Chat on WhatsApp</a></div>
+</div>
+<div class="footer-bottom"><span>&copy; <span id="vts-year">2026</span> Visual Tech Studio. All rights reserved.</span><span>Designed and built by Abraham Gift</span></div>
+</footer>
+<script>document.getElementById('vts-year').textContent=new Date().getFullYear();</script>
 <script src="../../../js/script.js"></script><script src="../../../dashboard/supabase-config.js"></script><script src="../../../js/auth-navigation.js"></script><script src="../../../js/product-page.js"></script>
 </body>
 </html>
