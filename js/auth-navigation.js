@@ -85,6 +85,31 @@
         return li;
     };
 
+    // Puts "Free Prompts" between Resources and Store in the menu and footer links of every page.
+    // Pages that already contain the link (the Free Prompts page itself) are left alone.
+    const pathOf = href => {
+        try { return new URL(href, window.location.href).pathname; } catch { return ""; }
+    };
+    const findLink = (root, name) => Array.from(root.querySelectorAll("a")).find(a => new RegExp(`^/${name}/?$`).test(pathOf(a.getAttribute("href") || "")));
+    const ensureFreePromptsLink = (root, navMenu) => {
+        if (!root || findLink(root, "free-prompts")) return;
+        let item;
+        if (navMenu) {
+            item = createNavItem(`${siteRoot}free-prompts/`, "Free Prompts", navMenu);
+        } else {
+            item = document.createElement("li");
+            const link = document.createElement("a");
+            link.href = `${siteRoot}free-prompts/`;
+            link.textContent = "Free Prompts";
+            item.appendChild(link);
+        }
+        item.dataset.freePromptsNav = "true";
+        const resources = findLink(root, "resources")?.closest("li");
+        const store = findLink(root, "store")?.closest("li");
+        if (resources) resources.after(item);
+        else if (store) store.before(item);
+    };
+
     const removeAuthItems = navMenu => navMenu.querySelectorAll("[data-auth-nav],[data-home-nav]").forEach(item => item.remove());
 
     const renderNavigation = session => {
@@ -97,6 +122,7 @@
             const home = createNavItem(siteRoot, "Home", navMenu);
             home.dataset.homeNav = "true";
             list.prepend(home);
+            ensureFreePromptsLink(list, navMenu);
 
             if (session?.user) {
                 const account = createNavItem(myAccountUrl(), "My Account", navMenu);
@@ -132,6 +158,7 @@
                 list.append(login, signup);
             }
         });
+        document.querySelectorAll(".site-footer nav ul").forEach(list => ensureFreePromptsLink(list, null));
     };
 
     const initialize = async () => {

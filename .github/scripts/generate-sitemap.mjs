@@ -47,6 +47,7 @@ const urls = [
   "/studio/",
   "/work/",
   "/resources/",
+  "/free-prompts/",
   "/store/",
   "/contact/",
   ...products
@@ -73,7 +74,7 @@ const productDescription = product =>
 
 const productImage = product => {
   if (!product.cover_path) return `${SITE_URL}/images/logo.jpg`;
-  if (/^https?:\\/\\//i.test(product.cover_path)) return product.cover_path;
+  if (/^https?:\/\//i.test(product.cover_path)) return product.cover_path;
   if (product.cover_path.startsWith("images/")) return `${SITE_URL}/${product.cover_path}`;
   return `${supabaseUrl}/storage/v1/object/public/public-assets/${product.cover_path
     .split("/")
