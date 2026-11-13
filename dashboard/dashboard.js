@@ -1,3 +1,4 @@
+
 (() => {
     const config = window.VISUAL_TECH_SUPABASE;
     let supabaseClient = null;
@@ -108,6 +109,18 @@
         if (contentGroup) {
             const projectsLink = Array.from(contentGroup.querySelectorAll('.nav-item')).find((link) => link.textContent.trim() === 'Projects');
             if (projectsLink) projectsLink.href = 'projects.html';
+            if (projectsLink && !contentGroup.querySelector('[data-free-prompts-link]')) {
+                const promptsLink = document.createElement('a');
+                promptsLink.className = 'nav-item';
+                promptsLink.href = 'prompts.html';
+                promptsLink.textContent = 'Free Prompts';
+                promptsLink.dataset.freePromptsLink = 'true';
+                promptsLink.addEventListener('click', () => {
+                    sidebar?.classList.remove('open');
+                    menu?.setAttribute('aria-expanded', 'false');
+                });
+                projectsLink.insertAdjacentElement('afterend', promptsLink);
+            }
         }
 
         supabaseClient = await loadSupabase();
