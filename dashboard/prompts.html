@@ -15,6 +15,7 @@
         .cms-projects { display: grid; gap: 12px; }
         .cms-project-row { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px; background: #F4F5F2; border: 1px solid #1B2931; border-radius: 12px; }
         .cms-project-cover { width: 72px; height: 56px; display: grid; place-items: center; overflow: hidden; border-radius: 8px; background: #1B2931; color: #A7B0B5; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+        .cms-project-cover img { width: 100%; height: 100%; object-fit: cover; }
         .cms-project-main { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-width: 0; }
         .cms-project-main div { display: grid; gap: 5px; min-width: 0; }
         .cms-project-main strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -30,8 +31,26 @@
         .form-grid textarea.prompt-box { min-height: 260px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.6; white-space: pre-wrap; }
         .form-grid input:focus, .form-grid textarea:focus, .form-grid select:focus { outline: 2px solid rgba(195,164,107,.28); border-color: #C3A46B; }
         .field-hint { color: #A7B0B5; font-size: 12px; font-weight: 500; }
+        .field-hint.is-error { color: #B42318; font-weight: 600; }
+        .optional-tag { color: #A7B0B5; font-weight: 500; }
+        .media-field { display: grid; gap: 10px; }
+        .media-field > .field-title { color: #101820; font-size: 13px; font-weight: 600; }
+        .media-panel { display: grid; gap: 18px; padding: 18px; border: 1px dashed #1B2931; border-radius: 10px; background: rgba(27,41,49,.04); }
+        .media-block { display: grid; gap: 10px; justify-items: start; }
+        .media-heading { display: flex; gap: 10px; align-items: baseline; color: #101820; font-size: 13px; font-weight: 700; }
+        .media-heading span { color: #A7B0B5; font-weight: 500; }
+        .media-image-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; width: 100%; }
+        .media-image-list:empty { display: none; }
+        .media-item { position: relative; overflow: hidden; border: 1px solid #1B2931; border-radius: 10px; background: #fff; }
+        .media-item img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+        .media-item-video { width: min(100%, 320px); }
+        .media-item-video video { display: block; width: 100%; max-height: 220px; background: #000; }
+        .media-remove { cursor: pointer; border: 0; font: inherit; font-size: 12px; font-weight: 700; }
+        .media-item-video .media-remove { display: block; width: 100%; padding: 9px; background: #101820; color: #fff; }
+        .media-remove-round { position: absolute; top: 6px; right: 6px; width: 26px; height: 26px; border-radius: 50%; background: rgba(16,24,32,.85); color: #fff; font-size: 16px; line-height: 1; }
         .form-actions { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-top: 24px; }
         .form-message { margin: 0 auto 0 0; color: #A7B0B5; font-size: 13px; }
+        .form-actions button[disabled] { opacity: .55; cursor: wait; }
         @media (max-width: 760px) {
             .cms-toolbar, .cms-project-main { align-items: stretch; flex-direction: column; }
             .cms-project-row { grid-template-columns: 56px minmax(0, 1fr); }
@@ -106,7 +125,7 @@
                 <div>
                     <p class="eyebrow">CONTENT MANAGEMENT</p>
                     <h2 id="prompts-title">Prompt library</h2>
-                    <p class="section-description">Create, edit, publish, or remove the free prompts that appear on the public Free Prompts page. Visitors can copy them but cannot edit them.</p>
+                    <p class="section-description">Create, edit, publish, or remove the free prompts that appear on the public Free Prompts page. Visitors see the outcome image or video, then can view or copy the prompt. They cannot edit it.</p>
                 </div>
                 <button class="button primary" id="new-prompt-button" type="button">+ Add Prompt</button>
             </div>
@@ -120,21 +139,23 @@
                 <div>
                     <p class="eyebrow">PROMPT EDITOR</p>
                     <h2 id="prompt-editor-title">Add Prompt</h2>
-                    <p class="section-description">Save as a draft while preparing the prompt, then publish it when it is ready for visitors.</p>
+                    <p class="section-description">Save as a draft while preparing the prompt, then publish it when it is ready for visitors. Only the prompt text is required.</p>
                 </div>
             </div>
             <form class="form-panel" id="prompt-form">
                 <input id="prompt-id" type="hidden" value="">
                 <div class="form-grid">
-                    <label>Prompt title
-                        <input name="title" type="text" placeholder="Landing page hero section prompt" required>
+                    <label>Prompt title <span class="optional-tag">(optional)</span>
+                        <input name="title" type="text" placeholder="Landing page hero section">
+                        <span class="field-hint">Shown under the image or video on the public page.</span>
                     </label>
-                    <label>Slug
+                    <label>Slug <span class="optional-tag">(optional)</span>
                         <input name="slug" type="text" placeholder="landing-page-hero-section">
-                        <span class="field-hint">Leave blank to create it from the title.</span>
+                        <span class="field-hint">Leave blank to create it automatically.</span>
                     </label>
-                    <label>Category
+                    <label>Category <span class="optional-tag">(optional)</span>
                         <select name="category"></select>
+                        <span class="field-hint">Visitors can filter the page by category.</span>
                     </label>
                     <label>Status
                         <select name="status">
@@ -143,12 +164,32 @@
                             <option value="archived">Archived</option>
                         </select>
                     </label>
-                    <label class="full">Short description
+                    <label class="full">Short description <span class="optional-tag">(optional)</span>
                         <textarea name="description" placeholder="One or two sentences on what this prompt helps someone do."></textarea>
                     </label>
+
+                    <div class="full media-field" id="media-field">
+                        <span class="field-title">Outcome images or video <span class="optional-tag">(optional)</span></span>
+                        <span class="field-hint">Show what this prompt produces. Add one short video (MP4 or WebM, up to 25 MB and about 15 seconds) and/or up to 8 images (JPG, PNG or WebP). Images are resized and compressed automatically. Files upload when you click Save Draft or Publish.</span>
+                        <div class="media-panel" id="media-panel">
+                            <div class="media-block">
+                                <div class="media-heading">Video <span>one per prompt</span></div>
+                                <div id="media-video-slot"></div>
+                                <input id="video-input" type="file" accept="video/mp4,video/webm" hidden>
+                            </div>
+                            <div class="media-block">
+                                <div class="media-heading">Images <span id="image-count">0 / 8</span></div>
+                                <div class="media-image-list" id="media-image-list"></div>
+                                <button class="button secondary" id="add-images-button" type="button">+ Add images</button>
+                                <input id="image-input" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden>
+                            </div>
+                            <p class="field-hint" id="media-message" role="status"></p>
+                        </div>
+                    </div>
+
                     <label class="full">Prompt text
                         <textarea class="prompt-box" name="prompt_text" placeholder="Paste the full prompt exactly as visitors should copy it." required></textarea>
-                        <span class="field-hint">Line breaks are kept. This is the text the Copy button copies.</span>
+                        <span class="field-hint">Line breaks are kept. Visitors see this when they click View prompt, and Copy prompt copies it.</span>
                     </label>
                 </div>
                 <div class="form-actions">
