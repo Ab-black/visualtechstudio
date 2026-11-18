@@ -244,7 +244,8 @@
 
             const promptId = promptIdInput.value;
             const rowId = promptId || draftId;
-            const slug = slugify(formData.get("slug")) || slugify(title) || `prompt-${rowId.replace(/-/g, "").slice(0, 8)}`;
+            // Internal web address, created automatically (never typed). The short id makes it unique, so titles can repeat.
+            const slug = `${slugify(title) || "prompt"}-${rowId.replace(/-/g, "").slice(0, 8)}`;
 
             setSaving(true);
             const uploaded = [];
@@ -263,14 +264,13 @@
                 const ordered = [...media.filter((item) => item.type === "video"), ...media.filter((item) => item.type === "image")];
                 const prompt = {
                     title: title || null,
-                    slug,
                     category: String(formData.get("category") || "") || null,
                     description: String(formData.get("description") || "").trim() || null,
                     prompt_text: promptText,
                     media: ordered.map((item) => ({ type: item.type, path: item.path })),
                     status: String(formData.get("status") || "draft")
                 };
-                const request = promptId ? supabase.from("free_prompts").update(prompt).eq("id", promptId) : supabase.from("free_prompts").insert({ id: rowId, ...prompt });
+                const request = promptId ? supabase.from("free_prompts").update(prompt).eq("id", promptId) : supabase.from("free_prompts").insert({ id: rowId, slug, ...prompt });
                 const { error } = await request;
                 if (error) throw error;
 
@@ -282,7 +282,7 @@
             } catch (error) {
                 await removeFiles(uploaded);
                 media.forEach((item) => { if (item.isNew) delete item.path; });
-                message.textContent = error?.code === "23505" ? "A prompt with this slug already exists. Change the slug and try again." : (error?.message || "Could not save the prompt.");
+                message.textContent = (error?.message || "Could not save the prompt.");
                 setSaving(false);
             }
         });
@@ -298,7 +298,6 @@
                 promptIdInput.value = data.id;
                 draftId = data.id;
                 form.querySelector('[name="title"]').value = data.title || "";
-                form.querySelector('[name="slug"]').value = data.slug || "";
                 if (data.category && !CATEGORIES.includes(data.category)) {
                     categorySelect.insertAdjacentHTML("beforeend", `<option value="${escapeHtml(data.category)}">${escapeHtml(data.category)}</option>`);
                 }
