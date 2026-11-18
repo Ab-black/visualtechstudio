@@ -1,6 +1,7 @@
 /* Visual Tech Studio — public Free Prompts page.
    Cards show the outcome image(s) or a looping video; each card has View prompt and Copy prompt buttons.
-   Prompt text is only ever inserted as plain text, is not editable, and is copied with the Copy button. */
+   Clicking an image opens it full size. Prompt text is only ever inserted as plain text, is not editable,
+   and is copied with the Copy button. */
 (() => {
     const config = window.VISUAL_TECH_SUPABASE;
     const list = document.querySelector('#fp-list');
@@ -114,14 +115,26 @@
         return slide;
     };
 
-    const buildImageSlide = (item, title, index) => {
+    const buildImageSlide = (item, title, index, images) => {
         const slide = el('div', 'fp-slide');
         const img = document.createElement('img');
         img.src = mediaUrl(item.path);
         img.alt = `${title || 'Prompt'} outcome ${index + 1}`;
         img.loading = 'lazy';
         img.decoding = 'async';
+        img.tabIndex = 0;
+        img.setAttribute('role', 'button');
+        img.setAttribute('aria-label', `View full image ${index + 1} of ${images.length}`);
+        const open = () => openLightbox(images, index, title, img);
+        img.addEventListener('click', open);
+        img.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); open(); } });
         slide.appendChild(img);
+        const zoom = el('button', 'fp-zoom');
+        zoom.type = 'button';
+        zoom.setAttribute('aria-label', 'View full image');
+        zoom.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>';
+        zoom.addEventListener('click', open);
+        slide.appendChild(zoom);
         return slide;
     };
 
@@ -136,8 +149,9 @@
             return wrap;
         }
         const track = el('div', 'fp-track');
+        const images = items.filter((item) => item.type === 'image');
         let imageIndex = 0;
-        items.forEach((item) => { track.appendChild(item.type === 'video' ? buildVideoSlide(item, prompt.title) : buildImageSlide(item, prompt.title, imageIndex++)); });
+        items.forEach((item) => { track.appendChild(item.type === 'video' ? buildVideoSlide(item, prompt.title) : buildImageSlide(item, prompt.title, imageIndex++, images)); });
         wrap.appendChild(track);
         if (items.length > 1) {
             const prev = el('button', 'fp-nav fp-prev', '\u2039');
@@ -232,6 +246,81 @@
         modal.hidden = false;
         document.body.classList.add('fp-lock');
         modal.querySelector('.fp-modal-close').focus();
+    };
+
+    /* ---------- full image viewer (click an image to see all of it) ---------- */
+    let lightbox = null;
+    let lbItems = [];
+    let lbIndex = 0;
+    let lbTitle = '';
+    let lbTrigger = null;
+    const lbRender = () => {
+        const img = lightbox.querySelector('.fp-lightbox-img');
+        img.src = mediaUrl(lbItems[lbIndex].path);
+        img.alt = `${lbTitle || 'Prompt'} outcome ${lbIndex + 1} of ${lbItems.length}`;
+        lightbox.querySelector('.fp-lightbox-count').textContent = lbItems.length > 1 ? `${lbIndex + 1} / ${lbItems.length}` : '';
+        lightbox.querySelectorAll('.fp-lightbox-nav').forEach((button) => { button.hidden = lbItems.length < 2; });
+    };
+    const lbStep = (delta) => {
+        if (lbItems.length < 2) return;
+        lbIndex = (lbIndex + delta + lbItems.length) % lbItems.length;
+        lbRender();
+    };
+    const closeLightbox = () => {
+        if (!lightbox || lightbox.hidden) return;
+        lightbox.hidden = true;
+        document.body.classList.remove('fp-lock');
+        if (lbTrigger && lbTrigger.focus) lbTrigger.focus();
+    };
+    const ensureLightbox = () => {
+        if (lightbox) return lightbox;
+        lightbox = el('div', 'fp-lightbox');
+        lightbox.hidden = true;
+        lightbox.setAttribute('role', 'dialog');
+        lightbox.setAttribute('aria-modal', 'true');
+        lightbox.setAttribute('aria-label', 'Full image');
+        const img = document.createElement('img');
+        img.className = 'fp-lightbox-img';
+        img.draggable = false;
+        const close = el('button', 'fp-lightbox-close', '\u00d7');
+        close.type = 'button';
+        close.setAttribute('aria-label', 'Close image');
+        close.addEventListener('click', closeLightbox);
+        const prev = el('button', 'fp-lightbox-nav fp-lightbox-prev', '\u2039');
+        const next = el('button', 'fp-lightbox-nav fp-lightbox-next', '\u203A');
+        prev.type = next.type = 'button';
+        prev.setAttribute('aria-label', 'Previous image');
+        next.setAttribute('aria-label', 'Next image');
+        prev.addEventListener('click', () => lbStep(-1));
+        next.addEventListener('click', () => lbStep(1));
+        const count = el('p', 'fp-lightbox-count');
+        lightbox.append(img, close, prev, next, count);
+        lightbox.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
+        let startX = 0;
+        lightbox.addEventListener('touchstart', (event) => { startX = event.touches[0].clientX; }, { passive: true });
+        lightbox.addEventListener('touchend', (event) => {
+            const delta = event.changedTouches[0].clientX - startX;
+            if (Math.abs(delta) > 50) lbStep(delta < 0 ? 1 : -1);
+        });
+        document.addEventListener('keydown', (event) => {
+            if (lightbox.hidden) return;
+            if (event.key === 'Escape') closeLightbox();
+            else if (event.key === 'ArrowLeft') lbStep(-1);
+            else if (event.key === 'ArrowRight') lbStep(1);
+        });
+        document.body.appendChild(lightbox);
+        return lightbox;
+    };
+    const openLightbox = (items, index, title, trigger) => {
+        ensureLightbox();
+        lbItems = items;
+        lbIndex = index;
+        lbTitle = title || '';
+        lbTrigger = trigger;
+        lbRender();
+        lightbox.hidden = false;
+        document.body.classList.add('fp-lock');
+        lightbox.querySelector('.fp-lightbox-close').focus();
     };
 
     /* ---------- cards ---------- */
